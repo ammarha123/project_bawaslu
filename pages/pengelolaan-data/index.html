@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'" />
+  <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self'" />
+  <title>Bawaslu Surabaya</title>
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="pengelolaan-data.css">
+
+</head>
+
+<body>
+
+  <div class="container">
+    <div class="row mt-3">
+      <div class="col-10 d-flex justify-content-start">
+
+      </div>
+      <div class="col-2">
+        <div class="row d-flex justify-content-end">
+          <div class="col-6 my-2">
+            <img src="../../assets/img/minimize-symbol.svg" alt="">
+          </div>
+          <div class="col-6 my-4">
+            <a href="../home/index.html">
+              <img src="../../assets/img/close-symbol.svg" alt="">
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="mb-3 text-center text-decoration-underline fw-bold">
+      Pengelolaan Data DPT
+    </div>
+    <div class="row">
+      <div class="col-2">
+        <h5>Tahapan</h5>
+        <h5>• DPT</h5>
+        <div class="menu-pengelolaan">
+          <div class="import-pdf">
+            <img src="../../assets/img/impor-pdf.svg" alt="">
+            Impor PDF
+          </div>
+          <div class="export-pdf">
+            <img src="../../assets/img/expor-pdf.svg" alt="">
+            Ekspor PDF
+          </div>
+          <div class="import-excel">
+            <label for="fileInput">
+              <img src="../../assets/img/impor-excel.svg" alt="">
+              Impor Excel
+            </label>
+            <input type="file" id="fileInput" accept=".xlsx, .xls">
+          </div>
+          <div class="eksport-excel">
+            <img src="../../assets/img/expor-excel.svg" alt="">
+            Ekspor Excel
+          </div>
+          <div class="hapus-data">
+            <a href="hapus-data.html" class="text-decoration-none text-dark">
+            <img src="../../assets/img/delete.svg" alt="">
+            Hapus Data
+          </a>
+          </div>
+        </div>
+      </div>
+      <div class="col-2">
+        <h5>Provinsi</h5>
+        <div class="box"></div>
+        <h5>Kab/Kota</h5>
+        <div class="box"></div>
+        <h5>Kecamatan</h5>
+        <div class="box"></div>
+        <h5>Desa/Kel</h5>
+        <div class="box"></div>
+      </div>
+      <div class="col-8">
+        <h5 class="text-center">Informasi Jumlah</h5>
+        <div class="menu-pengelolaan">
+          <table class="table table-informasi table-borderless table-striped">
+            <thead>
+              <tr>
+                <th scope="col">Kab/Kota</th>
+                <th scope="col"><div class="box-2"></div></th>
+                <th scope="col">Pemilih</th>
+                <th scope="col"><div class="box-2"></div></th>
+              </tr>
+              <tr>
+                <th scope="col">Kecamatan</th>
+                <th scope="col"><div class="box-2"></div></th>
+                <th scope="col">Laki-laki</th>
+                <th scope="col"><div class="box-2"></div></th>
+              </tr>
+              <tr>
+                <th scope="col">Desa/Kel</th>
+                <th scope="col"><div class="box-2"></div></th>
+                <th scope="col">Perempuan</th>
+                <th scope="col"><div class="box-2"></div></th>
+              </tr>
+              <tr>
+                <th scope="col">TPS</th>
+                <th scope="col"><div class="box-2"></div></th>
+                <th scope="col">Null</th>
+                <th scope="col"><div class="box-2"></div></th>
+              </tr>
+              <tr>
+                <th scope="col">Jumlah KK</th>
+                <th scope="col"><div class="box-2"></div></th>
+                <th scope="col">1 KK beda TPS</th>
+                <th scope="col"><div class="box-2"></div></th>
+              </tr>
+            </thead>
+
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="pencarian mt-5">
+      <img src="../../assets/img/search.svg" alt=""> Pencarian Berdasarkan
+    </div>
+    <!-- Display the selected Excel file data in this table -->
+  <table class="table table-bordered mt-5">
+    <thead>
+      <tr>
+        <th scope="col">No.</th>
+        <th scope="col">Nama</th>
+        <th scope="col">Jenis Kelamin</th>
+        <th scope="col">Usia</th>
+        <th scope="col">Kelurahan</th>
+        <th scope="col">RT</th>
+        <th scope="col">RW</th>
+        <th scope="col">TPS</th>
+      </tr>
+    </thead>
+    <tbody id="excelDataTable">
+      <!-- Excel data will be displayed here -->
+    </tbody>
+  </table>
+
+  <!-- Button to delete selected rows -->
+  <button id="deleteSelectedButton" class="btn btn-danger">Delete Selected</button>
+
+  </div>
+  <script src="renderer.js"></script>
+</body>
+
+</html>
