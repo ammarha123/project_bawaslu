@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'" />
+  <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self'" />
+  <title>Bawaslu Surabaya</title>
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="analisa-data.css">
+
+</head>
+
+<body>
+  <div class="container">
+    <div class="row mt-3">
+      <div class="col-10 d-flex justify-content-start">
+
+      </div>
+      <div class="col-2">
+        <div class="row d-flex justify-content-end">
+          <div class="col-6 my-2">
+            <img src="../../assets/img/minimize-symbol.svg" alt="">
+          </div>
+          <div class="col-6 my-4">
+            <a href="../home/index.html">
+              <img src="../../assets/img/close-symbol.svg" alt="">
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="mb-3 text-center text-decoration-underline fw-bold">
+      Analisa Data Pemilih
+    </div>
+    <div class="rekapitulasi mt-5">
+      <a href="rekapitulasi.html" class="text-decoration-none text-dark">
+      <img src="../../assets/img/rekapitulasi-analisa.svg" alt=""> Rekapitulasi Analisa
+    </a>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div class="sort-data mt-5">
+          <h5 class="mt-2">Provinsi</h5>
+          <div class="box"></div>
+          <h5>Kab/Kota</h5>
+          <div class="box"></div>
+          <h5>Kecamatan</h5>
+          <div class="box"></div>
+          <h5>Desa/Kel</h5>
+          <div class="box mb-3"></div>
+        </div>
+      </div>
+      <div class="col">
+        <h2>Kategori Ganda</h2>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="namaCheckbox">
+          <label class="form-check-label" for="namaCheckbox">Nama</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="umurCheckbox">
+          <label class="form-check-label" for="umurCheckbox">Nama, Jenis Kelamin</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="jenisKelaminCheckbox">
+          <label class="form-check-label" for="jenisKelaminCheckbox">Nama, Jenis Kelamin, Usia</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="jenisKelaminCheckbox">
+          <label class="form-check-label" for="jenisKelaminCheckbox">Nama, Jenis Kelamin, Kelurahan</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="jenisKelaminCheckbox">
+          <label class="form-check-label" for="jenisKelaminCheckbox">Nama, Jenis Kelamin, Kelurahan, RT</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="jenisKelaminCheckbox">
+          <label class="form-check-label" for="jenisKelaminCheckbox">Nama, Jenis Kelamin, Kelurahan, RT, RW</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="jenisKelaminCheckbox">
+          <label class="form-check-label" for="jenisKelaminCheckbox">Nama, Jenis Kelamin, Kelurahan RT, RW, TPS</label>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,29 @@
+body{
+    background-image: url('../../assets/img/features-bg.svg');
+    background-size: cover;
+}
+
+.rekapitulasi{
+    background-color: #ff5f2f44;
+    width: fit-content;
+    padding: 2px 20px;
+    border: 1px solid black;
+    border-radius: 50px;
+    margin-left: auto;
+}
+
+.sort-data{
+    background-color: #FFCC9D;
+    border: 1px solid black;
+    border-radius: 20px;
+    width: fit-content;
+    padding: 5px 20px;
+}
+
+.box{
+    width: 120px;
+    height: 21px;
+    background-color: #D9D9D9;
+    border: 1px solid black;
+    border-radius: 20px;
+}
