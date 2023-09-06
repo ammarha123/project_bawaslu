@@ -1,0 +1,15 @@
+{
+    "name": "bawaslu-surabaya-fix",
+    "version": "1.0.0",
+    "main": "main.js",
+    "devDependencies": {
+        "electron": "^26.1.0"
+    },
+    "scripts": {
+        "start": "electron ."
+    },
+    "dependencies": {
+        "bootstrap": "^5.3.1",
+        "font-awesome": "^4.7.0"
+    }
+}

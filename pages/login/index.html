@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'" />
+  <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self'" />
+  <title>Bawaslu Surabaya</title>
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="login.css" />
+
+</head>
+
+<body>
+  <script src="home.js"></script>
+  <div class="container">
+    <div class="row mt-3">
+      <div class="col-10 d-flex justify-content-start">
+        <div class="masuk my-3 fst-italic">
+          Masuk
+        </div>
+      </div>
+      <div class="col-2">
+        <div class="row d-flex justify-content-end">
+          <div class="col-6 my-2">
+            <img src="assets/img/minimize-symbol.svg" alt="">
+          </div>
+          <div class="col-6 my-4">
+            <img src="assets/img/close-symbol.svg" alt="">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row h-100 justify-content-center align-items-center">
+      <div class="col-md-6 login-panel">
+        <div class="masuk mb-3 text-center">
+          Masuk
+        </div>
+        <form action="">
+          <label for="username">Username</label>
+          <input type="text" class="form-control mb-3" id="username">
+          <label for="password">Password</label>
+          <input type="password" class="form-control mb-4" id="password">
+          <div class="text-center">
+            <a href="#" type="submit" class="btn btn-danger">Masuk</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
