@@ -1,0 +1,8 @@
+body{
+    background-image: url('../../assets/img/main-menu-bg.svg');
+    background-size: cover;
+}
+
+.masuk{
+    font-size: 48px;
+}
