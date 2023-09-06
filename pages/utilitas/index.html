@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'" />
+  <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self'" />
+  <title>Bawaslu Surabaya</title>
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="utilitas.css">
+
+</head>
+
+<body>
+  <div class="container">
+    <div class="row mt-3">
+      <div class="col-10 d-flex justify-content-start">
+
+      </div>
+      <div class="col-2">
+        <div class="row d-flex justify-content-end">
+          <div class="col-6 my-2">
+            <img src="../../assets/img/minimize-symbol.svg" alt="">
+          </div>
+          <div class="col-6 my-4">
+            <a href="../home/index.html">
+              <img src="../../assets/img/close-symbol.svg" alt="">
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="mb-3 text-center text-decoration-underline fw-bold">
+      Pilihan Proses Utilitas
+    </div>
+    <div class="utilitas-menu mt-5">
+      <div class="container mt-3">
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="radio" id="rubahPasswordRadio" value="rubahPassword">
+          <label class="form-check-label" for="rubahPasswordRadio">Rubah Password dan Kode Verifikasi</label>
+          <p class="text-muted">Berfungsi untuk melakukan perubahan password dan kode verifikasi.
+            Sedangkan Username tidak dapat dirubah, sesuai dengan wilayah tingkat user.</p>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="radio" id="backUpRadio" value="backUp">
+          <label class="form-check-label" for="backUpRadio">Back Up</label>
+          <p class="text-muted">Berfungsi memproses seluruh file termasuk analisa yang ada didalamnya.
+            Hasil back up file terbentuk nama file dengan tambahan CAD.</p>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="radio" id="restoreFileRadio" value="restoreFile">
+          <label class="form-check-label" for="restoreFileRadio">Restore FIle</label>
+          <p class="text-muted">Berfungsi memproses seluruh file termasuk analisa yang ada didalamnya.
+            Mencegah kehilangan data penting. </p>
+        </div>
+      </div>
+
+      <div id="rubahPassword">
+        <div class="rubahPassword-desc">
+          Menu password dan kode verifikasi digunakan untuk merubah password dan kode verifikasi bawaan dari aplikasi.
+          Selanjutnya password dan kode verifikasi tersebut diperlukan pada saat melakukan penghapusan data dengan
+          tujuan agar penghapusan tersebut benar-benar dilakukan oleh pihak yang berwenang melakukannya. Yang perlu
+          diperhatikan adalah password dan kode verifikasi maksimal berisi 25 karakter
+        </div>
+        <div class="row">
+          <div class="col-6">
+            <div class="ubah-password">
+              Ubah Password
+            </div>
+            <h5>User</h5>
+            <form action="">
+              <label for="">Password Lama</label>
+              <input type="text" name="" id="">
+              <br>
+              <label for="">Ketik Ulang</label>
+              <input type="text" name="" id="">
+              <label for="">Password Baru</label>
+              <input type="text" name="" id="">
+              <label for="">Ketik Ulang</label>
+              <input type="text" name="" id="">
+            </form>
+          </div>
+          <div class="col-6">
+            <div class="ubah-verifikasi">
+              Ubah Verifikasi
+            </div>
+            <h5>User</h5>
+            <form action="">
+              <label for="">Password Lama</label>
+              <input type="text" name="" id="">
+              <label for="">Ketik Ulang</label>
+              <input type="text" name="" id="">
+              <label for="">Password Baru</label>
+              <input type="text" name="" id="">
+              <label for="">Ketik Ulang</label>
+              <input type="text" name="" id="">
+            </form>
+          </div>
+        </div>
+        
+        
+      </div>
+    </div>
+
+  </div>
+  <script src="renderer.js"></script>
+</body>
+
+</html>

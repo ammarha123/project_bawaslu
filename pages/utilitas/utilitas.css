@@ -1,0 +1,17 @@
+body{
+    background-image: url('../../assets/img/features-bg.svg');
+    background-size: cover;
+}
+
+.utilitas-menu{
+    background-color: #FFCC9D;
+    width: 75%;
+    border:1px solid black;
+    border-radius: 25px;
+    margin-left: auto;
+    margin-right:auto;
+}
+
+#rubahPassword {
+    display: none;
+  }
