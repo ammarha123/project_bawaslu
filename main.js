@@ -1,7 +1,7 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const url = require('url');
-const dbConnection = require('./database.js');
+const dbConnection = require('./database');
 
 const createWindow = () => {
   const win = new BrowserWindow({
@@ -36,3 +36,17 @@ app.on('window-all-closed', () => {
     app.quit();
   }
 });
+
+// // Handle the request for Kecamatan data
+// ipcMain.on('getKecamatanData', (event) => {
+//   // Query to fetch Kecamatan values from the database
+//   dbConnection.query('SELECT kecamatan FROM data', (err, rows) => {
+//     if (err) {
+//       console.error('Error fetching Kecamatan data:', err);
+//       return;
+//     }
+
+//     // Send the Kecamatan data to the renderer process
+//     event.reply('kecamatanData', rows);
+//   });
+// });

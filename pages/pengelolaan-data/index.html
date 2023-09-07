@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.min.css" />
   <link rel="stylesheet" href="pengelolaan-data.css">
 
+  <script src="../../database.js"></script>
 </head>
 
 <body>
@@ -71,14 +72,23 @@
       </div>
       <div class="col-2">
         <h5>Provinsi</h5>
-        <div class="box"></div>
+        <div class="box">Jawa Timur</div>
         <h5>Kab/Kota</h5>
-        <div class="box"></div>
+        <div class="box">Surabaya</div>
         <h5>Kecamatan</h5>
-        <div class="box"></div>
+        <div class="box">
+            <select id="kecamatanDropdown" name="kecamatan">
+                <option value="">Select Kecamatan</option>
+            </select>
+        </div>
         <h5>Desa/Kel</h5>
-        <div class="box"></div>
-      </div>
+        <div class="box">
+            <select id="desaDropdown" name="desa">
+                <option value="">Select Desa/Kel</option>
+                <!-- Add options for Desa/Kel here -->
+            </select>
+        </div>
+    </div>
       <div class="col-8">
         <h5 class="text-center">Informasi Jumlah</h5>
         <div class="menu-pengelolaan">
