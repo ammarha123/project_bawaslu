@@ -139,6 +139,54 @@ const getKecamatan = () => {
 // Call the function to populate the dropdown when the DOM is ready
 document.addEventListener('DOMContentLoaded', getKecamatan);
 
+// Function to retrieve Desa/Kelurahan data based on selected Kecamatan
+const getDesaByKecamatan = (selectedKecamatan) => {
+  const desaDropdown = document.getElementById('desaDropdown');
+
+  // Clear existing options
+  desaDropdown.innerHTML = '<option value="">Select Desa/Kel</option>';
+
+  // Query to fetch Desa/Kel values based on the selected Kecamatan
+  const query = `
+    SELECT name 
+    FROM desa 
+    WHERE kecamatan_id = (
+      SELECT id 
+      FROM data 
+      WHERE kecamatan = ?
+    )`;
+
+  // Execute the SQL query
+  dbConnection.query(query, [selectedKecamatan], (err, rows) => {
+    if (err) {
+      console.error('Error fetching Desa/Kel data:', err);
+      return;
+    }
+
+    // Populate the Desa/Kel dropdown with data
+    rows.forEach((row) => {
+      const option = document.createElement('option');
+      option.value = row.name;
+      option.textContent = row.name;
+      desaDropdown.appendChild(option);
+    });
+  });
+};
+
+// Event listener for the Kecamatan dropdown change event
+document.getElementById('kecamatanDropdown').addEventListener('change', () => {
+  const selectedKecamatan = document.getElementById('kecamatanDropdown').value;
+
+  if (selectedKecamatan) {
+    // Call the function to populate the Desa/Kel dropdown
+    getDesaByKecamatan(selectedKecamatan);
+  } else {
+    // Clear the Desa/Kel dropdown if no Kecamatan is selected
+    const desaDropdown = document.getElementById('desaDropdown');
+    desaDropdown.innerHTML = '<option value="">Select Desa/Kel</option>';
+  }
+});
+
 
 // Event listener for the Kecamatan dropdown change event
 document.getElementById('kecamatanDropdown').addEventListener('change', () => {
