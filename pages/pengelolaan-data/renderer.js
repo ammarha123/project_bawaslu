@@ -189,14 +189,14 @@ document.getElementById('kecamatanDropdown').addEventListener('change', () => {
 
 
 // Event listener for the Kecamatan dropdown change event
-document.getElementById('kecamatanDropdown').addEventListener('change', () => {
-  const selectedKecamatan = document.getElementById('kecamatanDropdown').value;
+document.getElementById('desaDropdown').addEventListener('change', () => {
+  const selectedDesa = document.getElementById('desaDropdown').value;
 
   // Define the file path based on the selected Kecamatan
   let filePath = '';
 
   // Construct the SQL query to fetch the file path for the selected Kecamatan
-  const sql = `SELECT file FROM data WHERE kecamatan = '${selectedKecamatan}'`;
+  const sql = `SELECT file FROM desa WHERE name = '${selectedDesa}'`;
 
   // Query your database to get the file path
   dbConnection.query(sql, (err, rows) => {
