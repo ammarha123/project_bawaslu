@@ -87,16 +87,19 @@ deleteSelectedButton.addEventListener('click', () => {
   updateRowStyles();
 });
 
-// Function to display Excel data in the HTML table
+// Initialize a variable to keep track of the last index
+let lastIndex = 0;
+
+// Function to display Excel data in the HTML table without replacing existing data
 function displayExcelData(data) {
   const tableBody = document.querySelector('#excelDataTable');
-  tableBody.innerHTML = '';
 
   // Iterate through the Excel data and create table rows
-  data.forEach((row, index) => {
+  data.forEach((row) => {
+    lastIndex++; // Increment the last index
     const tableRow = document.createElement('tr');
     tableRow.innerHTML = `
-      <td>${index + 1}</td>
+      <td>${lastIndex}</td>
       <td>${row.Nama}</td>
       <td>${row['Jenis Kelamin']}</td>
       <td>${row.Usia}</td>
@@ -106,6 +109,7 @@ function displayExcelData(data) {
       <td>${row.TPS}</td>
     `;
 
+    // Append the new row to the existing table
     tableBody.appendChild(tableRow);
   });
 }
