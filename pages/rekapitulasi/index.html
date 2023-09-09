@@ -12,10 +12,12 @@
     <link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="rekapitulasi.css">
 
+    <script src="../../database.js"></script>
+
 </head>
 
 <body>
-    <div class="container">
+    <div class="container" id="rekapitulasi">
         <div class="row mt-3">
             <div class="col-10 d-flex justify-content-start">
 
@@ -106,21 +108,12 @@
                     <th scope="col">TPS</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>John Doe</td>
-                    <td>Laki-Laki</td>
-                    <td>30</td>
-                    <td>Jakarta Barat</td>
-                    <td>001</td>
-                    <td>002</td>
-                    <td>101</td>
-                </tr>
-                <!-- Add more rows as needed -->
+            <tbody id="excelDataTable">
+                <!-- Excel data will be displayed here -->
             </tbody>
         </table>
     </div>
+    <script src="renderer.js"></script>
 </body>
 
 </html>
