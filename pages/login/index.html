@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.min.css" />
   <link rel="stylesheet" href="login.css" />
 
+  <script src="../../database.js"></script>
 </head>
 
 <body>
@@ -38,17 +39,20 @@
         <div class="masuk mb-3 text-center">
           Masuk
         </div>
-        <form action="">
+        <form id="loginForm"> <!-- Add an id to the form element -->
           <label for="username">Username</label>
-          <input type="text" class="form-control mb-3" id="username">
+          <input type="text" class="form-control mb-3" id="username" required>
           <label for="password">Password</label>
-          <input type="password" class="form-control mb-4" id="password">
+          <input type="password" class="form-control mb-4" id="password" required>
+          <div id="message" class="mx-2"></div> <!-- Display login messages here -->
           <div class="text-center">
-            <a href="../home/index.html" type="submit" class="btn btn-danger">Masuk</a>
+            <button type="submit" class="btn btn-danger">Masuk</button> <!-- Use a button for form submission -->
           </div>
         </form>
+        
       </div>
     </div>
   </div>
+  <script src="renderer.js"></script>
 </body>
 </html>

@@ -1,6 +1,5 @@
 const XLSX = require('xlsx');
 
-
 // Function to enable or disable checkboxes based on selection
 const toggleCheckboxes = () => {
   const kecamatanDropdown = document.getElementById('kecamatanDropdown');
