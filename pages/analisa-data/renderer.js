@@ -139,42 +139,7 @@ namaCheckbox.addEventListener('click', () => {
         return;
       }
   
-      // Check if a result was found
-      if (rows.length > 0) {
-        const fileRow = rows[0]; // Assuming you have one row per Kecamatan
-  
-        // Retrieve the file path from the database row
-        filePath = `../../database/${fileRow.file}`;
-  
-        // Fetch and load the Excel file
-        fetch(filePath)
-          .then((response) => response.blob()) // Get the Excel file as a blob
-          .then((blob) => {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-              const data = e.target.result;
-              const workbook = XLSX.read(data, { type: 'binary' });
-  
-              // Assuming you have only one sheet in the Excel file
-              const sheetName = workbook.SheetNames[0];
-              const sheet = workbook.Sheets[sheetName];
-  
-              // Parse the sheet into an array of objects
-              const excelData = XLSX.utils.sheet_to_json(sheet);
-  
-              // Display the Excel data in your HTML table
-              displayExcelData(excelData);
-            };
-  
-            // Read the blob as binary data
-            reader.readAsBinaryString(blob);
-          })
-          .catch((error) => {
-            console.error('Error reading Excel file:', error);
-          });
-      } else {
-        console.error('File path not found for selected Kecamatan');
-      }
+      print(rows, 1)
     });
   } else {
     // Clear the table when the checkbox is unchecked
@@ -201,42 +166,7 @@ jeniskelaminCheckbox.addEventListener('click', () => {
         return;
       }
   
-      // Check if a result was found
-      if (rows.length > 0) {
-        const fileRow = rows[0]; // Assuming you have one row per Kecamatan
-  
-        // Retrieve the file path from the database row
-        filePath = `../../database/${fileRow.file}`;
-  
-        // Fetch and load the Excel file
-        fetch(filePath)
-          .then((response) => response.blob()) // Get the Excel file as a blob
-          .then((blob) => {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-              const data = e.target.result;
-              const workbook = XLSX.read(data, { type: 'binary' });
-  
-              // Assuming you have only one sheet in the Excel file
-              const sheetName = workbook.SheetNames[0];
-              const sheet = workbook.Sheets[sheetName];
-  
-              // Parse the sheet into an array of objects
-              const excelData = XLSX.utils.sheet_to_json(sheet);
-  
-              // Display the Excel data in your HTML table
-              displayExcelData2(excelData);
-            };
-  
-            // Read the blob as binary data
-            reader.readAsBinaryString(blob);
-          })
-          .catch((error) => {
-            console.error('Error reading Excel file:', error);
-          });
-      } else {
-        console.error('File path not found for selected Kecamatan');
-      }
+      print(rows, 2)
     });
   } else {
     // Clear the table when the checkbox is unchecked
@@ -263,42 +193,7 @@ usiaCheckbox.addEventListener('click', () => {
         return;
       }
   
-      // Check if a result was found
-      if (rows.length > 0) {
-        const fileRow = rows[0]; // Assuming you have one row per Kecamatan
-  
-        // Retrieve the file path from the database row
-        filePath = `../../database/${fileRow.file}`;
-  
-        // Fetch and load the Excel file
-        fetch(filePath)
-          .then((response) => response.blob()) // Get the Excel file as a blob
-          .then((blob) => {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-              const data = e.target.result;
-              const workbook = XLSX.read(data, { type: 'binary' });
-  
-              // Assuming you have only one sheet in the Excel file
-              const sheetName = workbook.SheetNames[0];
-              const sheet = workbook.Sheets[sheetName];
-  
-              // Parse the sheet into an array of objects
-              const excelData = XLSX.utils.sheet_to_json(sheet);
-  
-              // Display the Excel data in your HTML table
-              displayExcelData3(excelData);
-            };
-  
-            // Read the blob as binary data
-            reader.readAsBinaryString(blob);
-          })
-          .catch((error) => {
-            console.error('Error reading Excel file:', error);
-          });
-      } else {
-        console.error('File path not found for selected Kecamatan');
-      }
+      print(rows, 3)
     });
   } else {
     // Clear the table when the checkbox is unchecked
@@ -325,42 +220,7 @@ kelurahanCheckbox.addEventListener('click', () => {
         return;
       }
   
-      // Check if a result was found
-      if (rows.length > 0) {
-        const fileRow = rows[0]; // Assuming you have one row per Kecamatan
-  
-        // Retrieve the file path from the database row
-        filePath = `../../database/${fileRow.file}`;
-  
-        // Fetch and load the Excel file
-        fetch(filePath)
-          .then((response) => response.blob()) // Get the Excel file as a blob
-          .then((blob) => {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-              const data = e.target.result;
-              const workbook = XLSX.read(data, { type: 'binary' });
-  
-              // Assuming you have only one sheet in the Excel file
-              const sheetName = workbook.SheetNames[0];
-              const sheet = workbook.Sheets[sheetName];
-  
-              // Parse the sheet into an array of objects
-              const excelData = XLSX.utils.sheet_to_json(sheet);
-  
-              // Display the Excel data in your HTML table
-              displayExcelData4(excelData);
-            };
-  
-            // Read the blob as binary data
-            reader.readAsBinaryString(blob);
-          })
-          .catch((error) => {
-            console.error('Error reading Excel file:', error);
-          });
-      } else {
-        console.error('File path not found for selected Kecamatan');
-      }
+      print(rows, 4)
     });
   } else {
     // Clear the table when the checkbox is unchecked
@@ -387,42 +247,7 @@ rtCheckbox.addEventListener('click', () => {
         return;
       }
   
-      // Check if a result was found
-      if (rows.length > 0) {
-        const fileRow = rows[0]; // Assuming you have one row per Kecamatan
-  
-        // Retrieve the file path from the database row
-        filePath = `../../database/${fileRow.file}`;
-  
-        // Fetch and load the Excel file
-        fetch(filePath)
-          .then((response) => response.blob()) // Get the Excel file as a blob
-          .then((blob) => {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-              const data = e.target.result;
-              const workbook = XLSX.read(data, { type: 'binary' });
-  
-              // Assuming you have only one sheet in the Excel file
-              const sheetName = workbook.SheetNames[0];
-              const sheet = workbook.Sheets[sheetName];
-  
-              // Parse the sheet into an array of objects
-              const excelData = XLSX.utils.sheet_to_json(sheet);
-  
-              // Display the Excel data in your HTML table
-              displayExcelData5(excelData);
-            };
-  
-            // Read the blob as binary data
-            reader.readAsBinaryString(blob);
-          })
-          .catch((error) => {
-            console.error('Error reading Excel file:', error);
-          });
-      } else {
-        console.error('File path not found for selected Kecamatan');
-      }
+        print(rows, 5)
     });
   } else {
     // Clear the table when the checkbox is unchecked
@@ -450,41 +275,7 @@ rwCheckbox.addEventListener('click', () => {
       }
   
       // Check if a result was found
-      if (rows.length > 0) {
-        const fileRow = rows[0]; // Assuming you have one row per Kecamatan
-  
-        // Retrieve the file path from the database row
-        filePath = `../../database/${fileRow.file}`;
-  
-        // Fetch and load the Excel file
-        fetch(filePath)
-          .then((response) => response.blob()) // Get the Excel file as a blob
-          .then((blob) => {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-              const data = e.target.result;
-              const workbook = XLSX.read(data, { type: 'binary' });
-  
-              // Assuming you have only one sheet in the Excel file
-              const sheetName = workbook.SheetNames[0];
-              const sheet = workbook.Sheets[sheetName];
-  
-              // Parse the sheet into an array of objects
-              const excelData = XLSX.utils.sheet_to_json(sheet);
-  
-              // Display the Excel data in your HTML table
-              displayExcelData6(excelData);
-            };
-  
-            // Read the blob as binary data
-            reader.readAsBinaryString(blob);
-          })
-          .catch((error) => {
-            console.error('Error reading Excel file:', error);
-          });
-      } else {
-        console.error('File path not found for selected Kecamatan');
-      }
+      print(rows, 6)
     });
   } else {
     // Clear the table when the checkbox is unchecked
@@ -512,41 +303,7 @@ tpsCheckbox.addEventListener('click', () => {
       }
   
       // Check if a result was found
-      if (rows.length > 0) {
-        const fileRow = rows[0]; // Assuming you have one row per Kecamatan
-  
-        // Retrieve the file path from the database row
-        filePath = `../../database/${fileRow.file}`;
-  
-        // Fetch and load the Excel file
-        fetch(filePath)
-          .then((response) => response.blob()) // Get the Excel file as a blob
-          .then((blob) => {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-              const data = e.target.result;
-              const workbook = XLSX.read(data, { type: 'binary' });
-  
-              // Assuming you have only one sheet in the Excel file
-              const sheetName = workbook.SheetNames[0];
-              const sheet = workbook.Sheets[sheetName];
-  
-              // Parse the sheet into an array of objects
-              const excelData = XLSX.utils.sheet_to_json(sheet);
-  
-              // Display the Excel data in your HTML table
-              displayExcelData7(excelData);
-            };
-  
-            // Read the blob as binary data
-            reader.readAsBinaryString(blob);
-          })
-          .catch((error) => {
-            console.error('Error reading Excel file:', error);
-          });
-      } else {
-        console.error('File path not found for selected Kecamatan');
-      }
+      print(rows, 7)
     });
   } else {
     // Clear the table when the checkbox is unchecked
@@ -554,6 +311,67 @@ tpsCheckbox.addEventListener('click', () => {
     tableBody.innerHTML = ''; // Remove all table rows
   }
 });
+
+function print(rows, numberData) {
+  if (rows.length > 0) {
+    const fileRow = rows[0]; // Assuming you have one row per Kecamatan
+
+    // Retrieve the file path from the database row
+    filePath = `../../database/${fileRow.file}`;
+
+    // Fetch and load the Excel file
+    fetch(filePath)
+      .then((response) => response.blob()) // Get the Excel file as a blob
+      .then((blob) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const data = e.target.result;
+          const workbook = XLSX.read(data, { type: 'binary' });
+
+          // Assuming you have only one sheet in the Excel file
+          const sheetName = workbook.SheetNames[0];
+          const sheet = workbook.Sheets[sheetName];
+
+          // Parse the sheet into an array of objects
+          const excelData = XLSX.utils.sheet_to_json(sheet);
+
+          // Display the Excel data in your HTML table
+          if (numberData == 7){
+            displayExcelData7(excelData);
+          }
+          if (numberData == 6){
+            displayExcelData6(excelData);
+          }
+          if (numberData == 5){
+            displayExcelData5(excelData);
+          }
+          if (numberData == 4){
+            displayExcelData6(excelData);
+          }
+          if (numberData == 4){
+            displayExcelData6(excelData);
+          }
+          if (numberData == 3){
+            displayExcelData3(excelData);
+          }
+          if (numberData == 2){
+            displayExcelData2(excelData);
+          }
+          if (numberData == 1){
+            displayExcelData(excelData);
+          }
+        };
+
+        // Read the blob as binary data
+        reader.readAsBinaryString(blob);
+      })
+      .catch((error) => {
+        console.error('Error reading Excel file:', error);
+      });
+  } else {
+    console.error('File path not found for selected Kecamatan');
+  }
+}
 
 // Add a click event listener to the "Rekapitulasi Analisa" link
 document.getElementById('rekapitulasiLink').addEventListener('click', (event) => {
@@ -588,8 +406,6 @@ document.getElementById('rekapitulasiLink').addEventListener('click', (event) =>
     const analisaDataSection = document.getElementById('analisa-data');
     analisaDataSection.style.display= 'block';
   });
-
-  
 
 // Initialize a variable to keep track of the last index
 // Function to display Excel data in the HTML table without replacing existing data
