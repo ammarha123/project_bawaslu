@@ -89,27 +89,29 @@
         </div>
     </div>
       <div class="col-8">
+        <h5>Total Laki-laki: <span id="totalLakiLaki">0</span></h5>
+<h5>Total Perempuan: <span id="totalPerempuan">0</span></h5>
         <h5 class="text-center">Informasi Jumlah</h5>
         <div class="menu-pengelolaan">
           <table class="table table-informasi table-borderless table-striped">
             <thead>
               <tr>
                 <th scope="col">Kab/Kota</th>
-                <th scope="col"><div class="box-2"></div></th>
+                <th scope="col"><div class="box-2">Surabaya</div></th>
                 <th scope="col">Pemilih</th>
-                <th scope="col"><div class="box-2"></div></th>
+                <th scope="col"><div class="box-2" id="totalDataCount"></div></th>
               </tr>
               <tr>
                 <th scope="col">Kecamatan</th>
-                <th scope="col"><div class="box-2"></div></th>
+                <th scope="col"><div class="box-2" id="selectedKecamatanHeader"></div></th>
                 <th scope="col">Laki-laki</th>
-                <th scope="col"><div class="box-2"></div></th>
+                <th scope="col"><div class="box-2"><span id="totalLakiLakiCount"></span></div></th>
               </tr>
               <tr>
                 <th scope="col">Desa/Kel</th>
-                <th scope="col"><div class="box-2"></div></th>
+                <th scope="col"><div class="box-2" id="selectedDesaKelHeader"></div></th>
                 <th scope="col">Perempuan</th>
-                <th scope="col"><div class="box-2"></div></th>
+                <th scope="col"><div class="box-2"><span id="totalPerempuanCount"></span></div></th>
               </tr>
               <tr>
                 <th scope="col">TPS</th>
@@ -148,6 +150,12 @@
     </thead>
     <tbody id="excelDataTable">
       <!-- Excel data will be displayed here -->
+      <!-- <tr>
+        <th>1</th>
+        <th>1</th>
+        <th>Perempuan</th>
+        <th>Laki-laki</th>
+      </tr> -->
     </tbody>
   </table>
 

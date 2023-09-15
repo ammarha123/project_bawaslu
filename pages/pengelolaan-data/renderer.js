@@ -90,9 +90,24 @@ deleteSelectedButton.addEventListener('click', () => {
 // Initialize a variable to keep track of the last index
 let lastIndex = 0;
 
+// Get a reference to the HTML table with the id "excelDataTable"
+const table = document.querySelector('#excelDataTable');
+
+// Get a reference to the element where you want to display the total count
+const totalDataCount = document.querySelector('#totalDataCount');
+const totalLakiLakiCount = document.querySelector('#totalLakiLakiCount');
+const totalPerempuanCount = document.querySelector('#totalPerempuanCount');
+
 // Function to display Excel data in the HTML table without replacing existing data
 function displayExcelData(data) {
   const tableBody = document.querySelector('#excelDataTable');
+
+  // Initialize variables to keep track of totals
+  let totalLakiLaki = 0;
+  let totalPerempuan = 0;
+
+  // Initialize a variable to keep track of the last index
+  let lastIndex = 0;
 
   // Iterate through the Excel data and create table rows
   data.forEach((row) => {
@@ -113,6 +128,48 @@ function displayExcelData(data) {
     tableBody.appendChild(tableRow);
   });
 }
+
+// Function to update the total data count
+function updateTotalDataCount() {
+  // Get the total number of rows in the table (excluding the header)
+  const rowCount = table.rows.length; // Subtract 1 for the header row
+
+  // Update the content of the totalDataCount element
+  totalDataCount.textContent = `ea ${rowCount}`;
+}
+
+// Initialize variables to count the number of Perempuan and Laki-laki
+let totalPerempuan = 0;
+let totalLakiLaki = 0;
+
+// Function to update the total Perempuan and Laki-laki count
+function updateTotalGenderCount() {
+  // Reset counts
+  totalPerempuan = 0;
+  totalLakiLaki = 0;
+
+  // Loop through the rows (excluding the header) and count Perempuan and Laki-laki
+  for (let i = 0; i < table.rows.length; i++) {
+    const jenisKelaminCell = table.rows[i].cells[2].textContent; // Assuming "Jenis Kelamin" is in the 3rd cell (index 2)
+
+    if (jenisKelaminCell === 'Laki-Laki') {
+      totalLakiLaki++;
+    } else if (jenisKelaminCell === 'Perempuan') {
+      totalPerempuan++;
+    }
+  }
+
+  console.log(totalLakiLaki)
+  // Update the content of the totalPerempuanCount and totalLakiLakiCount elements
+  totalPerempuanCount.textContent = `${totalPerempuan}`;
+  totalLakiLakiCount.textContent = `${totalLakiLaki}`;
+}
+
+// document.querySelector('#excelDataTable').addEventListener('DOMSubtreeModified', updateTotalDataCount, updateTotalPerempuanCount, updateTotalLakiLakiCount);
+document.querySelector('#excelDataTable').addEventListener('DOMSubtreeModified', function () {
+  updateTotalDataCount()
+  updateTotalGenderCount()
+  });
 
 // Function to retrieve Kecamatan data
 const getKecamatan = () => {
@@ -180,14 +237,17 @@ const getDesaByKecamatan = (selectedKecamatan) => {
 // Event listener for the Kecamatan dropdown change event
 document.getElementById('kecamatanDropdown').addEventListener('change', () => {
   const selectedKecamatan = document.getElementById('kecamatanDropdown').value;
+  const selectedKecamatanHeader = document.getElementById('selectedKecamatanHeader');
 
   if (selectedKecamatan) {
     // Call the function to populate the Desa/Kel dropdown
     getDesaByKecamatan(selectedKecamatan);
+    selectedKecamatanHeader.textContent = `${selectedKecamatan}`;
   } else {
     // Clear the Desa/Kel dropdown if no Kecamatan is selected
     const desaDropdown = document.getElementById('desaDropdown');
     desaDropdown.innerHTML = '<option value="">Select Desa/Kel</option>';
+    selectedKecamatanHeader.textContent = ` `;
   }
 });
 
@@ -195,6 +255,16 @@ document.getElementById('kecamatanDropdown').addEventListener('change', () => {
 // Event listener for the Kecamatan dropdown change event
 document.getElementById('desaDropdown').addEventListener('change', () => {
   const selectedDesa = document.getElementById('desaDropdown').value;
+  const selectedDesaKelHeader = document.getElementById('selectedDesaKelHeader');
+
+  if (selectedDesa) {
+    // Update the content of the selectedDesaKelHeader with the selected Desa/Kel
+    selectedDesaKelHeader.textContent = `${selectedDesa}`;
+  } else {
+    // If nothing is selected, reset the header to its default text
+    selectedDesaKelHeader.textContent = '';
+  }
+
 
   // Define the file path based on the selected Kecamatan
   let filePath = '';
