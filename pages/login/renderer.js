@@ -18,7 +18,8 @@ const handleLogin = (event) => {
   
       if (results.length === 1) {
         // Successful login
-        window.location.href = '/home/index.html'; // Redirect to the home page
+        const loggedInUsername = results[0].username; // Get the logged-in username
+        window.location.href = `../home/index.html?username=${encodeURIComponent(loggedInUsername)}`;
       } else {
         // Invalid credentials
         console.error('Login failed');
