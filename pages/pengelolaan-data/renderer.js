@@ -135,7 +135,7 @@ function updateTotalDataCount() {
   const rowCount = table.rows.length; // Subtract 1 for the header row
 
   // Update the content of the totalDataCount element
-  totalDataCount.textContent = `ea ${rowCount}`;
+  totalDataCount.textContent = `${rowCount}`;
 }
 
 // Initialize variables to count the number of Perempuan and Laki-laki
@@ -318,3 +318,63 @@ document.getElementById('desaDropdown').addEventListener('change', () => {
   });
 });
 
+const ExcelJS = require('exceljs');
+const fs = require('fs');
+const path = require('path');
+
+// Function to export data to Excel
+const exportToExcel = () => {
+  // Get the table element by its ID
+  const table = document.querySelector('#excelDataTable');
+
+  // Create a new Excel workbook and worksheet
+  const workbook = new ExcelJS.Workbook();
+  const worksheet = workbook.addWorksheet('Data');
+
+  // Define the header row
+  const headerRow = [
+    'No.',
+    'Nama',
+    'Jenis Kelamin',
+    'Usia',
+    'Kelurahan',
+    'RT',
+    'RW',
+    'TPS'
+  ];
+
+  // Add the header row to the worksheet
+  worksheet.addRow(headerRow);
+
+  // Add data rows to the worksheet
+  table.querySelectorAll('tbody tr').forEach((row) => {
+    const rowData = [];
+    row.querySelectorAll('td').forEach((cell) => {
+      rowData.push(cell.textContent);
+    });
+    worksheet.addRow(rowData);
+  });
+
+  // Create a unique filename for the Excel file
+  // Specify the path where the Excel file will be saved
+  const fileName = `data_${Date.now}.xlsx`;
+  const downloadFolder = '../../../../Downloads';
+  const outputPath = path.join(__dirname, downloadFolder, fileName);
+
+  // Write the Excel file to the specified path
+  workbook.xlsx.writeFile(outputPath)
+    .then(() => {
+      console.log(`Excel file saved to: ${outputPath}`);
+      alert('Data exported to Excel successfully!');
+    })
+    .catch((error) => {
+      console.error('Error exporting data to Excel:', error);
+      alert('Error exporting data to Excel. Please try again.');
+    });
+};
+
+// Attach the exportToExcel function to a button click event
+const exportButton = document.getElementById('exportExcelButton');
+if (exportButton) {
+  exportButton.addEventListener('click', exportToExcel);
+}

@@ -11,7 +11,6 @@
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.min.css" />
   <link rel="stylesheet" href="pengelolaan-data.css">
-
   <script src="../../database.js"></script>
 </head>
 
@@ -58,9 +57,10 @@
             <input type="file" id="fileInput" accept=".xlsx, .xls">
           </div>
           <div class="eksport-excel">
-            <img src="../../assets/img/expor-excel.svg" alt="">
-            Ekspor Excel
-          </div>
+            <button id="exportExcelButton" class="btn btn-export">
+              <img src="../../assets/img/expor-excel.svg" alt=""> Ekspor Excel
+            </button>
+          </div>          
           <div class="hapus-data">
             <a href="../hapus-data/index.html" class="text-decoration-none text-dark">
             <img src="../../assets/img/delete.svg" alt="">
@@ -89,8 +89,6 @@
         </div>
     </div>
       <div class="col-8">
-        <h5>Total Laki-laki: <span id="totalLakiLaki">0</span></h5>
-<h5>Total Perempuan: <span id="totalPerempuan">0</span></h5>
         <h5 class="text-center">Informasi Jumlah</h5>
         <div class="menu-pengelolaan">
           <table class="table table-informasi table-borderless table-striped">

@@ -53,3 +53,9 @@ body{
 .selected-row {
     background-color: lightblue;
   }
+
+.btn-export{
+    padding: 0px;
+    text-align: start;
+    background-color: none !important;
+}
