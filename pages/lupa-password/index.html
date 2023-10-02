@@ -10,7 +10,7 @@
 
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.min.css" />
-  <link rel="stylesheet" href="login.css" />
+  <link rel="stylesheet" href="lupa-password.css" />
 
   <script src="../../database.js"></script>
 </head>
@@ -36,22 +36,25 @@
     </div>
     <div class="row h-100 justify-content-center align-items-center">
       <div class="col-md-6 login-panel">
-        <div class="masuk mb-3 text-center">
-          Masuk
+        <div class="masuk mb-3 text-center text-decoration-underline">
+          Lupa Kata Sandi
         </div>
-        <form id="loginForm"> <!-- Add an id to the form element -->
+        <div class="mb-3 text-center">
+            Buat Kata Sandi
+          </div>
+        <form id="resetPasswordForm"> <!-- Add an id to the form element -->
           <label for="username">Username</label>
           <input type="text" class="form-control mb-3" id="username" required>
-          <label for="password">Password</label>
-          <input type="password" class="form-control mb-4" id="password" required>
+          <label for="password">Password Baru</label>
+          <input type="password" class="form-control mb-3" id="password" required>
+          <label for="re-password">Ketik Ulang Password Baru</label>
+          <input type="password" class="form-control mb-4" id="re-password" required>
           <div id="message" class="mx-2"></div> <!-- Display login messages here -->
           <div class="text-center">
-            <button type="submit" class="btn btn-danger">Masuk</button> <!-- Use a button for form submission -->
+            <button type="submit" class="btn btn-danger">Reset Password</button> <!-- Use a button for form submission -->
+            <a href="../login/index.html" class="btn btn-success">Halaman Login</a>
           </div>
         </form>
-        <div class="text-center h5 mt-3">
-          <a href="../lupa-password/index.html" class="text-decoration-none text-danger">Lupa Password?</a>
-        </div>
       </div>
     </div>
   </div>
