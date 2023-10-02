@@ -87,6 +87,13 @@
                 <!-- Add options for Desa/Kel here -->
             </select>
         </div>
+        <h5>TPS</h5>
+        <div class="box">
+            <select id="TPSDropdown" name="desa">
+                <option value="">Select TPS</option>
+                <!-- Add options for Desa/Kel here -->
+            </select>
+        </div>
     </div>
       <div class="col-8">
         <h5 class="text-center">Informasi Jumlah</h5>
@@ -113,7 +120,11 @@
               </tr>
               <tr>
                 <th scope="col">TPS</th>
-                <th scope="col"><div class="box-2"></div></th>
+                <th scope="col">
+                  <div class="box-2">
+                    <span id="selectedTPSValue"></span>
+                  </div>
+                </th>                
                 <th scope="col">Null</th>
                 <th scope="col"><div class="box-2"></div></th>
               </tr>

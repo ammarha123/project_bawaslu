@@ -109,6 +109,13 @@ function displayExcelData(data) {
   // Initialize a variable to keep track of the last index
   let lastIndex = 0;
 
+  // Clear existing options in the TPS dropdown
+  const TPSDropdown = document.querySelector('#TPSDropdown');
+  TPSDropdown.innerHTML = '<option value="">Select TPS</option>';
+
+  // Create a Set to store unique TPS values
+  const uniqueTPSValues = new Set();
+
   // Iterate through the Excel data and create table rows
   data.forEach((row) => {
     lastIndex++; // Increment the last index
@@ -126,7 +133,22 @@ function displayExcelData(data) {
 
     // Append the new row to the existing table
     tableBody.appendChild(tableRow);
+
+    // Add TPS value to the uniqueTPSValues Set
+    uniqueTPSValues.add(row.TPS);
   });
+
+  // Populate the TPS dropdown with unique TPS values
+  uniqueTPSValues.forEach((value) => {
+    const option = document.createElement('option');
+    option.value = value;
+    option.textContent = value;
+    TPSDropdown.appendChild(option);
+  });
+
+  // After displaying the Excel data, update the total data count and gender counts
+  updateTotalDataCount();
+  updateTotalGenderCount();
 }
 
 // Function to update the total data count
@@ -137,10 +159,6 @@ function updateTotalDataCount() {
   // Update the content of the totalDataCount element
   totalDataCount.textContent = `${rowCount}`;
 }
-
-// Initialize variables to count the number of Perempuan and Laki-laki
-let totalPerempuan = 0;
-let totalLakiLaki = 0;
 
 // Function to update the total Perempuan and Laki-laki count
 function updateTotalGenderCount() {
@@ -159,11 +177,45 @@ function updateTotalGenderCount() {
     }
   }
 
-  console.log(totalLakiLaki)
   // Update the content of the totalPerempuanCount and totalLakiLakiCount elements
   totalPerempuanCount.textContent = `${totalPerempuan}`;
   totalLakiLakiCount.textContent = `${totalLakiLaki}`;
 }
+
+// Function to filter and display rows based on selected TPS
+function filterAndDisplayRows(selectedTPS) {
+  const tableRows = document.querySelectorAll('#excelDataTable tr');
+
+  // Hide all rows by default
+  tableRows.forEach((row) => {
+    row.style.display = 'none';
+  });
+
+  // Show rows that match the selected TPS value
+  tableRows.forEach((row) => {
+    const tpsCell = row.cells[7].textContent; // Assuming TPS is in the 8th cell (index 7)
+    if (tpsCell === selectedTPS || selectedTPS === '') {
+      row.style.display = ''; // Show the row
+    }
+  });
+}
+
+// Event listener for the "TPSDropdown" change event
+document.getElementById('TPSDropdown').addEventListener('change', (event) => {
+  const selectedTPS = event.target.value;
+  filterAndDisplayRows(selectedTPS);
+});
+
+// Event listener for the "TPSDropdown" change event
+document.getElementById('TPSDropdown').addEventListener('change', (event) => {
+  const selectedTPS = event.target.value;
+  filterAndDisplayRows(selectedTPS);
+
+  // Update the content of the selectedTPSValue span
+  const selectedTPSValueSpan = document.getElementById('selectedTPSValue');
+  selectedTPSValueSpan.textContent = selectedTPS;
+});
+
 
 // document.querySelector('#excelDataTable').addEventListener('DOMSubtreeModified', updateTotalDataCount, updateTotalPerempuanCount, updateTotalLakiLakiCount);
 document.querySelector('#excelDataTable').addEventListener('DOMSubtreeModified', function () {

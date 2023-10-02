@@ -87,3 +87,11 @@ body{
 .selected-row {
     background-color: lightblue;
   }
+
+th, td{
+    background-color: #D9D9D9;
+}
+
+.not-selected{
+    color: #D9D9D9 !important;
+}

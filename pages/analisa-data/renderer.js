@@ -108,7 +108,7 @@ document.getElementById('kecamatanDropdown').addEventListener('change', () => {
     const desaDropdown = document.getElementById('desaDropdown');
     desaDropdown.innerHTML = '<option value="">Select Desa/Kel</option>';
   }
-  
+
   // Toggle the checkboxes based on the selection
   toggleCheckboxes();
 });
@@ -120,25 +120,25 @@ document.getElementById('desaDropdown').addEventListener('change', () => {
 });
 
 
-  // Add a click event listener to the "namaCheckbox" checkbox
+// Add a click event listener to the "namaCheckbox" checkbox
 const namaCheckbox = document.getElementById('namaCheckbox');
 namaCheckbox.addEventListener('click', () => {
   if (namaCheckbox.checked) {
     const selectedDesa = document.getElementById('desaDropdown').value;
-  
+
     // Define the file path based on the selected Kecamatan
     let filePath = '';
-  
+
     // Construct the SQL query to fetch the file path for the selected Kecamatan
     const sql = `SELECT file FROM desa WHERE name = '${selectedDesa}'`;
-  
+
     // Query your database to get the file path
     dbConnection.query(sql, (err, rows) => {
       if (err) {
         console.error('Error fetching file path:', err);
         return;
       }
-  
+
       print(rows, 1)
     });
   } else {
@@ -152,20 +152,20 @@ const jeniskelaminCheckbox = document.getElementById('jeniskelaminCheckbox');
 jeniskelaminCheckbox.addEventListener('click', () => {
   if (jeniskelaminCheckbox.checked) {
     const selectedDesa = document.getElementById('desaDropdown').value;
-  
+
     // Define the file path based on the selected Kecamatan
     let filePath = '';
-  
+
     // Construct the SQL query to fetch the file path for the selected Kecamatan
     const sql = `SELECT file FROM desa WHERE name = '${selectedDesa}'`;
-  
+
     // Query your database to get the file path
     dbConnection.query(sql, (err, rows) => {
       if (err) {
         console.error('Error fetching file path:', err);
         return;
       }
-  
+
       print(rows, 2)
     });
   } else {
@@ -179,20 +179,20 @@ const usiaCheckbox = document.getElementById('usiaCheckbox');
 usiaCheckbox.addEventListener('click', () => {
   if (usiaCheckbox.checked) {
     const selectedDesa = document.getElementById('desaDropdown').value;
-  
+
     // Define the file path based on the selected Kecamatan
     let filePath = '';
-  
+
     // Construct the SQL query to fetch the file path for the selected Kecamatan
     const sql = `SELECT file FROM desa WHERE name = '${selectedDesa}'`;
-  
+
     // Query your database to get the file path
     dbConnection.query(sql, (err, rows) => {
       if (err) {
         console.error('Error fetching file path:', err);
         return;
       }
-  
+
       print(rows, 3)
     });
   } else {
@@ -206,20 +206,20 @@ const kelurahanCheckbox = document.getElementById('kelurahanCheckbox');
 kelurahanCheckbox.addEventListener('click', () => {
   if (kelurahanCheckbox.checked) {
     const selectedDesa = document.getElementById('desaDropdown').value;
-  
+
     // Define the file path based on the selected Kecamatan
     let filePath = '';
-  
+
     // Construct the SQL query to fetch the file path for the selected Kecamatan
     const sql = `SELECT file FROM desa WHERE name = '${selectedDesa}'`;
-  
+
     // Query your database to get the file path
     dbConnection.query(sql, (err, rows) => {
       if (err) {
         console.error('Error fetching file path:', err);
         return;
       }
-  
+
       print(rows, 4)
     });
   } else {
@@ -233,21 +233,21 @@ const rtCheckbox = document.getElementById('rtCheckbox');
 rtCheckbox.addEventListener('click', () => {
   if (rtCheckbox.checked) {
     const selectedDesa = document.getElementById('desaDropdown').value;
-  
+
     // Define the file path based on the selected Kecamatan
     let filePath = '';
-  
+
     // Construct the SQL query to fetch the file path for the selected Kecamatan
     const sql = `SELECT file FROM desa WHERE name = '${selectedDesa}'`;
-  
+
     // Query your database to get the file path
     dbConnection.query(sql, (err, rows) => {
       if (err) {
         console.error('Error fetching file path:', err);
         return;
       }
-  
-        print(rows, 5)
+
+      print(rows, 5)
     });
   } else {
     // Clear the table when the checkbox is unchecked
@@ -260,20 +260,20 @@ const rwCheckbox = document.getElementById('rwCheckbox');
 rwCheckbox.addEventListener('click', () => {
   if (rwCheckbox.checked) {
     const selectedDesa = document.getElementById('desaDropdown').value;
-  
+
     // Define the file path based on the selected Kecamatan
     let filePath = '';
-  
+
     // Construct the SQL query to fetch the file path for the selected Kecamatan
     const sql = `SELECT file FROM desa WHERE name = '${selectedDesa}'`;
-  
+
     // Query your database to get the file path
     dbConnection.query(sql, (err, rows) => {
       if (err) {
         console.error('Error fetching file path:', err);
         return;
       }
-  
+
       // Check if a result was found
       print(rows, 6)
     });
@@ -288,20 +288,20 @@ const tpsCheckbox = document.getElementById('tpsCheckbox');
 tpsCheckbox.addEventListener('click', () => {
   if (tpsCheckbox.checked) {
     const selectedDesa = document.getElementById('desaDropdown').value;
-  
+
     // Define the file path based on the selected Kecamatan
     let filePath = '';
-  
+
     // Construct the SQL query to fetch the file path for the selected Kecamatan
     const sql = `SELECT file FROM desa WHERE name = '${selectedDesa}'`;
-  
+
     // Query your database to get the file path
     dbConnection.query(sql, (err, rows) => {
       if (err) {
         console.error('Error fetching file path:', err);
         return;
       }
-  
+
       // Check if a result was found
       print(rows, 7)
     });
@@ -336,28 +336,25 @@ function print(rows, numberData) {
           const excelData = XLSX.utils.sheet_to_json(sheet);
 
           // Display the Excel data in your HTML table
-          if (numberData == 7){
+          if (numberData == 7) {
             displayExcelData7(excelData);
           }
-          if (numberData == 6){
+          if (numberData == 6) {
             displayExcelData6(excelData);
           }
-          if (numberData == 5){
+          if (numberData == 5) {
             displayExcelData5(excelData);
           }
-          if (numberData == 4){
-            displayExcelData6(excelData);
+          if (numberData == 4) {
+            displayExcelData4(excelData);
           }
-          if (numberData == 4){
-            displayExcelData6(excelData);
-          }
-          if (numberData == 3){
+          if (numberData == 3) {
             displayExcelData3(excelData);
           }
-          if (numberData == 2){
+          if (numberData == 2) {
             displayExcelData2(excelData);
           }
-          if (numberData == 1){
+          if (numberData == 1) {
             displayExcelData(excelData);
           }
         };
@@ -375,37 +372,37 @@ function print(rows, numberData) {
 
 // Add a click event listener to the "Rekapitulasi Analisa" link
 document.getElementById('rekapitulasiLink').addEventListener('click', (event) => {
-    event.preventDefault(); // Prevent the link from navigating to a new page
-  
-    // Get the selected columns from checkboxes in analisa-data.html
-    const selectedColumns = Array.from(checkboxes)
-      .filter((checkbox) => checkbox.checked)
-      .map((checkbox) => checkbox.id.toLowerCase());
+  event.preventDefault(); // Prevent the link from navigating to a new page
 
-    // Log the selected columns to the console
-    console.log('Selected Columns:', selectedColumns);
-  
-    // Check if any columns are selected
-    if (selectedColumns.length === 0) {
-      alert('Please select at least one column.');
-      return;
-    }
+  // Get the selected columns from checkboxes in analisa-data.html
+  const selectedColumns = Array.from(checkboxes)
+    .filter((checkbox) => checkbox.checked)
+    .map((checkbox) => checkbox.id.toLowerCase());
 
-    // Toggle the visibility of the rekapitulasi section
-    const rekapitulasiSection = document.getElementById('rekapitulasi');
-    rekapitulasiSection.style.display = 'block'; // Show the section
-    const analisaDataSection = document.getElementById('analisa-data');
-    analisaDataSection.style.display= 'none';
-  });
+  // Log the selected columns to the console
+  console.log('Selected Columns:', selectedColumns);
 
-  document.getElementById('close-rekapitulasi').addEventListener('click', (event) => {
-    event.preventDefault(); // Prevent the link from navigating to a new page
-    // Toggle the visibility of the rekapitulasi section
-    const rekapitulasiSection = document.getElementById('rekapitulasi');
-    rekapitulasiSection.style.display = 'none'; // Show the section
-    const analisaDataSection = document.getElementById('analisa-data');
-    analisaDataSection.style.display= 'block';
-  });
+  // Check if any columns are selected
+  if (selectedColumns.length === 0) {
+    alert('Please select at least one column.');
+    return;
+  }
+
+  // Toggle the visibility of the rekapitulasi section
+  const rekapitulasiSection = document.getElementById('rekapitulasi');
+  rekapitulasiSection.style.display = 'block'; // Show the section
+  const analisaDataSection = document.getElementById('analisa-data');
+  analisaDataSection.style.display = 'none';
+});
+
+document.getElementById('close-rekapitulasi').addEventListener('click', (event) => {
+  event.preventDefault(); // Prevent the link from navigating to a new page
+  // Toggle the visibility of the rekapitulasi section
+  const rekapitulasiSection = document.getElementById('rekapitulasi');
+  rekapitulasiSection.style.display = 'none'; // Show the section
+  const analisaDataSection = document.getElementById('analisa-data');
+  analisaDataSection.style.display = 'block';
+});
 
 // Initialize a variable to keep track of the last index
 // Function to display Excel data in the HTML table without replacing existing data
@@ -416,8 +413,14 @@ function displayExcelData(data) {
   data.forEach((row, index) => {
     const tableRow = document.createElement('tr');
     tableRow.innerHTML = `
-      <td>${index+1}</td>
+      <td>${index + 1}</td>
       <td>${row.Nama}</td>
+      <td class="not-selected">${row['Jenis Kelamin']}</td>
+      <td class="not-selected">${row.Usia}</td>
+      <td class="not-selected">${row.Kelurahan}</td>
+      <td class="not-selected">${row.RT}</td>
+      <td class="not-selected">${row.RW}</td>
+      <td class="not-selected">${row.TPS}</td>
     `;
 
     // Append the new row to the existing table
@@ -432,9 +435,14 @@ function displayExcelData2(data) {
   data.forEach((row, index) => {
     const tableRow = document.createElement('tr');
     tableRow.innerHTML = `
-      <td>${index+1}</td>
-      <td>${row.Nama}</td>
-      <td>${row['Jenis Kelamin']}</td>
+    <td>${index + 1}</td>
+    <td>${row.Nama}</td>
+    <td>${row['Jenis Kelamin']}</td>
+    <td class="not-selected">${row.Usia}</td>
+    <td class="not-selected">${row.Kelurahan}</td>
+    <td class="not-selected">${row.RT}</td>
+    <td class="not-selected">${row.RW}</td>
+    <td class="not-selected">${row.TPS}</td>
     `;
 
     // Append the new row to the existing table
@@ -453,6 +461,10 @@ function displayExcelData3(data) {
       <td>${row.Nama}</td>
       <td>${row['Jenis Kelamin']}</td>
       <td>${row.Usia}</td>
+      <td class="not-selected">${row.Kelurahan}</td>
+      <td class="not-selected">${row.RT}</td>
+      <td class="not-selected">${row.RW}</td>
+      <td class="not-selected">${row.TPS}</td>
     `;
     tableBody.appendChild(tableRow);
   });
@@ -470,6 +482,9 @@ function displayExcelData4(data) {
       <td>${row['Jenis Kelamin']}</td>
       <td>${row.Usia}</td>
       <td>${row.Kelurahan}</td>
+      <td class="not-selected">${row.RT}</td>
+      <td class="not-selected">${row.RW}</td>
+      <td class="not-selected">${row.TPS}</td>
     `;
     tableBody.appendChild(tableRow);
   });
@@ -488,6 +503,8 @@ function displayExcelData5(data) {
       <td>${row.Usia}</td>
       <td>${row.Kelurahan}</td>
       <td>${row.RT}</td>
+      <td class="not-selected">${row.RW}</td>
+      <td class="not-selected">${row.TPS}</td>
     `;
     tableBody.appendChild(tableRow);
   });
@@ -507,6 +524,7 @@ function displayExcelData6(data) {
       <td>${row.Kelurahan}</td>
       <td>${row.RT}</td>
       <td>${row.RW}</td>
+      <td class="not-selected">${row.TPS}</td>
     `;
     tableBody.appendChild(tableRow);
   });
