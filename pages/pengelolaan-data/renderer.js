@@ -216,6 +216,46 @@ document.getElementById('TPSDropdown').addEventListener('change', (event) => {
   selectedTPSValueSpan.textContent = selectedTPS;
 });
 
+// Function to filter and display rows based on search query and column
+function searchAndDisplayRows(query, column) {
+  const tableRows = document.querySelectorAll('#excelDataTable tr');
+
+  // Hide all rows by default
+  tableRows.forEach((row) => {
+    row.style.display = 'none';
+  });
+
+  // Show rows that match the search query in the selected column
+  tableRows.forEach((row) => {
+    const cellIndex = {
+      nama: 1,
+      jenisKelamin: 2,
+      usia: 3,
+      kelurahan: 4,
+      rt: 5,
+      rw: 6,
+      tps: 7,
+    }[column]; // Map column names to cell indices
+
+    if (!cellIndex) return;
+
+    const cellValue = row.cells[cellIndex].textContent;
+
+    if (cellValue.toLowerCase().includes(query.toLowerCase()) || query === '') {
+      row.style.display = ''; // Show the row
+    }
+  });
+}
+
+// Event listener for the search input's keyup event
+document.getElementById('searchInput').addEventListener('keyup', () => {
+  const searchInput = document.getElementById('searchInput');
+  const searchQuery = searchInput.value;
+  const columnSelect = document.getElementById('columnSelect');
+  const selectedColumn = columnSelect.value;
+  searchAndDisplayRows(searchQuery, selectedColumn);
+});
+
 
 // document.querySelector('#excelDataTable').addEventListener('DOMSubtreeModified', updateTotalDataCount, updateTotalPerempuanCount, updateTotalLakiLakiCount);
 document.querySelector('#excelDataTable').addEventListener('DOMSubtreeModified', function () {
@@ -430,3 +470,58 @@ const exportButton = document.getElementById('exportExcelButton');
 if (exportButton) {
   exportButton.addEventListener('click', exportToExcel);
 }
+
+// Function to sort table data
+function sortTable(column, order) {
+  const table = document.getElementById('excelDataTable');
+  const tbody = table.querySelector('tbody');
+  const rows = Array.from(tbody.getElementsByTagName('tr'));
+
+  // Sort the rows based on the specified column and order
+  rows.sort((a, b) => {
+    const aValue = a.querySelector(`td[data-column="${column}"]`).textContent;
+    const bValue = b.querySelector(`td[data-column="${column}"]`).textContent;
+
+    if (order === 'asc') {
+      return aValue.localeCompare(bValue);
+    } else {
+      return bValue.localeCompare(aValue);
+    }
+  });
+
+  // Remove all rows from the table
+  while (tbody.firstChild) {
+    tbody.removeChild(tbody.firstChild);
+  }
+
+  // Re-add sorted rows to the table
+  rows.forEach((row) => {
+    tbody.appendChild(row);
+  });
+}
+
+// Event listener for table header clicks to trigger sorting
+document.querySelector('#excelData thead').addEventListener('click', (event) => {
+  if (event.target.tagName === 'TH' && event.target.hasAttribute('data-column')) {
+    const column = event.target.getAttribute('data-column');
+    const currentOrder = event.target.getAttribute('data-order') || 'asc';
+
+    console.log('Sorting column:', column);
+    console.log('Current order:', currentOrder);
+
+    // Toggle the sorting order
+    const newOrder = currentOrder === 'asc' ? 'desc' : 'asc';
+    event.target.setAttribute('data-order', newOrder);
+
+    // Remove sorting indicators from other columns
+    const headers = document.querySelectorAll('table thead th');
+    headers.forEach((header) => {
+      if (header !== event.target) {
+        header.removeAttribute('data-order');
+      }
+    });
+
+    // Sort the table
+    sortTable(column, newOrder);
+  }
+});

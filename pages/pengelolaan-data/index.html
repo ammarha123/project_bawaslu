@@ -142,31 +142,35 @@
     </div>
     <div class="pencarian mt-5">
       <img src="../../assets/img/search.svg" alt=""> Pencarian Berdasarkan
-    </div>
+      <input type="text" id="searchInput" placeholder="Cari...">
+      <select id="columnSelect">
+        <option value="nama">Nama</option>
+        <option value="jenisKelamin">Jenis Kelamin</option>
+        <option value="usia">Usia</option>
+        <option value="kelurahan">Kelurahan</option>
+        <option value="rt">RT</option>
+        <option value="rw">RW</option>
+        <option value="tps">TPS</option>
+      </select>
+    </div>        
     <!-- Display the selected Excel file data in this table -->
-  <table class="table table-bordered mt-5">
-    <thead>
-      <tr>
-        <th scope="col">No.</th>
-        <th scope="col">Nama</th>
-        <th scope="col">Jenis Kelamin</th>
-        <th scope="col">Usia</th>
-        <th scope="col">Kelurahan</th>
-        <th scope="col">RT</th>
-        <th scope="col">RW</th>
-        <th scope="col">TPS</th>
-      </tr>
-    </thead>
-    <tbody id="excelDataTable">
-      <!-- Excel data will be displayed here -->
-      <!-- <tr>
-        <th>1</th>
-        <th>1</th>
-        <th>Perempuan</th>
-        <th>Laki-laki</th>
-      </tr> -->
-    </tbody>
-  </table>
+    <table class="table table-bordered mt-5" id="excelData">
+      <thead>
+        <tr>
+          <th scope="col" data-column="no">No.</th>
+          <th scope="col" data-column="nama">Nama</th>
+          <th scope="col" data-column="jenisKelamin">Jenis Kelamin</th>
+          <th scope="col" data-column="usia">Usia</th>
+          <th scope="col" data-column="kelurahan">Kelurahan</th>
+          <th scope="col" data-column="rt">RT</th>
+          <th scope="col" data-column="rw">RW</th>
+          <th scope="col" data-column="tps">TPS</th>
+        </tr>
+      </thead>
+      <tbody id="excelDataTable">
+        <!-- Excel data will be displayed here -->
+      </tbody>
+    </table>    
 
   <!-- Button to delete selected rows -->
   <button id="deleteSelectedButton" class="btn btn-danger">Delete Selected</button>
