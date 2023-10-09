@@ -1,16 +1,28 @@
-// Function to get the value of a query parameter from the URL
-function getQueryParam(name) {
-    const urlParams = new URLSearchParams(window.location.search);
-    return urlParams.get(name);
-  }
-  
-  // Check if a username query parameter exists in the URL
-  const loggedInUsername = getQueryParam('username');
-  const loggedInDiv = document.querySelector('.logged-in'); // Get the "Logged in as" div
-  
-  if (loggedInUsername) {
-    loggedInDiv.textContent = `Logged in as: ${loggedInUsername}`;
-  } else {
-    // Username not found in the URL, handle as needed (e.g., display "Not logged in")
-  }
-  
+// Function to get the session token from localStorage
+function getSessionToken() {
+  return localStorage.getItem('sessionToken');
+}
+
+// Function to get the loggedInUsername from localStorage
+function getLoggedInUsername() {
+  return localStorage.getItem('loggedInUsername');
+}
+
+// Check if the user is logged in by verifying the session token
+const sessionToken = getSessionToken();
+const loggedInUsername = getLoggedInUsername(); // Retrieve the username
+
+if (sessionToken && loggedInUsername) {
+  // User is logged in
+  const loggedInDiv = document.querySelector('.logged-in');
+  loggedInDiv.textContent = `Logged in as: ${loggedInUsername}`;
+
+  // Display the session token in the session-token div
+  const sessionTokenDiv = document.querySelector('.session-token');
+  const sessionTokenValue = document.getElementById('sessionTokenValue');
+  sessionTokenValue.textContent = sessionToken;
+  sessionTokenDiv.style.display = 'block'; // Show the session token div
+} else {
+  // User is not logged in, handle accordingly (e.g., redirect to login)
+  window.location.href = '../login/index.html';
+}

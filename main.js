@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, dialog } = require('electron');
+const { app, BrowserWindow } = require('electron');
 const path = require('path');
 const url = require('url');
 const dbConnection = require('./database');
