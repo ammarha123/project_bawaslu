@@ -26,8 +26,14 @@ function getSessionToken() {
     // User is logged in
     const loggedInDiv = document.querySelector('.logged-in');
     loggedInDiv.textContent = `Logged in as: ${loggedInUsername}`;
+
+     // Check if the loggedInUsername is "super-admin"
+  if (loggedInUsername === "super-admin") {
+    // Display the adminOptions block
+    const adminOptions = document.getElementById('adminOptions');
+    adminOptions.style.display = "block";
+  }
   } else {
     // User is not logged in, handle accordingly (e.g., redirect to login)
     window.location.href = '../login/index.html';
   }  
-  
