@@ -199,6 +199,7 @@ document.getElementById('rekapitulasiLink').addEventListener('click', (event) =>
   event.preventDefault(); // Prevent the link from navigating to a new page
 
   // Get the selected columns from checkboxes in analisa-data.html
+  const checkboxes = document.querySelectorAll('.form-check-input');
   const selectedColumns = Array.from(checkboxes)
     .filter((checkbox) => checkbox.checked)
     .map((checkbox) => checkbox.id.toLowerCase());
@@ -227,6 +228,7 @@ document.getElementById('close-rekapitulasi').addEventListener('click', (event) 
   const analisaDataSection = document.getElementById('analisa-data');
   analisaDataSection.style.display = 'block';
 });
+
 
 // Define an object to map column names to checkboxes
 const columnCheckboxes = {
