@@ -1,3 +1,5 @@
+window.$ = window.jQuery = require('jquery');
+
 // Function to get the session token from localStorage
 function getSessionToken() {
   return localStorage.getItem('sessionToken');
@@ -77,8 +79,10 @@ function updateRowStyles() {
   tableRows.forEach((row, index) => {
     if (selectedRows.has(index)) {
       row.classList.add('selected-row');
+      row.classList.add('table-danger'); // Add the second class separately
     } else {
       row.classList.remove('selected-row');
+      row.classList.remove('table-danger'); // Remove the second class separately
     }
   });
 }
@@ -86,28 +90,50 @@ function updateRowStyles() {
 // Event delegation for row selection
 document.querySelector('#excelDataTable').addEventListener('click', (event) => {
   if (event.target.tagName === 'TD') {
-    const rowIndex = event.target.parentElement.rowIndex - 1; // Subtract 1 for header row
+    const rowIndex = event.target.parentElement.rowIndex - 1; // Subtract 1 for the header row
     toggleRowSelection(rowIndex);
   }
 });
 
+const messageDiv = document.getElementById('message');
+const verificationInput = document.getElementById('verificationInput');
+const deleteButton = document.getElementById('confirmDeleteButton');
+
 // Event listener for the "Delete Selected" button
-deleteSelectedButton.addEventListener('click', () => {
-  // Delete selected rows
-  const table = document.querySelector('#excelDataTable');
-  const tableRows = Array.from(table.querySelectorAll('tr'));
+deleteButton.addEventListener('click', () => {
+  // Get the entered verification code
+  const enteredCode = verificationInput.value;
+  
+  // Replace 'YOUR_VERIFICATION_CODE' with the actual verification code you want to use
+  const expectedCode = 'delete';
 
-  // Remove rows in reverse order to avoid shifting indices
-  const selectedIndices = Array.from(selectedRows);
-  selectedIndices.sort((a, b) => b - a);
+  if (enteredCode === expectedCode) {
+    // Delete selected rows
+    const table = document.querySelector('#excelDataTable');
+    const tableRows = Array.from(table.querySelectorAll('tr'));
 
-  selectedIndices.forEach((index) => {
-    table.deleteRow(index);
-    selectedRows.delete(index);
-  });
+    // Remove rows in reverse order to avoid shifting indices
+    const selectedIndices = Array.from(selectedRows);
+    selectedIndices.sort((a, b) => b - a);
 
-  // After deleting rows, update row styles
-  updateRowStyles();
+    selectedIndices.forEach((index) => {
+      table.deleteRow(index);
+      selectedRows.delete(index);
+    });
+
+    $('#myModal').modal('hide');
+
+    // After deleting rows, update row styles
+    updateRowStyles();
+
+    // Clear the error message and verification input field
+    messageDiv.textContent = '';
+    verificationInput.value = '';
+  } else {
+    // Display an error message in the 'messageDiv'
+    messageDiv.textContent = 'Incorrect verification code. Please try again.';
+    verificationInput.value = ''; // Clear the input field
+  }
 });
 
 // Initialize a variable to keep track of the last index

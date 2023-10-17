@@ -38,8 +38,8 @@
       Pengelolaan Data DPT
     </div>
     <div class="logged-in">
-      Logged in as: 
-  </div>
+      Logged in as:
+    </div>
     <div class="row">
       <div class="col-2">
         <h5>Tahapan</h5>
@@ -64,12 +64,12 @@
             <button id="exportExcelButton" class="btn btn-export">
               <img src="../../assets/img/expor-excel.svg" alt=""> Ekspor Excel
             </button>
-          </div>          
+          </div>
           <div class="hapus-data">
             <a href="../hapus-data/index.html" class="text-decoration-none text-dark">
-            <img src="../../assets/img/delete.svg" alt="">
-            Hapus Data
-          </a>
+              <img src="../../assets/img/delete.svg" alt="">
+              Hapus Data
+            </a>
           </div>
         </div>
       </div>
@@ -80,25 +80,25 @@
         <div class="box">Surabaya</div>
         <h5>Kecamatan</h5>
         <div class="box">
-            <select id="kecamatanDropdown" name="kecamatan">
-                <option value="">Select Kecamatan</option>
-            </select>
+          <select id="kecamatanDropdown" name="kecamatan">
+            <option value="">Select Kecamatan</option>
+          </select>
         </div>
         <h5>Desa/Kel</h5>
         <div class="box">
-            <select id="desaDropdown" name="desa">
-                <option value="">Select Desa/Kel</option>
-                <!-- Add options for Desa/Kel here -->
-            </select>
+          <select id="desaDropdown" name="desa">
+            <option value="">Select Desa/Kel</option>
+            <!-- Add options for Desa/Kel here -->
+          </select>
         </div>
         <h5>TPS</h5>
         <div class="box">
-            <select id="TPSDropdown" name="desa">
-                <option value="">Select TPS</option>
-                <!-- Add options for Desa/Kel here -->
-            </select>
+          <select id="TPSDropdown" name="desa">
+            <option value="">Select TPS</option>
+            <!-- Add options for Desa/Kel here -->
+          </select>
         </div>
-    </div>
+      </div>
       <div class="col-8">
         <h5 class="text-center">Informasi Jumlah</h5>
         <div class="menu-pengelolaan">
@@ -106,21 +106,33 @@
             <thead>
               <tr>
                 <th scope="col">Kab/Kota</th>
-                <th scope="col"><div class="box-2">Surabaya</div></th>
+                <th scope="col">
+                  <div class="box-2">Surabaya</div>
+                </th>
                 <th scope="col">Pemilih</th>
-                <th scope="col"><div class="box-2" id="totalDataCount"></div></th>
+                <th scope="col">
+                  <div class="box-2" id="totalDataCount"></div>
+                </th>
               </tr>
               <tr>
                 <th scope="col">Kecamatan</th>
-                <th scope="col"><div class="box-2" id="selectedKecamatanHeader"></div></th>
+                <th scope="col">
+                  <div class="box-2" id="selectedKecamatanHeader"></div>
+                </th>
                 <th scope="col">Laki-laki</th>
-                <th scope="col"><div class="box-2"><span id="totalLakiLakiCount"></span></div></th>
+                <th scope="col">
+                  <div class="box-2"><span id="totalLakiLakiCount"></span></div>
+                </th>
               </tr>
               <tr>
                 <th scope="col">Desa/Kel</th>
-                <th scope="col"><div class="box-2" id="selectedDesaKelHeader"></div></th>
+                <th scope="col">
+                  <div class="box-2" id="selectedDesaKelHeader"></div>
+                </th>
                 <th scope="col">Perempuan</th>
-                <th scope="col"><div class="box-2"><span id="totalPerempuanCount"></span></div></th>
+                <th scope="col">
+                  <div class="box-2"><span id="totalPerempuanCount"></span></div>
+                </th>
               </tr>
               <tr>
                 <th scope="col">TPS</th>
@@ -128,15 +140,21 @@
                   <div class="box-2">
                     <span id="selectedTPSValue"></span>
                   </div>
-                </th>                
+                </th>
                 <th scope="col">Null</th>
-                <th scope="col"><div class="box-2"></div></th>
+                <th scope="col">
+                  <div class="box-2"></div>
+                </th>
               </tr>
               <tr>
                 <th scope="col">Jumlah KK</th>
-                <th scope="col"><div class="box-2"></div></th>
+                <th scope="col">
+                  <div class="box-2"></div>
+                </th>
                 <th scope="col">1 KK beda TPS</th>
-                <th scope="col"><div class="box-2"></div></th>
+                <th scope="col">
+                  <div class="box-2"></div>
+                </th>
               </tr>
             </thead>
 
@@ -156,9 +174,9 @@
         <option value="rw">RW</option>
         <option value="tps">TPS</option>
       </select>
-    </div>        
+    </div>
     <!-- Display the selected Excel file data in this table -->
-    <table class="table table-bordered mt-5" id="excelData">
+    <table class="table table-hover table-bordered mt-5" id="excelData">
       <thead>
         <tr>
           <th scope="col" data-column="no">No.</th>
@@ -174,13 +192,42 @@
       <tbody id="excelDataTable">
         <!-- Excel data will be displayed here -->
       </tbody>
-    </table>    
+    </table>
+    <div class="modal" id="myModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Confirmation</h5>
+            <button type="button" class="close" data-bs-dismiss="modal">
+              <span>&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>Are you sure you want to delete the selected items?</p>
+            <input type="text" id="verificationInput" placeholder="Enter verification code" required>
+            <div id="message" class="mx-2"></div> <!-- Display error messages here -->
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-danger" id="confirmDeleteButton">Delete</button>
+          </div>          
+        </div>
+      </div>
+    </div>
 
-  <!-- Button to delete selected rows -->
-  <button id="deleteSelectedButton" class="btn btn-danger">Delete Selected</button>
+    <button id="deleteSelectedButton" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#myModal">Delete
+      Selected</button>
+
 
   </div>
+
+  <!-- Include jQuery -->
+  <script src="../../node_modules/jquery/dist/jquery.min.js"></script>
+  <!-- Include Bootstrap JS -->
+  <script type="text/javascript" src="../../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+  <!-- Include your renderer.js script after jQuery and Bootstrap -->
   <script src="renderer.js"></script>
+
 </body>
 
 </html>

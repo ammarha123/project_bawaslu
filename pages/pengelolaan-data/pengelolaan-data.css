@@ -50,10 +50,6 @@ body{
     display: none;
 }
 
-.selected-row {
-    background-color: lightblue;
-  }
-
 .btn-export{
     padding: 0px;
     text-align: start;
