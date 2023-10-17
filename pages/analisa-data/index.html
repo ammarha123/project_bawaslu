@@ -23,17 +23,30 @@
 
       </div>
       <div class="logged-in">
-        Logged in as: 
-    </div>
+        Logged in as:
+      </div>
       <div class="col-2">
         <div class="row d-flex justify-content-end">
           <div class="col-6 my-2">
             <img src="../../assets/img/minimize-symbol.svg" alt="">
           </div>
           <div class="col-6 my-4">
-            <a href="../home/index.html">
+            <a href="#" data-bs-toggle="modal" data-bs-target="#exitMenuModal">
               <img src="../../assets/img/close-symbol.svg" alt="">
             </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal" id="exitMenuModal">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-body">
+            <h5 class="modal-title text-center mb-3">Apakah anda yakin ingin keluar dari menu ini?</h5>
+            <div class="text-center">
+              <button type="button" class="btn btn-secondary text-center" data-bs-dismiss="modal">Cancel</button>
+              <a href="../home/index.html" class="btn btn-danger" id="confirmationExitMenu">Iya, Keluar</a>
+            </div>
           </div>
         </div>
       </div>
@@ -45,7 +58,7 @@
       <a id="rekapitulasiLink" href="../rekapitulasi/index.html" class="text-decoration-none text-dark">
         <img src="../../assets/img/rekapitulasi-analisa.svg" alt=""> Rekapitulasi Analisa
       </a>
-    </div>    
+    </div>
     <div class="row">
       <div class="col">
         <div class="sort-data mt-5">
@@ -55,16 +68,16 @@
           <div class="box">Surabaya</div>
           <h5>Kecamatan</h5>
           <div class="box">
-              <select id="kecamatanDropdown" name="kecamatan">
-                  <option value="">Select Kecamatan</option>
-              </select>
+            <select id="kecamatanDropdown" name="kecamatan">
+              <option value="">Select Kecamatan</option>
+            </select>
           </div>
           <h5>Desa/Kel</h5>
           <div class="box">
-              <select id="desaDropdown" name="desa">
-                  <option value="">Select Desa/Kel</option>
-                  <!-- Add options for Desa/Kel here -->
-              </select>
+            <select id="desaDropdown" name="desa">
+              <option value="">Select Desa/Kel</option>
+              <!-- Add options for Desa/Kel here -->
+            </select>
           </div>
         </div>
       </div>
@@ -75,7 +88,8 @@
           <label class="form-check-label" for="namaCheckbox">Nama</label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" id="jeniskelaminCheckbox" data-column="Jenis Kelamin" disabled>
+          <input class="form-check-input" type="checkbox" id="jeniskelaminCheckbox" data-column="Jenis Kelamin"
+            disabled>
           <label class="form-check-label" for="jeniskelaminCheckbox">Jenis Kelamin</label>
         </div>
         <div class="form-check">
@@ -103,81 +117,81 @@
   </div>
   <div class="container" id="rekapitulasi">
     <div class="row mt-3">
-        <div class="col-10 d-flex justify-content-start">
+      <div class="col-10 d-flex justify-content-start">
 
+      </div>
+      <div class="col-2">
+        <div class="row d-flex justify-content-end">
+          <div class="col-6 my-2">
+            <img src="../../assets/img/minimize-symbol.svg" alt="">
+          </div>
+          <div class="col-6 my-4">
+            <a href="" id="close-rekapitulasi">
+              <img src="../../assets/img/close-symbol.svg" alt="">
+            </a>
+          </div>
         </div>
-        <div class="col-2">
-            <div class="row d-flex justify-content-end">
-                <div class="col-6 my-2">
-                    <img src="../../assets/img/minimize-symbol.svg" alt="">
-                </div>
-                <div class="col-6 my-4">
-                    <a href="" id="close-rekapitulasi">
-                        <img src="../../assets/img/close-symbol.svg" alt="">
-                    </a>
-                </div>
-            </div>
-        </div>
+      </div>
     </div>
     <div class="mb-3 text-center text-decoration-underline fw-bold">
-        Nama dan Jenis Kelamin
+      Nama dan Jenis Kelamin
     </div>
     <h5 class="text-center">Informasi Jumlah</h5>
     <div class="menu-pengelolaan">
-        <table class="table table-informasi table-borderless table-striped">
-            <thead>
-                <tr>
-                    <th scope="col">Kab/Kota</th>
-                    <th scope="col">
-                        <div class="box-2"></div>
-                    </th>
-                    <th scope="col">Pemilih</th>
-                    <th scope="col">
-                        <div class="box-2"></div>
-                    </th>
-                </tr>
-                <tr>
-                    <th scope="col">Kecamatan</th>
-                    <th scope="col">
-                        <div class="box-2"></div>
-                    </th>
-                    <th scope="col">Laki-laki</th>
-                    <th scope="col">
-                        <div class="box-2"></div>
-                    </th>
-                </tr>
-                <tr>
-                    <th scope="col">Desa/Kel</th>
-                    <th scope="col">
-                        <div class="box-2"></div>
-                    </th>
-                    <th scope="col">Perempuan</th>
-                    <th scope="col">
-                        <div class="box-2"></div>
-                    </th>
-                </tr>
-                <tr>
-                    <th scope="col">TPS</th>
-                    <th scope="col">
-                        <div class="box-2"></div>
-                    </th>
-                    <th scope="col">Null</th>
-                    <th scope="col">
-                        <div class="box-2"></div>
-                    </th>
-                </tr>
-                <tr>
-                    <th scope="col">Jumlah KK</th>
-                    <th scope="col">
-                        <div class="box-2"></div>
-                    </th>
-                    <th scope="col">1 KK beda TPS</th>
-                    <th scope="col">
-                        <div class="box-2"></div>
-                    </th>
-                </tr>
-            </thead>
-        </table>
+      <table class="table table-informasi table-borderless table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Kab/Kota</th>
+            <th scope="col">
+              <div class="box-2"></div>
+            </th>
+            <th scope="col">Pemilih</th>
+            <th scope="col">
+              <div class="box-2"></div>
+            </th>
+          </tr>
+          <tr>
+            <th scope="col">Kecamatan</th>
+            <th scope="col">
+              <div class="box-2"></div>
+            </th>
+            <th scope="col">Laki-laki</th>
+            <th scope="col">
+              <div class="box-2"></div>
+            </th>
+          </tr>
+          <tr>
+            <th scope="col">Desa/Kel</th>
+            <th scope="col">
+              <div class="box-2"></div>
+            </th>
+            <th scope="col">Perempuan</th>
+            <th scope="col">
+              <div class="box-2"></div>
+            </th>
+          </tr>
+          <tr>
+            <th scope="col">TPS</th>
+            <th scope="col">
+              <div class="box-2"></div>
+            </th>
+            <th scope="col">Null</th>
+            <th scope="col">
+              <div class="box-2"></div>
+            </th>
+          </tr>
+          <tr>
+            <th scope="col">Jumlah KK</th>
+            <th scope="col">
+              <div class="box-2"></div>
+            </th>
+            <th scope="col">1 KK beda TPS</th>
+            <th scope="col">
+              <div class="box-2"></div>
+            </th>
+          </tr>
+        </thead>
+      </table>
     </div>
     <table class="table table-bordered mt-5">
       <thead>
@@ -196,7 +210,8 @@
         <!-- Excel data will be displayed here -->
       </tbody>
     </table>
-</div>
+  </div>
+  <script type="text/javascript" src="../../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
   <script src="renderer.js"></script>
 </body>
 

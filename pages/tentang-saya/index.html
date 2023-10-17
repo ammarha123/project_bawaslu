@@ -29,9 +29,9 @@
                         <img src="../../assets/img/minimize-symbol.svg" alt="">
                     </div>
                     <div class="col-6 my-4">
-                        <a href="../home/index.html">
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#exitMenuModal">
                             <img src="../../assets/img/close-symbol.svg" alt="">
-                        </a>
+                          </a>
                     </div>
                 </div>
             </div>
@@ -53,9 +53,22 @@
                 Deteksi Data Ganda internal Bawaslu Kota Surabaya ini.
             </div>
         </div>
-
+        <div class="modal" id="exitMenuModal">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-body">
+                  <h5 class="modal-title text-center mb-3">Apakah anda yakin ingin keluar dari menu ini?</h5>
+                  <div class="text-center">
+                    <button type="button" class="btn btn-secondary text-center" data-bs-dismiss="modal">Cancel</button>
+                    <a href="../home/index.html" class="btn btn-danger" id="confirmationExitMenu">Iya, Keluar</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
     </div>
     <script src="renderer.js"></script>
+    <script type="text/javascript" src="../../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
 </body>
 
 </html>
