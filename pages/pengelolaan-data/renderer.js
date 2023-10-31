@@ -56,12 +56,36 @@ excelFileInput.addEventListener('change', (event) => {
 
       // Display the Excel data in your HTML table
       displayExcelData(excelData);
+
+      // Store the displayed data in session storage
+      saveDataToSessionStorage(excelData);
     };
 
     // Read the file as binary data
     reader.readAsBinaryString(selectedFile);
   }
 });
+
+// Function to save the displayed data to session storage
+function saveDataToSessionStorage(data) {
+  // Convert the data to a JSON string
+  const dataJSON = JSON.stringify(data);
+
+  // Store the data in session storage
+  sessionStorage.setItem('displayedData', dataJSON);
+
+  // Log to the console when data is stored
+  console.log('Data saved to session storage:', data);
+}
+
+// Function to retrieve displayed data from session storage
+function getDisplayDataFromSessionStorage() {
+  const dataJSON = sessionStorage.getItem('displayedData');
+  if (dataJSON) {
+    return JSON.parse(dataJSON);
+  }
+  return null;
+}
 
 // Function to toggle row selection and highlight
 function toggleRowSelection(rowIndex) {
@@ -99,27 +123,31 @@ const messageDiv = document.getElementById('message');
 const verificationInput = document.getElementById('verificationInput');
 const deleteButton = document.getElementById('confirmDeleteButton');
 
+// Define displayedData and retrieve it from session storage
+let displayedData = getDisplayDataFromSessionStorage();
 // Event listener for the "Delete Selected" button
 deleteButton.addEventListener('click', () => {
   // Get the entered verification code
   const enteredCode = verificationInput.value;
-  
+
   // Replace 'YOUR_VERIFICATION_CODE' with the actual verification code you want to use
   const expectedCode = 'delete';
 
   if (enteredCode === expectedCode) {
     // Delete selected rows
     const table = document.querySelector('#excelDataTable');
-    const tableRows = Array.from(table.querySelectorAll('tr'));
-
-    // Remove rows in reverse order to avoid shifting indices
     const selectedIndices = Array.from(selectedRows);
     selectedIndices.sort((a, b) => b - a);
 
+    // Remove the deleted rows from the displayedData array
     selectedIndices.forEach((index) => {
+      displayedData.splice(index, 1);
       table.deleteRow(index);
       selectedRows.delete(index);
     });
+
+    // Update the session storage with the modified data
+    saveDataToSessionStorage(displayedData);
 
     $('#myModal').modal('hide');
 
@@ -135,6 +163,7 @@ deleteButton.addEventListener('click', () => {
     verificationInput.value = ''; // Clear the input field
   }
 });
+
 
 // Initialize a variable to keep track of the last index
 let lastIndex = 0;
@@ -198,6 +227,9 @@ function displayExcelData(data) {
   // After displaying the Excel data, update the total data count and gender counts
   updateTotalDataCount();
   updateTotalGenderCount();
+
+  // Store the displayed data in session storage
+  saveDataToSessionStorage(data);
 }
 
 // Function to update the total data count
@@ -229,6 +261,8 @@ function updateTotalGenderCount() {
   // Update the content of the totalPerempuanCount and totalLakiLakiCount elements
   totalPerempuanCount.textContent = `${totalPerempuan}`;
   totalLakiLakiCount.textContent = `${totalLakiLaki}`;
+
+  
 }
 
 // Function to filter and display rows based on selected TPS
@@ -520,6 +554,196 @@ if (exportButton) {
   exportButton.addEventListener('click', exportToExcel);
 }
 
+// // Store the original data when the page loads
+// const originalData = [];
+
+// // Function to capture the original data
+// function captureOriginalData() {
+//   const originalData = [];
+
+//   // Capture the original data from the HTML table
+//   const table = document.querySelector('#excelDataTable');
+//   table.querySelectorAll('tbody tr').forEach((row) => {
+//     const rowData = [];
+//     row.querySelectorAll('td').forEach((cell) => {
+//       rowData.push(cell.textContent);
+//     });
+//     originalData.push(rowData);
+//   });
+
+//   // Store the captured original data in a data attribute
+//   table.dataset.originalData = JSON.stringify(originalData);
+// }
+
+// // Add an event listener to capture the original data when the page is loaded
+// document.addEventListener('DOMContentLoaded', captureOriginalData);
+
+
+
+// // Define originalData at the top-level scope
+// let originalData = null;
+
+// // Function to fetch original data from the database
+// const fetchOriginalData = (selectedDesa, callback) => {
+//   // Replace these lines with actual database queries to retrieve the file path
+//   const sql = `SELECT file FROM desa WHERE name = '${selectedDesa}'`;
+
+//   // Execute the SQL query to fetch the file path
+//   dbConnection.query(sql, (error, result) => {
+//     if (error) {
+//       console.error('Error fetching file path:', error);
+//       return;
+//     }
+
+//     if (result.length === 0) {
+//       console.error('No file path found for the selectedDesa:', selectedDesa);
+//       return;
+//     }
+
+//     const filePath = `../../database/bawaslu-2.xlsx`
+
+//     // Load the Excel file from the retrieved file path
+//     const workbook = new ExcelJS.Workbook();
+
+//     workbook.xlsx.read(filePath)
+//       .then(() => {
+//         const worksheet = workbook.getWorksheet(1); // Assuming the data is in the first worksheet
+
+//         const originalData = [];
+
+//         worksheet.eachRow((row, rowNumber) => {
+//           if (rowNumber === 1) {
+//             // Skip the header row
+//             return;
+//           }
+
+//           const rowData = row.values.map(value => value.toString());
+//           originalData.push(rowData);
+//         });
+
+//         // Pass the original data to the callback function
+//         callback(originalData);
+
+//         console.log('Original data:', originalData); // Log the original data
+//       })
+//       .catch((error) => {
+//         console.error('Error reading Excel file:', error);
+//         return;
+//       });
+//   });
+// };
+
+// Function to export data to Excel
+const saveToExcel = () => {
+  // Get the table element by its ID
+  const table = document.querySelector('#excelDataTable');
+
+  // Create a new Excel workbook and worksheet for original data
+  const originalWorkbook = new ExcelJS.Workbook();
+  const originalWorksheet = originalWorkbook.addWorksheet('Original Data');
+
+  // Create a new Excel workbook and worksheet for edited data
+  const editedWorkbook = new ExcelJS.Workbook();
+  const editedWorksheet = editedWorkbook.addWorksheet('Edited Data');
+
+  // Define the header row
+  const headerRow = [
+    'No.',
+    'Nama',
+    'Jenis Kelamin',
+    'Usia',
+    'Kelurahan',
+    'RT',
+    'RW',
+    'TPS'
+  ];
+
+  // Add the header row to both worksheets
+  originalWorksheet.addRow(headerRow);
+  editedWorksheet.addRow(headerRow);
+
+  // Get the edited data from the table
+  const rows = table.querySelectorAll('tbody tr');
+  if (rows.length === 0) {
+    alert('No data to save.');
+    return;
+  }
+
+  rows.forEach((row, index) => {
+    const rowData = [];
+    row.querySelectorAll('td').forEach((cell) => {
+      rowData.push(cell.textContent);
+    });
+
+    originalWorksheet.addRow(rowData); // Add data from originalData
+    editedWorksheet.addRow(rowData); // Add data from the table
+  });
+
+  // Create unique filenames for the Excel files
+  const now = Date.now();
+  const originalFileName = `original_data_${now}.xlsx`;
+  const editedFileName = `edited_data_${now}.xlsx`;
+
+  // Specify the paths where the Excel files will be saved
+  const originalDataPath = path.join(__dirname, '../../restore', originalFileName);
+  const editedDataPath = path.join(__dirname, '../../backup', editedFileName);
+
+  // Write the Excel files to the specified paths
+  originalWorkbook.xlsx.writeFile(originalDataPath)
+    .then(() => {
+      console.log(`Original Excel file saved to: ${originalDataPath}`);
+    })
+    .catch((error) => {
+      console.error('Error saving original data to Excel:', error);
+    });
+
+  editedWorkbook.xlsx.writeFile(editedDataPath)
+    .then(() => {
+      console.log(`Edited Excel file saved to: ${editedDataPath}`);
+      alert('Data saved to Excel successfully!');
+    })
+    .catch((error) => {
+      console.error('Error saving edited data to Excel:', error);
+      alert('Error saving data to Excel. Please try again.');
+    });
+};
+
+// Attach the exportToExcel function to a button click event
+const saveButton = document.getElementById('saveButton');
+if (saveButton) {
+  saveButton.addEventListener('click', saveToExcel);
+}
+
+// // Attach the exportToExcel function to a button click event
+// const saveButton = document.getElementById('saveButton');
+// if (saveButton) {
+//   saveButton.addEventListener('click', () => {
+//     const selectedDesa = document.getElementById('desaDropdown').value;
+//     // Fetch the original data from the database
+//     fetchOriginalData(selectedDesa, (originalData) => {
+//       // Get the edited data from the table
+//       const rows = table.querySelectorAll('tbody tr');
+//       if (rows.length === 0) {
+//         alert('No data to save.');
+//         return;
+//       }
+
+//       const editedData = [];
+//       rows.forEach((row) => {
+//         const rowData = [];
+//         row.querySelectorAll('td').forEach((cell) => {
+//           rowData.push(cell.textContent);
+//         });
+//         editedData.push(rowData);
+//       });
+
+//       // Pass the original data and edited data to the saveToExcel function
+//       saveToExcel(originalData, editedData);
+//     });
+//   });
+// }
+
+
 // Function to sort table data
 function sortTable(column, order) {
   const table = document.getElementById('excelDataTable');
@@ -574,3 +798,23 @@ document.querySelector('#excelData thead').addEventListener('click', (event) => 
     sortTable(column, newOrder);
   }
 });
+
+// // Function to send data from #excelDataTable to the main process
+// function sendDataToUtilitas() {
+//   const table = document.querySelector('#excelDataTable');
+//   const data = [];
+  
+//   // Iterate through table rows and cells to extract data
+//   for (let i = 0; i < table.rows.length; i++) {
+//     const row = table.rows[i];
+//     const rowData = [];
+//     for (let j = 0; j < row.cells.length; j++) {
+//       rowData.push(row.cells[j].innerText);
+//     }
+//     data.push(rowData);
+//   }
+
+//   // Send the data to the main process via IPC
+//   ipcRenderer.send('send-data-to-utilitas', data);
+//   console.log('Data sent to Utilitas:', data); // Log the data being sent
+// }

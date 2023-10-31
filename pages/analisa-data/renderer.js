@@ -106,17 +106,57 @@ const getDesaByKecamatan = (selectedKecamatan) => {
   });
 };
 
+// Get a reference to the element where you want to display the total count
+const totalDataCount = document.querySelector('#totalDataCount');
+const totalLakiLakiCount = document.querySelector('#totalLakiLakiCount');
+const totalPerempuanCount = document.querySelector('#totalPerempuanCount');
+const table = document.querySelector('#excelDataTable');
+// Function to update the total data count
+function updateTotalDataCount() {
+  // Get the total number of rows in the table (excluding the header)
+  const rowCount = table.rows.length; // Subtract 1 for the header row
+
+  // Update the content of the totalDataCount element
+  totalDataCount.textContent = `${rowCount}`;
+}
+
+// Function to update the total Perempuan and Laki-laki count
+function updateTotalGenderCount() {
+  // Initialize counts
+  let totalPerempuan = 0;
+  let totalLakiLaki = 0;
+
+  // Loop through the rows (excluding the header) and count Perempuan and Laki-laki
+  for (let i = 0; i < table.rows.length; i++) {
+    const jenisKelaminCell = table.rows[i].cells[2].textContent; // Assuming "Jenis Kelamin" is in the 3rd cell (index 2)
+
+    if (jenisKelaminCell === 'Laki-Laki') {
+      totalLakiLaki++;
+    } else if (jenisKelaminCell === 'Perempuan') {
+      totalPerempuan++;
+    }
+  }
+
+  // Update the content of the totalPerempuanCount and totalLakiLakiCount elements
+  totalPerempuanCount.textContent = `${totalPerempuan}`;
+  totalLakiLakiCount.textContent = `${totalLakiLaki}`;
+}
+
+
 // Event listener for the Kecamatan dropdown change event
 document.getElementById('kecamatanDropdown').addEventListener('change', () => {
   const selectedKecamatan = document.getElementById('kecamatanDropdown').value;
+  const selectedKecamatanHeader = document.getElementById('selectedKecamatanHeader');
 
   if (selectedKecamatan) {
     // Call the function to populate the Desa/Kel dropdown
     getDesaByKecamatan(selectedKecamatan);
+    selectedKecamatanHeader.textContent = `${selectedKecamatan}`;
   } else {
     // Clear the Desa/Kel dropdown if no Kecamatan is selected
     const desaDropdown = document.getElementById('desaDropdown');
     desaDropdown.innerHTML = '<option value="">Select Desa/Kel</option>';
+    selectedKecamatanHeader.textContent = ` `;
   }
 
   // Toggle the checkboxes based on the selection
@@ -130,9 +170,11 @@ document.getElementById('desaDropdown').addEventListener('change', () => {
   if (selectedDesa) {
     // Call the function to populate the table data based on the selected "Desa"
     getExcelDataByDesa(selectedDesa);
+    selectedDesaKelHeader.textContent = `${selectedDesa}`;
   } else {
     // Clear the table when no "Desa" is selected
     clearTableData();
+    selectedDesaKelHeader.textContent = '';
   }
 });
 
@@ -282,4 +324,7 @@ function displayExcelData(data) {
     `;
     tableBody.appendChild(tableRow);
   });
+
+  updateTotalDataCount();
+          updateTotalGenderCount();
 }
