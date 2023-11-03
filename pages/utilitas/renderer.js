@@ -122,14 +122,18 @@ document.getElementById('backUpRadio').addEventListener('change', async () => {
       const workbook = new ExcelJS.Workbook();
       const worksheet = workbook.addWorksheet('Edited Data');
 
-      // Add the header row to the worksheet
-      worksheet.addRow(headerRow);
+      // Create an array that represents the order of columns
+      const columnOrder = ['No.', 'Nama', 'Jenis Kelamin', 'Usia', 'Kelurahan', 'RT', 'RW', 'TPS'];
+
+      // Add the header row to the worksheet in the specified order
+      worksheet.addRow(columnOrder);
 
       // Add the data rows to the worksheet
-      displayedData.forEach((item) => {
-        const row = Object.values(item).map((value) => value.toString());
+      for (let i = 0; i < displayedData.length; i++) {
+        const item = displayedData[i];
+        const row = [i + 1, ...columnOrder.slice(1).map((key) => item[key] ? item[key].toString() : '')];
         worksheet.addRow(row);
-      });
+      }
 
       // Create unique filenames for the Excel files
       const now = Date.now();
@@ -147,6 +151,7 @@ document.getElementById('backUpRadio').addEventListener('change', async () => {
       try {
         // Save the workbook to a file
         await workbook.xlsx.writeFile(editedDataPath);
+
         console.log(`Backup Excel file saved to: ${editedDataPath}`);
         alert('Data backed up to Excel successfully!');
       } catch (error) {
@@ -158,3 +163,5 @@ document.getElementById('backUpRadio').addEventListener('change', async () => {
     }
   }
 });
+
+

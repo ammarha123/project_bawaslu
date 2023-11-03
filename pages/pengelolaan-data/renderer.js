@@ -119,51 +119,19 @@ document.querySelector('#excelDataTable').addEventListener('click', (event) => {
   }
 });
 
-const messageDiv = document.getElementById('message');
-const verificationInput = document.getElementById('verificationInput');
-const deleteButton = document.getElementById('confirmDeleteButton');
+// Function to update the counts based on the displayed data
+function updateCounts() {
+  const {
+    totalData,
+    totalLakiLaki,
+    totalPerempuan,
+  } = countTotalDataAndGender(matchingRows);
 
-// Define displayedData and retrieve it from session storage
-let displayedData = getDisplayDataFromSessionStorage();
-// Event listener for the "Delete Selected" button
-deleteButton.addEventListener('click', () => {
-  // Get the entered verification code
-  const enteredCode = verificationInput.value;
-
-  // Replace 'YOUR_VERIFICATION_CODE' with the actual verification code you want to use
-  const expectedCode = 'delete';
-
-  if (enteredCode === expectedCode) {
-    // Delete selected rows
-    const table = document.querySelector('#excelDataTable');
-    const selectedIndices = Array.from(selectedRows);
-    selectedIndices.sort((a, b) => b - a);
-
-    // Remove the deleted rows from the displayedData array
-    selectedIndices.forEach((index) => {
-      displayedData.splice(index, 1);
-      table.deleteRow(index);
-      selectedRows.delete(index);
-    });
-
-    // Update the session storage with the modified data
-    saveDataToSessionStorage(displayedData);
-
-    $('#myModal').modal('hide');
-
-    // After deleting rows, update row styles
-    updateRowStyles();
-
-    // Clear the error message and verification input field
-    messageDiv.textContent = '';
-    verificationInput.value = '';
-  } else {
-    // Display an error message in the 'messageDiv'
-    messageDiv.textContent = 'Incorrect verification code. Please try again.';
-    verificationInput.value = ''; // Clear the input field
-  }
-});
-
+  // Update the corresponding HTML elements
+  totalDataCount.textContent = totalData;
+  totalLakiLakiCount.textContent = totalLakiLaki;
+  totalPerempuanCount.textContent = totalPerempuan;
+}
 
 // Initialize a variable to keep track of the last index
 let lastIndex = 0;
@@ -176,175 +144,36 @@ const totalDataCount = document.querySelector('#totalDataCount');
 const totalLakiLakiCount = document.querySelector('#totalLakiLakiCount');
 const totalPerempuanCount = document.querySelector('#totalPerempuanCount');
 
-// Function to display Excel data in the HTML table without replacing existing data
-function displayExcelData(data) {
-  const tableBody = document.querySelector('#excelDataTable');
+let entireDataset = [];
 
-  // Initialize variables to keep track of totals
+// Function to set the entire dataset
+function setEntireDataset(data) {
+  entireDataset = data;
+}
+
+// Function to count the total data, Laki-laki, and Perempuan from the entire data
+function countTotalDataAndGender(data) {
+  // Counters for the total data, Laki-laki, and Perempuan
+  let totalData = data.length;
   let totalLakiLaki = 0;
   let totalPerempuan = 0;
 
-  // Initialize a variable to keep track of the last index
-  let lastIndex = 0;
-
-  // Clear existing options in the TPS dropdown
-  const TPSDropdown = document.querySelector('#TPSDropdown');
-  TPSDropdown.innerHTML = '<option value="">Select TPS</option>';
-
-  // Create a Set to store unique TPS values
-  const uniqueTPSValues = new Set();
-
-  // Iterate through the Excel data and create table rows
+  // Iterate through the data to count Laki-laki and Perempuan
   data.forEach((row) => {
-    lastIndex++; // Increment the last index
-    const tableRow = document.createElement('tr');
-    tableRow.innerHTML = `
-      <td>${lastIndex}</td>
-      <td>${row.Nama}</td>
-      <td>${row['Jenis Kelamin']}</td>
-      <td>${row.Usia}</td>
-      <td>${row.Kelurahan}</td>
-      <td>${row.RT}</td>
-      <td>${row.RW}</td>
-      <td>${row.TPS}</td>
-    `;
-
-    // Append the new row to the existing table
-    tableBody.appendChild(tableRow);
-
-    // Add TPS value to the uniqueTPSValues Set
-    uniqueTPSValues.add(row.TPS);
-  });
-
-  // Populate the TPS dropdown with unique TPS values
-  uniqueTPSValues.forEach((value) => {
-    const option = document.createElement('option');
-    option.value = value;
-    option.textContent = value;
-    TPSDropdown.appendChild(option);
-  });
-
-  // After displaying the Excel data, update the total data count and gender counts
-  updateTotalDataCount();
-  updateTotalGenderCount();
-
-  // Store the displayed data in session storage
-  saveDataToSessionStorage(data);
-}
-
-// Function to update the total data count
-function updateTotalDataCount() {
-  // Get the total number of rows in the table (excluding the header)
-  const rowCount = table.rows.length; // Subtract 1 for the header row
-
-  // Update the content of the totalDataCount element
-  totalDataCount.textContent = `${rowCount}`;
-}
-
-// Function to update the total Perempuan and Laki-laki count
-function updateTotalGenderCount() {
-  // Reset counts
-  totalPerempuan = 0;
-  totalLakiLaki = 0;
-
-  // Loop through the rows (excluding the header) and count Perempuan and Laki-laki
-  for (let i = 0; i < table.rows.length; i++) {
-    const jenisKelaminCell = table.rows[i].cells[2].textContent; // Assuming "Jenis Kelamin" is in the 3rd cell (index 2)
-
-    if (jenisKelaminCell === 'Laki-Laki') {
+    const jenisKelamin = row['Jenis Kelamin'];
+    if (jenisKelamin === 'L') {
       totalLakiLaki++;
-    } else if (jenisKelaminCell === 'Perempuan') {
+    } else if (jenisKelamin === 'P') {
       totalPerempuan++;
     }
-  }
+  });
 
-  // Update the content of the totalPerempuanCount and totalLakiLakiCount elements
-  totalPerempuanCount.textContent = `${totalPerempuan}`;
-  totalLakiLakiCount.textContent = `${totalLakiLaki}`;
-
-  
+  return {
+    totalData,
+    totalLakiLaki,
+    totalPerempuan,
+  };
 }
-
-// Function to filter and display rows based on selected TPS
-function filterAndDisplayRows(selectedTPS) {
-  const tableRows = document.querySelectorAll('#excelDataTable tr');
-
-  // Hide all rows by default
-  tableRows.forEach((row) => {
-    row.style.display = 'none';
-  });
-
-  // Show rows that match the selected TPS value
-  tableRows.forEach((row) => {
-    const tpsCell = row.cells[7].textContent; // Assuming TPS is in the 8th cell (index 7)
-    if (tpsCell === selectedTPS || selectedTPS === '') {
-      row.style.display = ''; // Show the row
-    }
-  });
-}
-
-// Event listener for the "TPSDropdown" change event
-document.getElementById('TPSDropdown').addEventListener('change', (event) => {
-  const selectedTPS = event.target.value;
-  filterAndDisplayRows(selectedTPS);
-});
-
-// Event listener for the "TPSDropdown" change event
-document.getElementById('TPSDropdown').addEventListener('change', (event) => {
-  const selectedTPS = event.target.value;
-  filterAndDisplayRows(selectedTPS);
-
-  // Update the content of the selectedTPSValue span
-  const selectedTPSValueSpan = document.getElementById('selectedTPSValue');
-  selectedTPSValueSpan.textContent = selectedTPS;
-});
-
-// Function to filter and display rows based on search query and column
-function searchAndDisplayRows(query, column) {
-  const tableRows = document.querySelectorAll('#excelDataTable tr');
-
-  // Hide all rows by default
-  tableRows.forEach((row) => {
-    row.style.display = 'none';
-  });
-
-  // Show rows that match the search query in the selected column
-  tableRows.forEach((row) => {
-    const cellIndex = {
-      nama: 1,
-      jenisKelamin: 2,
-      usia: 3,
-      kelurahan: 4,
-      rt: 5,
-      rw: 6,
-      tps: 7,
-    }[column]; // Map column names to cell indices
-
-    if (!cellIndex) return;
-
-    const cellValue = row.cells[cellIndex].textContent;
-
-    if (cellValue.toLowerCase().includes(query.toLowerCase()) || query === '') {
-      row.style.display = ''; // Show the row
-    }
-  });
-}
-
-// Event listener for the search input's keyup event
-document.getElementById('searchInput').addEventListener('keyup', () => {
-  const searchInput = document.getElementById('searchInput');
-  const searchQuery = searchInput.value;
-  const columnSelect = document.getElementById('columnSelect');
-  const selectedColumn = columnSelect.value;
-  searchAndDisplayRows(searchQuery, selectedColumn);
-});
-
-
-// document.querySelector('#excelDataTable').addEventListener('DOMSubtreeModified', updateTotalDataCount, updateTotalPerempuanCount, updateTotalLakiLakiCount);
-document.querySelector('#excelDataTable').addEventListener('DOMSubtreeModified', function () {
-  updateTotalDataCount()
-  updateTotalGenderCount()
-  });
 
 // Function to retrieve Kecamatan data
 const getKecamatan = () => {
@@ -426,6 +255,7 @@ document.getElementById('kecamatanDropdown').addEventListener('change', () => {
   }
 });
 
+filteredExcelData = []; 
 
 // Event listener for the Kecamatan dropdown change event
 document.getElementById('desaDropdown').addEventListener('change', () => {
@@ -475,10 +305,24 @@ document.getElementById('desaDropdown').addEventListener('change', () => {
             const sheet = workbook.Sheets[sheetName];
 
             // Parse the sheet into an array of objects
-            const excelData = XLSX.utils.sheet_to_json(sheet);
+const excelData = XLSX.utils.sheet_to_json(sheet, { header: ['No.', 'Nama', 'Jenis Kelamin', 'Usia', 'Kelurahan', 'RT', 'RW', 'TPS'] }); // Define headers to match your data
 
-            // Display the Excel data in your HTML table
-            displayExcelData(excelData);
+// Filter and display the Excel data where the Kelurahan/Desa matches the selected data
+const selectedDesa = document.getElementById('desaDropdown').value; // Get the selected Desa/Kel value
+
+filteredExcelData = excelData.filter((row) => {
+  // Assuming 'Kelurahan' is the actual column name for Kelurahan/Desa
+  const kelurahanDesa = row['Kelurahan']; // Replace with the correct column name
+
+  // Ensure the Kelurahan/Desa value exists and trim it
+  return kelurahanDesa && kelurahanDesa.trim() === selectedDesa.trim();
+});
+
+// Display the filtered Excel data in your HTML table
+displayExcelData(filteredExcelData, currentPage);
+updateTableAndDropdown();
+console.log("selected: ", filePath )
+
           };
 
           // Read the blob as binary data
@@ -493,9 +337,357 @@ document.getElementById('desaDropdown').addEventListener('change', () => {
   });
 });
 
+// Define global variables to track the current page and rows per page
+let currentPage = 1;
+let rowsPerPage = 10; // You can change the default value as needed
+let matchingRows = []; // Maintain a variable for the matching rows
+
+// Function to display Excel data with pagination
+function displayExcelData(data, pageNumber) {
+  // Clear the existing table
+  const tableBody = document.querySelector('#excelDataTable');
+  tableBody.innerHTML = '';
+
+  // Calculate the start and end indices for the current page
+  const startIndex = (pageNumber - 1) * rowsPerPage;
+  const endIndex = Math.min(startIndex + rowsPerPage, data.length);
+
+  // Clear existing options in the TPS dropdown
+  const TPSDropdown = document.querySelector('#TPSDropdown');
+  TPSDropdown.innerHTML = '<option value="">Select TPS</option>';
+
+  // Create a Set to store unique TPS values
+  const uniqueTPSValues = new Set();
+
+  // Create an array to store the matching rows
+  matchingRows = data.slice(); // Copy the data to matchingRows
+
+  // Iterate through the data for the current page
+  for (let i = startIndex; i < endIndex; i++) {
+    // Create table rows and append them to the table body
+    const row = matchingRows[i]; // Use matchingRows instead of data
+    const tableRow = document.createElement('tr');
+    tableRow.innerHTML = `
+      <td>${i + 1}</td>
+      <td>${row.Nama}</td>
+      <td>${row['Jenis Kelamin']}</td>
+      <td>${row.Usia}</td>
+      <td>${row.Kelurahan}</td>
+      <td>${row.RT}</td>
+      <td>${row.RW}</td>
+      <td>${row.TPS}</td>
+    `;
+    tableBody.appendChild(tableRow);
+
+    // Add TPS value to the uniqueTPSValues Set
+    uniqueTPSValues.add(row.TPS);
+  }
+
+  // Populate the TPS dropdown with unique TPS values
+  uniqueTPSValues.forEach((value) => {
+    const option = document.createElement('option');
+    option.value = value;
+    option.textContent = value;
+    TPSDropdown.appendChild(option);
+  });
+
+  // Call the new function to count the total data, Laki-laki, and Perempuan
+  const {
+    totalData,
+    totalLakiLaki,
+    totalPerempuan,
+  } = countTotalDataAndGender(matchingRows); // Use matchingRows
+
+  // Update the corresponding HTML elements
+  totalDataCount.textContent = totalData;
+  totalLakiLakiCount.textContent = totalLakiLaki;
+  totalPerempuanCount.textContent = totalPerempuan;
+
+  // Store the displayed data in session storage
+  saveDataToSessionStorage(matchingRows);
+
+  updatePaginationUI(pageNumber, matchingRows.length);
+}
+
+// Function to update the pagination UI
+function updatePaginationUI(currentPage, totalRows) {
+  const totalPages = Math.ceil(totalRows / rowsPerPage);
+  const pageNumbers = document.getElementById('pageNumbers');
+  pageNumbers.textContent = `Page ${currentPage} of ${totalPages}`;
+
+  // Disable/enable the "Previous" and "Next" buttons based on the current page
+  prevPageButton.disabled = currentPage === 1;
+  nextPageButton.disabled = currentPage === totalPages;
+}
+
+function updateTable() {
+  const tableBody = document.querySelector('#excelDataTable');
+  tableBody.innerHTML = ''; // Clear the existing table before displaying results
+
+  const startIndex = (currentPage - 1) * rowsPerPage;
+  const endIndex = Math.min(startIndex + rowsPerPage, matchingRows.length);
+
+  const encounteredNames = {}; // Object to store encountered names
+  // Track duplicate names in an array
+const duplicateNames = [];
+
+
+  for (let i = startIndex; i < endIndex; i++) {
+    const row = matchingRows[i];
+    const tableRow = document.createElement('tr');
+    const continuousIndex = i + 1; // Updated index
+    tableRow.innerHTML = `
+      <td>${continuousIndex}</td>
+      <td>${row.Nama}</td>
+      <td>${row['Jenis Kelamin']}</td>
+      <td>${row.Usia}</td>
+      <td>${row.Kelurahan}</td>
+      <td>${row.RT}</td>
+      <td>${row.RW}</td>
+      <td>${row.TPS}</td>
+    `;
+
+    // Check for duplicate names and apply styling
+  if (encounteredNames[row.Nama]) {
+    if (!duplicateNames.includes(row.Nama)) {
+      duplicateNames.push(row.Nama);
+    }
+    tableRow.classList.add('table-warning'); // Add 'table-warning' class
+  } else {
+    encounteredNames[row.Nama] = true;
+  }
+
+    tableBody.appendChild(tableRow);
+  }
+
+  // Update the pagination UI
+  updatePaginationUI(currentPage, matchingRows.length);
+
+  // Clear existing duplicate names
+const duplicateNamesList = document.getElementById('duplicateNamesList');
+duplicateNamesList.innerHTML = '';
+
+// Display the duplicate names in the HTML
+duplicateNames.forEach((name) => {
+  const listItem = document.createElement('li');
+  listItem.textContent = name;
+  duplicateNamesList.appendChild(listItem);
+})
+
+  // Get unique TPS values from the entire matchingRows dataset and populate the TPS dropdown
+  const uniqueTPSValues = Array.from(new Set(matchingRows.map((row) => row.TPS)));
+
+  const TPSDropdown = document.querySelector('#TPSDropdown');
+  TPSDropdown.innerHTML = '<option value="">Select TPS</option>';
+  uniqueTPSValues.forEach((value) => {
+    const option = document.createElement('option');
+    option.value = value;
+    option.textContent = value;
+    TPSDropdown.appendChild(option);
+  });
+}
+
+const messageDiv = document.getElementById('message');
+const verificationInput = document.getElementById('verificationInput');
+const deleteButton = document.getElementById('confirmDeleteButton');
+
+// Define displayedData and retrieve it from session storage
+let displayedData = getDisplayDataFromSessionStorage();
+deleteButton.addEventListener('click', () => {
+  // Get the entered verification code
+  const enteredCode = verificationInput.value;
+
+  // Replace 'YOUR_VERIFICATION_CODE' with the actual verification code you want to use
+  const expectedCode = 'delete';
+
+  if (enteredCode === expectedCode) {
+    // Delete selected rows from matchingRows
+    const selectedIndices = Array.from(selectedRows);
+    selectedIndices.sort((a, b) => b - a);
+
+    // Remove the deleted rows from the matchingRows array
+    selectedIndices.forEach((index) => {
+      matchingRows.splice(index, 1);
+      selectedRows.delete(index);
+    });
+
+    // Rebuild the entire table to reflect the changes
+    displayExcelData(matchingRows, currentPage);
+
+    // Update the session storage with the modified data
+    saveDataToSessionStorage(matchingRows);
+
+    $('#myModal').modal('hide');
+
+    // After deleting rows, update row styles
+    updateRowStyles();
+
+    // Update the counts based on the modified matchingRows
+    updateCounts();
+
+    updateTable();
+
+    // Clear the error message and verification input field
+    messageDiv.textContent = '';
+    verificationInput.value = '';
+  } else {
+    // Display an error message in the 'messageDiv'
+    messageDiv.textContent = 'Incorrect verification code. Please try again.';
+    verificationInput.value = ''; // Clear the input field
+  }
+});
+
+// Event listener for the "Rows per page" select element
+const rowsPerPageSelect = document.getElementById('rowsPerPage');
+rowsPerPageSelect.addEventListener('change', () => {
+  rowsPerPage = parseInt(rowsPerPageSelect.value, 10);
+  currentPage = 1; // Reset to the first page
+  updateTable(); // Update the displayed results
+});
+
+// Event listener for the "Previous" button
+const prevPageButton = document.getElementById('prevPage');
+prevPageButton.addEventListener('click', () => {
+  if (currentPage > 1) {
+    currentPage--;
+    updateTable(); // Update the displayed results
+  }
+});
+
+// Event listener for the "Next" button
+const nextPageButton = document.getElementById('nextPage');
+nextPageButton.addEventListener('click', () => {
+  const totalPages = Math.ceil(matchingRows.length / rowsPerPage);
+  if (currentPage < totalPages) {
+    currentPage++;
+    updateTable(); // Update the displayed results
+  }
+});
+
+// In your search function, update the matching rows
+function searchAndDisplayRows(query, selectedColumn) {
+  const displayedData = getDisplayDataFromSessionStorage();
+  if (!displayedData) {
+    return; // No data to search in
+  }
+
+  matchingRows = displayedData.filter((row) => {
+    const cellValue = row[selectedColumn];
+    return cellValue && cellValue.toString().toLowerCase().includes(query.toLowerCase());
+  });
+
+  currentPage = 1; // Reset to the first page
+  updateTable();
+}
+
+// Function to filter and display rows based on selected TPS
+function filterAndDisplayRows(selectedTPS) {
+  matchingRows = filteredExcelData.filter((row) => {
+    const tpsValue = row.TPS; // Assuming 'TPS' is the correct column name
+    return selectedTPS === '' || tpsValue === selectedTPS;
+  });
+
+  currentPage = 1; // Reset to the first page
+  updateTable();
+} 
+
+// Event listener for the search input's keyup event
+document.getElementById('searchInput').addEventListener('keyup', () => {
+  const searchInput = document.getElementById('searchInput');
+  const searchQuery = searchInput.value;
+  const columnSelect = document.getElementById('columnSelect');
+  const selectedColumn = columnSelect.value; // This gets the selected column from the dropdown
+
+  // Now you can use the selectedColumn to perform the search
+  searchAndDisplayRows(searchQuery, selectedColumn);
+});
+
+// Function to get unique TPS values from the entire dataset
+function getUniqueTPSValues(data) {
+  return Array.from(new Set(data.map((row) => row.TPS)));
+}
+
+// Update the TPS dropdown with unique TPS values from the entire dataset
+function updateTPSDropdown(data) {
+  const uniqueTPSValues = getUniqueTPSValues(data);
+
+  const TPSDropdown = document.querySelector('#TPSDropdown');
+  TPSDropdown.innerHTML = '<option value="">Select TPS</option>';
+
+  uniqueTPSValues.forEach((value) => {
+    const option = document.createElement('option');
+    option.value = value;
+    option.textContent = value;
+    TPSDropdown.appendChild(option);
+  });
+}
+
+// Call the function to update the TPS dropdown with unique values
+updateTPSDropdown(matchingRows);
+
+// Function to update the table and TPS dropdown
+function updateTableAndDropdown() {
+  updateTable();
+  updateTPSDropdown(matchingRows);
+}
+
+// Event listener for the "TPSDropdown" change event
+document.getElementById('TPSDropdown').addEventListener('change', (event) => {
+  const selectedTPS = event.target.value;
+  filterAndDisplayRows(selectedTPS);
+
+  // Update the content of the selectedTPSValue span
+  const selectedTPSValueSpan = document.getElementById('selectedTPSValue');
+  selectedTPSValueSpan.textContent = selectedTPS;
+});
+
+// Initial display, assuming no search query
+updateTable();
+
 const ExcelJS = require('exceljs');
 const fs = require('fs');
 const path = require('path');
+const { jsPDF } = require('jspdf');
+require('jspdf-autotable');
+
+// Function to generate a PDF from matchingRows
+function generatePDF(matchingRows) {
+  const doc = new jsPDF();
+
+  // Define the columns for the PDF
+  const columns = ['No.', 'Nama', 'Jenis Kelamin', 'Usia', 'Kelurahan', 'RT', 'RW', 'TPS'];
+
+  // Create an empty array to store the data for the PDF
+  const data = [];
+
+  // Add each row from matchingRows to the data array
+  matchingRows.forEach((row, index) => {
+    data.push([index + 1, row.Nama, row['Jenis Kelamin'], row.Usia, row.Kelurahan, row.RT, row.RW, row.TPS]);
+  });
+
+  // Set the position for the table (you can adjust these values)
+  const x = 10;
+  const y = 10;
+
+  // Create the PDF table
+  doc.autoTable({
+    head: [columns],
+    body: data,
+    startY: y,
+  });
+
+  // Save the PDF to a file
+  const pdfPath = 'matchingRows.pdf';
+  doc.save(pdfPath);
+
+  console.log(`PDF saved as ${pdfPath}`);
+}
+
+// Add an event listener to the "Ekspor PDF" button
+document.getElementById('exportPDFButton').addEventListener('click', () => {
+  // Call the generatePDF function with your matchingRows data
+  generatePDF(matchingRows);
+});
 
 // Function to export data to Excel
 const exportToExcel = () => {

@@ -49,10 +49,10 @@
             <img src="../../assets/img/impor-pdf.svg" alt="">
             Impor PDF
           </div>
-          <div class="export-pdf">
+          <div class="export-pdf" id="exportPDFButton">
             <img src="../../assets/img/expor-pdf.svg" alt="">
             Ekspor PDF
-          </div>
+          </div>          
           <div class="import-excel">
             <label for="fileInput">
               <img src="../../assets/img/impor-excel.svg" alt="">
@@ -152,14 +152,19 @@
       <img src="../../assets/img/search.svg" alt=""> Pencarian Berdasarkan
       <input type="text" id="searchInput" placeholder="Cari...">
       <select id="columnSelect">
-        <option value="nama">Nama</option>
-        <option value="jenisKelamin">Jenis Kelamin</option>
-        <option value="usia">Usia</option>
-        <option value="kelurahan">Kelurahan</option>
-        <option value="rt">RT</option>
-        <option value="rw">RW</option>
-        <option value="tps">TPS</option>
+        <option value="Nama">Nama</option>
+        <option value="Jenis Kelamin">Jenis Kelamin</option>
+        <option value="Usia">Usia</option>
+        <option value="Kelurahan">Kelurahan</option>
+        <option value="RT">RT</option>
+        <option value="RW">RW</option>
+        <option value="TPS">TPS</option>
       </select>
+    </div>
+
+    <div id="duplicateNamesSection">
+      <h5>Duplicate Names</h5>
+      <ul id="duplicateNamesList"></ul>
     </div>
     <!-- Display the selected Excel file data in this table -->
     <table class="table table-hover table-bordered mt-5" id="excelData">
@@ -179,6 +184,18 @@
         <!-- Excel data will be displayed here -->
       </tbody>
     </table>
+    <div id="pagination" class="mb-3">
+      <label for="rowsPerPage">Rows per page:</label>
+      <select id="rowsPerPage">
+        <option value="10">10</option>
+        <option value="25">25</option>
+        <option value="50">50</option>
+        <option value="100">100</option>
+      </select>
+      <button id="prevPage">Previous</button>
+      <span id="pageNumbers">Page 1 of 1</span>
+      <button id="nextPage">Next</button>
+    </div>    
     <div class="modal" id="myModal">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -221,11 +238,14 @@
   </div>
 
   <!-- Include jQuery -->
+  
   <script src="../../node_modules/jquery/dist/jquery.min.js"></script>
   <!-- Include Bootstrap JS -->
   <script type="text/javascript" src="../../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
   <!-- Include your renderer.js script after jQuery and Bootstrap -->
   <script src="renderer.js"></script>
+  <script type="text/javascript" src="../../node_modules/jspdf/dist/jspdf.umd.min.js"></script>
+  <script type="text/javascript" src="../../node_modules/jspdf-autotable/dist/jspdf.plugin.autotable.min.js"></script>
 
 </body>
 
