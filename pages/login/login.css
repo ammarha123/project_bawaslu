@@ -1,11 +1,18 @@
 body{
-    background-image: url('../../assets/img/login-bg.svg');
-    background-size: cover;
+    background-color: #e6d7c7;
 }
 
 .masuk{
     font-size: 48px;
+    font-family: 'Alegreya Sans', sans-serif;
 }
+
+.center-image {
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+    width: 40%;
+  }
 
 .login-panel{
     width:574px;
