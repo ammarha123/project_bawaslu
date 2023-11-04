@@ -18,10 +18,6 @@ if (sessionToken && loggedInUsername) {
   loggedInDiv.textContent = `Logged in as: ${loggedInUsername}`;
 
   // Display the session token in the session-token div
-  const sessionTokenDiv = document.querySelector('.session-token');
-  const sessionTokenValue = document.getElementById('sessionTokenValue');
-  sessionTokenValue.textContent = sessionToken;
-  sessionTokenDiv.style.display = 'block'; // Show the session token div
 } else {
   // User is not logged in, handle accordingly (e.g., redirect to login)
   window.location.href = '../login/index.html';
