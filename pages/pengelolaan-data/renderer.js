@@ -580,17 +580,6 @@ function searchAndDisplayRows(query, selectedColumn) {
   updateTable();
 }
 
-// Function to filter and display rows based on selected TPS
-function filterAndDisplayRows(selectedTPS) {
-  matchingRows = filteredExcelData.filter((row) => {
-    const tpsValue = row.TPS; // Assuming 'TPS' is the correct column name
-    return selectedTPS === '' || tpsValue === selectedTPS;
-  });
-
-  currentPage = 1; // Reset to the first page
-  updateTable();
-} 
-
 // Event listener for the search input's keyup event
 document.getElementById('searchInput').addEventListener('keyup', () => {
   const searchInput = document.getElementById('searchInput');
@@ -602,16 +591,33 @@ document.getElementById('searchInput').addEventListener('keyup', () => {
   searchAndDisplayRows(searchQuery, selectedColumn);
 });
 
+// Function to filter and display rows based on selected TPS
+function filterAndDisplayRows(selectedTPS) {
+  matchingRows = filteredExcelData.filter((row) => {
+    const tpsValue = row.TPS; // Assuming 'TPS' is the correct column name
+    return selectedTPS === '' || tpsValue === selectedTPS;
+  });
+
+  currentPage = 1; // Reset to the first page
+  updateTable();
+   // Update the counts based on the modified matchingRows
+  updateCounts();
+  // Call the function to update the TPS dropdown with unique values without changing the selection
+  updateTPSDropdown(matchingRows, selectedTPS);
+} 
+
 // Function to get unique TPS values from the entire dataset
 function getUniqueTPSValues(data) {
   return Array.from(new Set(data.map((row) => row.TPS)));
 }
 
-// Update the TPS dropdown with unique TPS values from the entire dataset
-function updateTPSDropdown(data) {
+// Function to update the TPS dropdown with unique TPS values from the displayed data
+function updateTPSDropdown(data, selectedTPS) {
   const uniqueTPSValues = getUniqueTPSValues(data);
 
   const TPSDropdown = document.querySelector('#TPSDropdown');
+  const currentSelection = TPSDropdown.value; // Store the currently selected TPS
+
   TPSDropdown.innerHTML = '<option value="">Select TPS</option>';
 
   uniqueTPSValues.forEach((value) => {
@@ -620,10 +626,12 @@ function updateTPSDropdown(data) {
     option.textContent = value;
     TPSDropdown.appendChild(option);
   });
-}
 
-// Call the function to update the TPS dropdown with unique values
-updateTPSDropdown(matchingRows);
+  // Set the selected TPS back to the dropdown, if it exists in the updated options
+  if (uniqueTPSValues.includes(selectedTPS)) {
+    TPSDropdown.value = selectedTPS;
+  }
+}
 
 // Function to update the table and TPS dropdown
 function updateTableAndDropdown() {
@@ -746,85 +754,6 @@ if (exportButton) {
   exportButton.addEventListener('click', exportToExcel);
 }
 
-// // Store the original data when the page loads
-// const originalData = [];
-
-// // Function to capture the original data
-// function captureOriginalData() {
-//   const originalData = [];
-
-//   // Capture the original data from the HTML table
-//   const table = document.querySelector('#excelDataTable');
-//   table.querySelectorAll('tbody tr').forEach((row) => {
-//     const rowData = [];
-//     row.querySelectorAll('td').forEach((cell) => {
-//       rowData.push(cell.textContent);
-//     });
-//     originalData.push(rowData);
-//   });
-
-//   // Store the captured original data in a data attribute
-//   table.dataset.originalData = JSON.stringify(originalData);
-// }
-
-// // Add an event listener to capture the original data when the page is loaded
-// document.addEventListener('DOMContentLoaded', captureOriginalData);
-
-
-
-// // Define originalData at the top-level scope
-// let originalData = null;
-
-// // Function to fetch original data from the database
-// const fetchOriginalData = (selectedDesa, callback) => {
-//   // Replace these lines with actual database queries to retrieve the file path
-//   const sql = `SELECT file FROM desa WHERE name = '${selectedDesa}'`;
-
-//   // Execute the SQL query to fetch the file path
-//   dbConnection.query(sql, (error, result) => {
-//     if (error) {
-//       console.error('Error fetching file path:', error);
-//       return;
-//     }
-
-//     if (result.length === 0) {
-//       console.error('No file path found for the selectedDesa:', selectedDesa);
-//       return;
-//     }
-
-//     const filePath = `../../database/bawaslu-2.xlsx`
-
-//     // Load the Excel file from the retrieved file path
-//     const workbook = new ExcelJS.Workbook();
-
-//     workbook.xlsx.read(filePath)
-//       .then(() => {
-//         const worksheet = workbook.getWorksheet(1); // Assuming the data is in the first worksheet
-
-//         const originalData = [];
-
-//         worksheet.eachRow((row, rowNumber) => {
-//           if (rowNumber === 1) {
-//             // Skip the header row
-//             return;
-//           }
-
-//           const rowData = row.values.map(value => value.toString());
-//           originalData.push(rowData);
-//         });
-
-//         // Pass the original data to the callback function
-//         callback(originalData);
-
-//         console.log('Original data:', originalData); // Log the original data
-//       })
-//       .catch((error) => {
-//         console.error('Error reading Excel file:', error);
-//         return;
-//       });
-//   });
-// };
-
 // Function to export data to Excel
 const saveToExcel = () => {
   // Get the table element by its ID
@@ -906,107 +835,206 @@ if (saveButton) {
   saveButton.addEventListener('click', saveToExcel);
 }
 
-// // Attach the exportToExcel function to a button click event
-// const saveButton = document.getElementById('saveButton');
-// if (saveButton) {
-//   saveButton.addEventListener('click', () => {
-//     const selectedDesa = document.getElementById('desaDropdown').value;
-//     // Fetch the original data from the database
-//     fetchOriginalData(selectedDesa, (originalData) => {
-//       // Get the edited data from the table
-//       const rows = table.querySelectorAll('tbody tr');
-//       if (rows.length === 0) {
-//         alert('No data to save.');
-//         return;
-//       }
+// Get references to the sorting button and sorting popup
+const sortingButton = document.getElementById('sortingButton');
+const sortingPopup = document.getElementById('sortingPopup');
 
-//       const editedData = [];
-//       rows.forEach((row) => {
-//         const rowData = [];
-//         row.querySelectorAll('td').forEach((cell) => {
-//           rowData.push(cell.textContent);
-//         });
-//         editedData.push(rowData);
-//       });
+// Toggle the sorting popup when the button is clicked
+sortingButton.addEventListener('click', () => {
+  sortingPopup.style.display = 'block';
+});
 
-//       // Pass the original data and edited data to the saveToExcel function
-//       saveToExcel(originalData, editedData);
-//     });
-//   });
-// }
+// Apply sorting when the "Apply Sorting" button is clicked
+const applySortingButton = document.getElementById('applySorting');
+applySortingButton.addEventListener('click', () => {
+  // Get selected sorting options and apply sorting logic here
+  // For example, you can use the values of select elements (e.g., sortNama) to sort your data
+  // Hide the sorting popup
+  sortingPopup.style.display = 'none';
+});
 
+// Add a click event listener to the Apply Sorting button
+applySortingButton.addEventListener('click', () => {
+  // Determine the selected sorting options for each row
+  const sortingNama = document.getElementById('sortingNama').value;
+  const sortingJenisKelamin = document.getElementById('sortingJenisKelamin').value;
+  const sortingKelurahan = document.getElementById('sortingKelurahan').value;
+  const sortingUsia = document.getElementById('sortingUsia').value;
+  const sortingRT = document.getElementById('sortingRT').value;
+  const sortingRW = document.getElementById('sortingRW').value;
+  const sortingTPS = document.getElementById('sortingTPS').value;
 
-// Function to sort table data
-function sortTable(column, order) {
-  const table = document.getElementById('excelDataTable');
-  const tbody = table.querySelector('tbody');
-  const rows = Array.from(tbody.getElementsByTagName('tr'));
-
-  // Sort the rows based on the specified column and order
-  rows.sort((a, b) => {
-    const aValue = a.querySelector(`td[data-column="${column}"]`).textContent;
-    const bValue = b.querySelector(`td[data-column="${column}"]`).textContent;
-
-    if (order === 'asc') {
-      return aValue.localeCompare(bValue);
+  // Define a sorting function that handles both strings and numbers
+  const customSort = (a, b, sortOrder) => {
+    if (isNaN(a) && isNaN(b)) {
+      // Both values are strings, perform string comparison
+      return sortOrder * a.localeCompare(b);
     } else {
-      return bValue.localeCompare(aValue);
+      // At least one value is numeric, perform numeric comparison
+      return sortOrder * (Number(a) - Number(b));
     }
-  });
+  };
 
-  // Remove all rows from the table
-  while (tbody.firstChild) {
-    tbody.removeChild(tbody.firstChild);
+  // Perform the sorting based on the selected options
+  if (sortingNama !== 'noFilter') {
+    if (sortingNama === 'asc') {
+      // Sort Nama in ascending order
+      matchingRows.sort((a, b) => customSort(a.Nama, b.Nama, 1));
+    } else if (sortingNama === 'desc') {
+      // Sort Nama in descending order
+      matchingRows.sort((a, b) => customSort(a.Nama, b.Nama, -1));
+    }
   }
 
-  // Re-add sorted rows to the table
-  rows.forEach((row) => {
-    tbody.appendChild(row);
+  if (sortingJenisKelamin !== 'noFilter') {
+    if (sortingJenisKelamin === 'asc') {
+      // Sort Jenis Kelamin in ascending order
+      matchingRows.sort((a, b) => customSort(a['Jenis Kelamin'], b['Jenis Kelamin'], 1));
+    } else if (sortingJenisKelamin === 'desc') {
+      // Sort Jenis Kelamin in descending order
+      matchingRows.sort((a, b) => customSort(a['Jenis Kelamin'], b['Jenis Kelamin'], -1));
+    }
+  }
+
+  if (sortingKelurahan !== 'noFilter') {
+    if (sortingKelurahan === 'asc') {
+      // Sort Kelurahan in ascending order
+      matchingRows.sort((a, b) => customSort(a.Kelurahan, b.Kelurahan, 1));
+    } else if (sortingKelurahan === 'desc') {
+      // Sort Kelurahan in descending order
+      matchingRows.sort((a, b) => customSort(a.Kelurahan, b.Kelurahan, -1));
+    }
+  }
+
+  if (sortingUsia !== 'noFilter') {
+    if (sortingUsia === 'asc') {
+      // Sort Usia in ascending order
+      matchingRows.sort((a, b) => customSort(a.Usia, b.Usia, 1));
+    } else if (sortingUsia === 'desc') {
+      // Sort Usia in descending order
+      matchingRows.sort((a, b) => customSort(a.Usia, b.Usia, -1));
+    }
+  }
+
+  if (sortingRT !== 'noFilter') {
+    if (sortingRT === 'asc') {
+      // Sort RT in ascending order
+      matchingRows.sort((a, b) => customSort(a.RT, b.RT, 1));
+    } else if (sortingRT === 'desc') {
+      // Sort RT in descending order
+      matchingRows.sort((a, b) => customSort(a.RT, b.RT, -1));
+    }
+  }
+
+  if (sortingRW !== 'noFilter') {
+    if (sortingRW === 'asc') {
+      // Sort RW in ascending order
+      matchingRows.sort((a, b) => customSort(a.RW, b.RW, 1));
+    } else if (sortingRW === 'desc') {
+      // Sort RW in descending order
+      matchingRows.sort((a, b) => customSort(a.RW, b.RW, -1));
+    }
+  }
+
+  if (sortingTPS !== 'noFilter') {
+    if (sortingTPS === 'asc') {
+      // Sort TPS in ascending order
+      matchingRows.sort((a, b) => customSort(a.TPS, b.TPS, 1));
+    } else if (sortingTPS === 'desc') {
+      // Sort TPS in descending order
+      matchingRows.sort((a, b) => customSort(a.TPS, b.TPS, -1));
+    }
+  }
+
+  // After sorting, update the table with the sorted data
+  updateTable();
+});
+
+// Get references to the sorting selects
+const sortingNama = document.getElementById('sortingNama');
+const sortingJenisKelamin = document.getElementById('sortingJenisKelamin');
+const sortingKelurahan = document.getElementById('sortingKelurahan');
+const sortingUsia = document.getElementById('sortingUsia');
+const sortingRT = document.getElementById('sortingRT');
+const sortingRW = document.getElementById('sortingRW');
+const sortingTPS = document.getElementById('sortingTPS');
+
+// Function to disable other sorting options when one is selected
+function disableOtherSortOptions(selectedOption) {
+  const sortingOptions = [sortingNama, sortingJenisKelamin, sortingKelurahan, sortingUsia, sortingRT, sortingRW, sortingTPS];
+  sortingOptions.forEach((option) => {
+    if (option !== selectedOption) {
+      option.disabled = true;
+    }
   });
 }
 
-// Event listener for table header clicks to trigger sorting
-document.querySelector('#excelData thead').addEventListener('click', (event) => {
-  if (event.target.tagName === 'TH' && event.target.hasAttribute('data-column')) {
-    const column = event.target.getAttribute('data-column');
-    const currentOrder = event.target.getAttribute('data-order') || 'asc';
+// Function to enable all sorting options
+function enableAllSortOptions() {
+  const sortingOptions = [sortingNama, sortingJenisKelamin, sortingKelurahan, sortingUsia, sortingRT, sortingRW, sortingTPS];
+  sortingOptions.forEach((option) => {
+    option.disabled = false;
+  });
+}
 
-    console.log('Sorting column:', column);
-    console.log('Current order:', currentOrder);
-
-    // Toggle the sorting order
-    const newOrder = currentOrder === 'asc' ? 'desc' : 'asc';
-    event.target.setAttribute('data-order', newOrder);
-
-    // Remove sorting indicators from other columns
-    const headers = document.querySelectorAll('table thead th');
-    headers.forEach((header) => {
-      if (header !== event.target) {
-        header.removeAttribute('data-order');
-      }
-    });
-
-    // Sort the table
-    sortTable(column, newOrder);
+// Add a change event listener to each sorting select
+sortingNama.addEventListener('change', () => {
+  if (sortingNama.value !== 'noFilter') {
+    disableOtherSortOptions(sortingNama);
+  } else {
+    enableAllSortOptions();
   }
 });
 
-// // Function to send data from #excelDataTable to the main process
-// function sendDataToUtilitas() {
-//   const table = document.querySelector('#excelDataTable');
-//   const data = [];
-  
-//   // Iterate through table rows and cells to extract data
-//   for (let i = 0; i < table.rows.length; i++) {
-//     const row = table.rows[i];
-//     const rowData = [];
-//     for (let j = 0; j < row.cells.length; j++) {
-//       rowData.push(row.cells[j].innerText);
-//     }
-//     data.push(rowData);
-//   }
+sortingJenisKelamin.addEventListener('change', () => {
+  if (sortingJenisKelamin.value !== 'noFilter') {
+    disableOtherSortOptions(sortingJenisKelamin);
+  } else {
+    enableAllSortOptions();
+  }
+});
 
-//   // Send the data to the main process via IPC
-//   ipcRenderer.send('send-data-to-utilitas', data);
-//   console.log('Data sent to Utilitas:', data); // Log the data being sent
-// }
+sortingKelurahan.addEventListener('change', () => {
+  if (sortingKelurahan.value !== 'noFilter') {
+    disableOtherSortOptions(sortingKelurahan);
+  } else {
+    enableAllSortOptions();
+  }
+});
+
+sortingUsia.addEventListener('change', () => {
+  if (sortingUsia.value !== 'noFilter') {
+    disableOtherSortOptions(sortingUsia);
+  } else {
+    enableAllSortOptions();
+  }
+});
+
+sortingRT.addEventListener('change', () => {
+  if (sortingRT.value !== 'noFilter') {
+    disableOtherSortOptions(sortingRT);
+  } else {
+    enableAllSortOptions();
+  }
+});
+
+sortingRW.addEventListener('change', () => {
+  if (sortingRW.value !== 'noFilter') {
+    disableOtherSortOptions(sortingRW);
+  } else {
+    enableAllSortOptions();
+  }
+});
+
+sortingTPS.addEventListener('change', () => {
+  if (sortingTPS.value !== 'noFilter') {
+    disableOtherSortOptions(sortingTPS);
+  } else {
+    enableAllSortOptions();
+  }
+});
+
+// Add a click event listener to the Apply Sorting button
+applySortingButton.addEventListener('click', () => {
+  // Your sorting logic here
+});

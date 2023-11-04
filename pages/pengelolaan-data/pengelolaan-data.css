@@ -55,3 +55,21 @@ body{
     text-align: start;
     background-color: none !important;
 }
+
+ /* Style for the sorting options popup */
+ .sorting-popup {
+    display: none;
+    background-color: #c80404;
+    border: 1px solid #ccc;
+    z-index: 1;
+  }
+
+  /* Style for sorting options */
+  .sorting-options {
+    padding: 10px;
+  }
+
+  /* Style for the sorting button */
+  #sortingButton {
+    cursor: pointer;
+  }
