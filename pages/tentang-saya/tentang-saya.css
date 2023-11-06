@@ -1,17 +1,42 @@
 body{
-    background-image: url('../../assets/img/features-bg.svg');
-    background-size: cover;
-}
+    background-color: #e6d7c7;
+  }
 
-.tentang-saya{
+.profil{
     background-color: #FFCC9D;
     width: 75%;
     border:1px solid black;
     border-radius: 25px;
     margin-left: auto;
     margin-right:auto;
+    padding: 20px;
 }
 
+.tentang-saya{
+    background-color: #fff;
+    width: 75%;
+    border:1px solid black;
+    margin-top: -30px;
+    border-radius: 0px 0px 25px 25px;
+    padding: 20px;
+    position: absolute;
+    z-index: -1;
+}
+
+.tentang-saya-title{
+    font-family: 'Adamina', serif;
+    font-size: 32px;
+}
+
+.title{
+    font-size: 48px;
+    font-family: 'Alegreya Sans', sans-serif;
+}
+
+.nama{
+    font-size: 32px;
+    font-family: 'Dancing Script', cursive;
+}
 #rubahPassword {
     display: none;
   }

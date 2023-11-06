@@ -4,8 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'" />
-    <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self'" />
+    <link href="https://fonts.googleapis.com/css2?family=Adamina&family=Alegreya+Sans:ital,wght@1,800&family=Dancing+Script&display=swap" rel="stylesheet">
     <title>Bawaslu Surabaya</title>
 
     <!-- Bootstrap CSS -->
@@ -16,12 +15,9 @@
 
 <body>
     <div class="container">
-        <div class="logged-in">
-            Logged in as: 
-        </div>
         <div class="row mt-3">
             <div class="col-10 d-flex justify-content-start">
-
+                <img src="../../assets/img/logo.png" alt="">
             </div>
             <div class="col-2">
                 <div class="row d-flex justify-content-end">
@@ -31,39 +27,59 @@
                     <div class="col-6 my-4">
                         <a href="#" data-bs-toggle="modal" data-bs-target="#exitMenuModal">
                             <img src="../../assets/img/close-symbol.svg" alt="">
-                          </a>
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="mb-3 text-center text-decoration-underline fw-bold">
+        <div class="title mb-3 text-center text-decoration-underline fw-bold">
             Profil Saya
         </div>
-        <div class="tentang-saya mt-5">
-            <div class="nama">
-                Dinda Rahmadanti
-            </div>
-            <div class="tentang-saya-title">
-                Tentang Saya
-            </div>
-            <div class="tentang-saya-detail">
-                Nama saya Dinda Rahmadianti. Saat ini saya sedang menempuh pendidikan S1 Program Studi Teknik
-                Informatika di Universitas 17 Agustus 1945 Surabaya. Pada saat saya sedang studi di Teknik Informatika,
-                saya telah telah menghasilkan beberapa project internal dan eksternal kampus seperti aplikasi desktop
-                Deteksi Data Ganda internal Bawaslu Kota Surabaya ini.
+        <div class="profil mt-5">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-4 text-end">
+                        <img src="../../assets/img/profil.svg" alt="">
+                    </div>
+                    <div class="col-md-6 d-flex text-start flex-column justify-content-center align-items-center">
+                        <div class="nama fw-bold text-center">
+                            Dinda Rahmadanti
+                        </div>
+                        <div class="mahasiswi text-center">
+                            Mahasiswi<br>
+                            Universitas 17 Agustus 1945 Surabaya
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+        <div class="container position-relative">
+            <div class="d-flex justify-content-center">
+                <div class="tentang-saya">
+                    <div class="tentang-saya-title mt-3">
+                        Tentang Saya
+                    </div>
+                    <div class="tentang-saya-detail ms-1">
+                        Nama saya Dinda Rahmadianti. Saat ini saya sedang menempuh pendidikan S1 Program Studi Teknik Informatika di Universitas 17 Agustus 1945 Surabaya. Pada saat saya sedang studi di Teknik Informatika, saya telah telah menghasilkan beberapa project internal dan eksternal kampus seperti aplikasi desktop Deteksi Data Ganda internal Bawaslu Kota Surabaya ini.
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+       
         <div class="modal" id="exitMenuModal">
             <div class="modal-dialog modal-dialog-centered">
-              <div class="modal-content">
-                <div class="modal-body">
-                  <h5 class="modal-title text-center mb-3">Apakah anda yakin ingin keluar dari menu ini?</h5>
-                  <div class="text-center">
-                    <button type="button" class="btn btn-secondary text-center" data-bs-dismiss="modal">Cancel</button>
-                    <a href="../home/index.html" class="btn btn-danger" id="confirmationExitMenu">Iya, Keluar</a>
-                  </div>
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <h5 class="modal-title text-center mb-3">Apakah anda yakin ingin keluar dari menu ini?</h5>
+                        <div class="text-center">
+                            <button type="button" class="btn btn-secondary text-center"
+                                data-bs-dismiss="modal">Cancel</button>
+                            <a href="../home/index.html" class="btn btn-danger" id="confirmationExitMenu">Iya,
+                                Keluar</a>
+                        </div>
+                    </div>
                 </div>
-              </div>
             </div>
         </div>
     </div>

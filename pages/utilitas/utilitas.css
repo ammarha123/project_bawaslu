@@ -1,7 +1,6 @@
 body{
-    background-image: url('../../assets/img/features-bg.svg');
-    background-size: cover;
-}
+    background-color: #e6d7c7;
+  }
 
 .utilitas-menu{
     background-color: #FFCC9D;

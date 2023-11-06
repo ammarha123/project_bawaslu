@@ -1,7 +1,6 @@
 body{
-    background-image: url('../../assets/img/features-bg.svg');
-    background-size: cover;
-}
+    background-color: #e6d7c7;
+  }
 
 .rekapitulasi{
     background-color: #ff5f2f44;
@@ -30,11 +29,6 @@ body{
 
 #rekapitulasi{
     display: none;
-}
-
-body{
-    background-image: url('../../assets/img/features-bg.svg');
-    background-size: cover;
 }
 
 .table-informasi td,
