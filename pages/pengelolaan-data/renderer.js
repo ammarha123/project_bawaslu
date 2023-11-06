@@ -16,8 +16,8 @@ const loggedInUsername = getLoggedInUsername(); // Retrieve the username
 
 if (sessionToken && loggedInUsername) {
   // User is logged in
-  const loggedInDiv = document.querySelector('.logged-in');
-  loggedInDiv.textContent = `Logged in as: ${loggedInUsername}`;
+  // const loggedInDiv = document.querySelector('.logged-in');
+  // loggedInDiv.textContent = `Logged in as: ${loggedInUsername}`;
 } else {
   // User is not logged in, handle accordingly (e.g., redirect to login)
   window.location.href = '../login/index.html';
@@ -474,6 +474,17 @@ duplicateNames.forEach((name) => {
   duplicateNamesList.appendChild(listItem);
 })
 
+// Check if there are duplicate names
+if (duplicateNames.length > 0) {
+  // If there are duplicate names, make the section visible
+  const duplicateNamesSection = document.getElementById('duplicateNamesSection');
+  duplicateNamesSection.style.display = 'block';
+} else {
+  // If there are no duplicate names, hide the section
+  const duplicateNamesSection = document.getElementById('duplicateNamesSection');
+  duplicateNamesSection.style.display = 'none';
+}
+
   // Get unique TPS values from the entire matchingRows dataset and populate the TPS dropdown
   const uniqueTPSValues = Array.from(new Set(matchingRows.map((row) => row.TPS)));
 
@@ -839,18 +850,25 @@ if (saveButton) {
 const sortingButton = document.getElementById('sortingButton');
 const sortingPopup = document.getElementById('sortingPopup');
 
-// Toggle the sorting popup when the button is clicked
 sortingButton.addEventListener('click', () => {
-  sortingPopup.style.display = 'block';
+  if (sortingPopup.style.display === 'block') {
+    // If the popup is open, close it
+    sortingPopup.style.display = 'none';
+    sortingButton.textContent = 'Open Sorting Options';
+  } else {
+    // If the popup is closed, open it
+    sortingPopup.style.display = 'block';
+    sortingButton.textContent = 'Close Sorting Options';
+  }
 });
 
-// Apply sorting when the "Apply Sorting" button is clicked
 const applySortingButton = document.getElementById('applySorting');
 applySortingButton.addEventListener('click', () => {
   // Get selected sorting options and apply sorting logic here
   // For example, you can use the values of select elements (e.g., sortNama) to sort your data
   // Hide the sorting popup
   sortingPopup.style.display = 'none';
+  sortingButton.textContent = 'Open Sorting Options';
 });
 
 // Add a click event listener to the Apply Sorting button

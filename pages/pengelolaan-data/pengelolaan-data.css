@@ -1,6 +1,5 @@
 body{
-    background-image: url('../../assets/img/features-bg.svg');
-    background-size: cover;
+  background-color: #e6d7c7;
 }
 
 .table-informasi td,
@@ -14,7 +13,6 @@ body{
     background-color: #FFCC9D;
     border: 1px solid black;
     border-radius: 20px;
-    margin: 10px auto;
 }
 
 .box{
@@ -25,12 +23,26 @@ body{
     border-radius: 20px;
 }
 
-.box-2{
-    width: 120px;
-    height: 21px;
-    background-color: #D9D9D9;
-    border: 1px solid black;
-    border-radius: 20px;
+.text-box{
+  text-align: center;
+}
+/* 
+.table th {
+  text-align: center;
+} */
+
+.box-2 {
+  min-width: 120px;
+  min-height: 21px;
+  background-color: #D9D9D9;
+  border: 1px solid black;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  display: inline-block;
+  padding: 0px 10px;
 }
 
 .menu-title{
@@ -57,19 +69,32 @@ body{
 }
 
  /* Style for the sorting options popup */
- .sorting-popup {
-    display: none;
-    background-color: #c80404;
-    border: 1px solid #ccc;
-    z-index: 1;
-  }
+.sorting-popup {
+  display: none;
+  background-color: none;
+  border: 1px solid #000000;
+  z-index: 1;
+  padding: 5px;
+}
 
-  /* Style for sorting options */
-  .sorting-options {
-    padding: 10px;
-  }
+/* Style for the sorting options */
+.sorting-options {
+  padding: 10px;
+}
 
-  /* Style for the sorting button */
-  #sortingButton {
-    cursor: pointer;
-  }
+/* Style for the labels and select options with the "sortFilter" class */
+.sortFilter {
+  width: 100%;
+  margin-bottom: 5px; /* Add spacing between labels */
+}
+
+/* Add styling for the select options inside the "sortFilter" class */
+.sortFilter select {
+  width: 100%;
+  margin-bottom: 10px; /* Add spacing between select options */
+}
+
+/* Style for the sorting button */
+#sortingButton {
+  cursor: pointer;
+}

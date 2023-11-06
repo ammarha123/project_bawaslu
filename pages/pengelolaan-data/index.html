@@ -19,7 +19,7 @@
   <div class="container">
     <div class="row mt-3">
       <div class="col-10 d-flex justify-content-start">
-
+        <img src="../../assets/img/logo.png" alt="">
       </div>
       <div class="col-2">
         <div class="row d-flex justify-content-end">
@@ -37,11 +37,8 @@
     <div class="mb-3 text-center text-decoration-underline fw-bold">
       Pengelolaan Data DPT
     </div>
-    <div class="logged-in">
-      Logged in as:
-    </div>
     <div class="row">
-      <div class="col-2">
+      <div class="col-3">
         <h5>Tahapan</h5>
         <h5>• DPT</h5>
         <div class="menu-pengelolaan">
@@ -65,8 +62,8 @@
               <img src="../../assets/img/expor-excel.svg" alt=""> Ekspor Excel
             </button>
           </div>
-          <div class="hapus-data">
-            <a href="../hapus-data/index.html" class="text-decoration-none text-dark">
+          <div class="hapus-data" id="deleteSelectedButton" data-bs-toggle="modal" data-bs-target="#myModal">
+            <a href="#" class="text-decoration-none text-dark">
               <img src="../../assets/img/delete.svg" alt="">
               Hapus Data
             </a>
@@ -75,31 +72,31 @@
       </div>
       <div class="col-2">
         <h5>Provinsi</h5>
-        <div class="box">Jawa Timur</div>
+        <div class="box"><div class="text-box">Jawa Timur</div></div>
         <h5>Kab/Kota</h5>
-        <div class="box">Surabaya</div>
-        <h5>Kecamatan</h5>
-        <div class="box">
-          <select id="kecamatanDropdown" name="kecamatan">
-            <option value="">Select Kecamatan</option>
+        <div class="box"><div class="text-box">Surabaya</div></div>
+        <h5 class="">Kecamatan</h5>
+        <div class="">
+          <select id="kecamatanDropdown" class="form-select-sm" name="kecamatan">
+            <option value="">Kecamatan</option>
           </select>
         </div>
         <h5>Desa/Kel</h5>
-        <div class="box">
-          <select id="desaDropdown" name="desa">
+        <div class="">
+          <select id="desaDropdown" class="form-select-sm" name="desa">
             <option value="">Select Desa/Kel</option>
             <!-- Add options for Desa/Kel here -->
           </select>
         </div>
         <h5>TPS</h5>
-        <div class="box">
-          <select id="TPSDropdown" name="desa">
+        <div class="">
+          <select id="TPSDropdown" class="form-select-sm" name="desa">
             <option value="">Select TPS</option>
             <!-- Add options for Desa/Kel here -->
           </select>
         </div>
       </div>
-      <div class="col-8">
+      <div class="col-7">
         <h5 class="text-center">Informasi Jumlah</h5>
         <div class="menu-pengelolaan">
           <table class="table table-informasi table-borderless table-striped">
@@ -161,61 +158,72 @@
         <option value="TPS">TPS</option>
       </select>
     </div>
-    <div id="sortingPopup" class="sorting-popup mb-3">
-      <!-- Sorting Options -->
-      <label for="sortingNama">Sort Nama:</label>
-      <select id="sortingNama">
-        <option value="noFilter">Select Filter</option>
-        <option value="asc">A-Z</option>
-        <option value="desc">Z-A</option>
-      </select>
-    
-      <label for="sortingJenisKelamin">Sort Jenis Kelamin:</label>
-      <select id="sortingJenisKelamin">
-        <option value="noFilter">Select Filter</option>
-        <option value="asc">A-Z</option>
-        <option value="desc">Z-A</option>
-      </select>
-    
-      <label for="sortingKelurahan">Sort Kelurahan:</label>
-      <select id="sortingKelurahan">
-        <option value="noFilter">Select Filter</option>
-        <option value="asc">A-Z</option>
-        <option value="desc">Z-A</option>
-      </select>
-    
-      <label for="sortingUsia">Sort Usia:</label>
-      <select id="sortingUsia">
-        <option value="noFilter">Select Filter</option>
-        <option value="asc">Dari Terendah</option>
-        <option value="desc">Dari Teratas</option>
-      </select>
-    
-      <label for="sortingRT">Sort RT:</label>
-      <select id="sortingRT">
-        <option value="noFilter">Select Filter</option>
-        <option value="asc">Dari Terendah</option>
-        <option value="desc">Dari Teratas</option>
-      </select>
-    
-      <label for="sortingRW">Sort RW:</label>
-      <select id="sortingRW">
-        <option value="noFilter">Select Filter</option>
-        <option value="asc">Dari Terendah</option>
-        <option value="desc">Dari Teratas</option>
-      </select>
-    
-      <label for="sortingTPS">Sort TPS:</label>
-      <select id="sortingTPS">
-        <option value="noFilter">Select Filter</option>
-        <option value="asc">Dari Terendah</option>
-        <option value="desc">Dari Teratas</option>
-      </select>
-
-      <button id="applySorting">Apply Sorting</button>
+    <div id="sortingPopup" class="sorting-popup my-3">
+      <div class="row">
+        <div class="col-4">
+          <label for="sortingNama" class="sortFilter">Sort Nama:</label>
+          <select id="sortingNama" class="sortFilter">
+              <option value="noFilter">Select Filter</option>
+              <option value="asc">A-Z</option>
+              <option value="desc">Z-A</option>
+          </select>
+      </div>
+        <div class="col-4">
+          <label for="sortingJenisKelamin" class="sortFilter">Sort Jenis Kelamin:</label>
+          <select id="sortingJenisKelamin" class="sortFilter">
+            <option value="noFilter">Select Filter</option>
+            <option value="asc">A-Z</option>
+            <option value="desc">Z-A</option>
+          </select>
+        </div>
+        <div class="col-4">
+          <label for="sortingKelurahan" class="sortFilter">Sort Kelurahan:</label>
+          <select id="sortingKelurahan" class="sortFilter">
+            <option value="noFilter">Select Filter</option>
+            <option value="asc">A-Z</option>
+            <option value="desc">Z-A</option>
+          </select>
+        </div>
+        <div class="col-4">
+          <label for="sortingUsia" class="sortFilter">Sort Usia:</label>
+          <select id="sortingUsia" class="sortFilter">
+            <option value="noFilter">Select Filter</option>
+            <option value="asc">Dari Terendah</option>
+            <option value="desc">Dari Teratas</option>
+          </select>
+        </div>
+        <div class="col-4">
+          <label for="sortingRT" class="sortFilter">Sort RT:</label>
+          <select id="sortingRT" class="sortFilter">
+            <option value="noFilter">Select Filter</option>
+            <option value="asc">Dari Terendah</option>
+            <option value="desc">Dari Teratas</option>
+          </select>
+        </div>
+        <div class="col-4">
+          <label for="sortingRW" class="sortFilter">Sort RW:</label>
+          <select id="sortingRW" class="sortFilter">
+            <option value="noFilter">Select Filter</option>
+            <option value="asc">Dari Terendah</option>
+            <option value="desc">Dari Teratas</option>
+          </select>
+        </div>
+        <div class="col-4">
+          <label for="sortingTPS" class="sortFilter">Sort TPS:</label>
+          <select id="sortingTPS" class="sortFilter">
+            <option value="noFilter">Select Filter</option>
+            <option value="asc">Dari Terendah</option>
+            <option value="desc">Dari Teratas</option>
+          </select>
+        </div>
+      </div>
+      <div class="text-center">
+        <button id="applySorting" class="btn btn-success mt-3">Apply Sorting</button>
+      </div>
     </div>
      <!-- Sorting Button -->
-    <button id="sortingButton">Open Sorting Options</button>
+     <div class="text-end"> <button class="btn btn-dark mt-3" id="sortingButton">Open Sorting Options</button></div>
+   
 
     <div id="duplicateNamesSection">
       <h5>Duplicate Names</h5>
@@ -252,7 +260,7 @@
       <button id="nextPage">Next</button>
     </div>    
     <div class="modal" id="myModal">
-      <div class="modal-dialog">
+      <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title">Confirmation</h5>
