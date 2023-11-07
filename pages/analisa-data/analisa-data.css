@@ -11,13 +11,18 @@ body{
     margin-left: auto;
 }
 
-.sort-data{
+.sort-data {
     background-color: #FFCC9D;
     border: 1px solid black;
     border-radius: 20px;
     width: fit-content;
     padding: 5px 20px;
+    margin-left: auto; /* Add this line */
 }
+
+.text-box{
+    text-align: center;
+  }
 
 .box{
     width: 120px;
@@ -36,6 +41,16 @@ body{
     background-color: transparent !important;
   }
 
+.kategori-selected{
+    font-size: 24px;
+    font-family: 'Alegreya Sans', sans-serif;
+}  
+
+.title{
+    font-size: 48px;
+    font-family: 'Alegreya Sans', sans-serif;
+}
+
 .menu-pengelolaan{
     width: fit-content;
     padding: 10px;
@@ -53,13 +68,27 @@ body{
     border-radius: 20px;
 }
 
-.box-2{
+.box-3{
     width: 120px;
     height: 21px;
     background-color: #D9D9D9;
     border: 1px solid black;
     border-radius: 20px;
 }
+
+.box-2 {
+    min-width: 120px;
+    min-height: 21px;
+    background-color: #D9D9D9;
+    border: 1px solid black;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    display: inline-block;
+    padding: 0px 10px;
+  }
 
 .menu-title{
     font-size: 20px;

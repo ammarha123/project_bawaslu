@@ -4,8 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'" />
-  <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self'" />
+  <link href="https://fonts.googleapis.com/css2?family=Alegreya+Sans:ital,wght@1,800&display=swap" rel="stylesheet">
   <title>Bawaslu Surabaya</title>
 
   <!-- Bootstrap CSS -->
@@ -48,37 +47,37 @@
         </div>
       </div>
     </div>
-    <div class="mb-3 text-center text-decoration-underline fw-bold">
+    <div class="mb-3 title text-center text-decoration-underline fw-bold">
       Analisa Data Pemilih
     </div>
-    <div class="rekapitulasi mt-5">
+    <div class="rekapitulasi mt-2 mb-5">
       <a id="rekapitulasiLink" href="../rekapitulasi/index.html" class="text-decoration-none text-dark">
         <img src="../../assets/img/rekapitulasi-analisa.svg" alt=""> Rekapitulasi Analisa
       </a>
     </div>
     <div class="row">
-      <div class="col">
-        <div class="sort-data mt-5">
+      <div class="col-5">
+        <div class="sort-data">
           <h5 class="mt-2">Provinsi</h5>
-          <div class="box">Jawa Timur</div>
+          <div class="box"><div class="text-box">Jawa Timur</div></div>
           <h5>Kab/Kota</h5>
-          <div class="box">Surabaya</div>
+          <div class="box"><div class="text-box">Surabaya</div></div>
           <h5>Kecamatan</h5>
-          <div class="box">
-            <select id="kecamatanDropdown" name="kecamatan">
-              <option value="">Select Kecamatan</option>
+          <div class="">
+            <select id="kecamatanDropdown" class="form-select-sm" name="kecamatan">
+              <option value="">Kecamatan</option>
             </select>
           </div>
           <h5>Desa/Kel</h5>
-          <div class="box">
-            <select id="desaDropdown" name="desa">
+          <div class="">
+            <select id="desaDropdown" class="form-select-sm mb-3" name="desa">
               <option value="">Select Desa/Kel</option>
               <!-- Add options for Desa/Kel here -->
             </select>
           </div>
         </div>
       </div>
-      <div class="col">
+      <div class="col ms-5">
         <h2>Kategori Ganda</h2>
         <div class="form-check">
           <input class="form-check-input" type="checkbox" id="namaCheckbox" data-column="Nama" disabled>
@@ -115,7 +114,7 @@
   <div class="container" id="rekapitulasi">
     <div class="row mt-3">
       <div class="col-10 d-flex justify-content-start">
-
+        <img src="../../assets/img/logo.png" alt="">
       </div>
       <div class="col-2">
         <div class="row d-flex justify-content-end">
@@ -130,10 +129,10 @@
         </div>
       </div>
     </div>
-    <div class="mb-3 text-center text-decoration-underline fw-bold">
+    <div class="mb-3 kategori-selected text-center text-decoration-underline fw-bold">
       Nama dan Jenis Kelamin
     </div>
-    <h5 class="text-center">Informasi Jumlah</h5>
+    <h5 class="text-center title">Informasi Jumlah</h5>
     <div class="menu-pengelolaan">
       <table class="table table-informasi table-borderless table-striped">
         <thead>
@@ -170,7 +169,7 @@
         </thead>
       </table>
     </div>
-    <table class="table table-bordered mt-5">
+    <table class="table table-hover table-bordered mt-5">
       <thead>
         <tr>
           <th scope="col">No.</th>
@@ -187,6 +186,18 @@
         <!-- Excel data will be displayed here -->
       </tbody>
     </table>
+    <div id="pagination" class="mb-3">
+      <label for="rowsPerPage">Rows per page:</label>
+      <select id="rowsPerPage">
+        <option value="10">10</option>
+        <option value="25">25</option>
+        <option value="50">50</option>
+        <option value="100">100</option>
+      </select>
+      <button id="prevPage">Previous</button>
+      <span id="pageNumbers">Page 1 of 1</span>
+      <button id="nextPage">Next</button>
+    </div>    
   </div>
   <script type="text/javascript" src="../../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
   <script src="renderer.js"></script>
