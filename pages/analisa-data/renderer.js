@@ -263,7 +263,7 @@ const getExcelDataByDesa = (selectedDesa) => {
             const sheet = workbook.Sheets[sheetName];
 
             // Parse the sheet into an array of objects
-const excelData = XLSX.utils.sheet_to_json(sheet, { header: ['No.', 'Nama', 'Jenis Kelamin', 'Usia', 'Kelurahan', 'RT', 'RW', 'TPS'] }); // Define headers to match your data
+const excelData = XLSX.utils.sheet_to_json(sheet, { header: ['No.', 'Nama', 'Jenis Kelamin', 'Usia', 'Kecamatan', 'Kelurahan', 'RT', 'RW', 'TPS'] }); // Define headers to match your data
 
 // Filter and display the Excel data where the Kelurahan/Desa matches the selected data
 const selectedDesa = document.getElementById('desaDropdown').value; // Get the selected Desa/Kel value
@@ -310,6 +310,7 @@ const columnCheckboxes = {
   Nama: document.getElementById('namaCheckbox'),
   'Jenis Kelamin': document.getElementById('jeniskelaminCheckbox'),
   'Usia': document.getElementById('usiaCheckbox'),
+  'Kecamatan': document.getElementById('kecamatanCheckbox'),
   'Kelurahan': document.getElementById('kelurahanCheckbox'),
   'RT': document.getElementById('rtCheckbox'),
   'RW': document.getElementById('rwCheckbox'),
@@ -396,6 +397,7 @@ function displayExcelData(data, pageNumber) {
       <td data-column="Nama" class="not-selected">${row.Nama}</td>
       <td data-column="Jenis Kelamin" class="not-selected">${row['Jenis Kelamin']}</td>
       <td data-column="Usia" class="not-selected">${row.Usia}</td>
+      <td data-column="Kecamatan" class="not-selected">${row.Kecamatan}</td>
       <td data-column="Kelurahan" class="not-selected">${row.Kelurahan}</td>
       <td data-column="RT" class="not-selected">${row.RT}</td>
       <td data-column="RW" class="not-selected">${row.RW}</td>
@@ -444,6 +446,7 @@ const duplicateNames = [];
      <td data-column="Nama" class="not-selected">${row.Nama}</td>
      <td data-column="Jenis Kelamin" class="not-selected">${row['Jenis Kelamin']}</td>
      <td data-column="Usia" class="not-selected">${row.Usia}</td>
+     <td data-column="Kecamatan" class="not-selected">${row.Kecamatan}</td>
      <td data-column="Kelurahan" class="not-selected">${row.Kelurahan}</td>
      <td data-column="RT" class="not-selected">${row.RT}</td>
      <td data-column="RW" class="not-selected">${row.RW}</td>
