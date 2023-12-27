@@ -292,45 +292,43 @@ document.getElementById('desaDropdown').addEventListener('change', () => {
       filePath = `../../database/${fileRow.file}`;
 
       // Fetch and load the Excel file
-      fetch(filePath)
-        .then((response) => response.blob()) // Get the Excel file as a blob
-        .then((blob) => {
-          const reader = new FileReader();
-          reader.onload = (e) => {
-            const data = e.target.result;
-            const workbook = XLSX.read(data, { type: 'binary' });
+fetch(filePath)
+  .then((response) => response.blob()) // Get the Excel file as a blob
+  .then((blob) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const data = e.target.result;
+      const workbook = XLSX.read(data, { type: 'binary' });
 
-            // Assuming you have only one sheet in the Excel file
-            const sheetName = workbook.SheetNames[0];
-            const sheet = workbook.Sheets[sheetName];
+      // Assuming you have only one sheet in the Excel file
+      const sheetName = workbook.SheetNames[0];
+      const sheet = workbook.Sheets[sheetName];
 
-            // Parse the sheet into an array of objects
-const excelData = XLSX.utils.sheet_to_json(sheet, { header: ['No.', 'Nama', 'Jenis Kelamin', 'Usia', 'Kelurahan', 'RT', 'RW', 'TPS'] }); // Define headers to match your data
+      // Parse the sheet into an array of objects
+      const excelData = XLSX.utils.sheet_to_json(sheet, { header: ['No.', 'Nama', 'Jenis Kelamin', 'Kecamatan', 'Usia', 'Kelurahan', 'RT', 'RW', 'TPS'] }); // Define headers to match your data
 
-// Filter and display the Excel data where the Kelurahan/Desa matches the selected data
-const selectedDesa = document.getElementById('desaDropdown').value; // Get the selected Desa/Kel value
+      // Filter and display the Excel data where the Kelurahan/Desa matches the selected data
+      const selectedDesa = document.getElementById('desaDropdown').value; // Get the selected Desa/Kel value
+      const filteredExcelData = excelData.filter((row) => {
+        // Assuming 'Kelurahan' is the actual column name for Kelurahan/Desa
+      const kelurahanDesa = row['Kelurahan']; // Replace with the correct column name
 
-filteredExcelData = excelData.filter((row) => {
-  // Assuming 'Kelurahan' is the actual column name for Kelurahan/Desa
-  const kelurahanDesa = row['Kelurahan']; // Replace with the correct column name
+      // Ensure the Kelurahan/Desa value is a string, and trim it
+      return typeof kelurahanDesa === 'string' && kelurahanDesa.trim() === selectedDesa.trim();
+      });
 
-  // Ensure the Kelurahan/Desa value exists and trim it
-  return kelurahanDesa && kelurahanDesa.trim() === selectedDesa.trim();
-});
+      // Display the filtered Excel data in your HTML table
+      displayExcelData(filteredExcelData, currentPage);
+      updateTableAndDropdown();
+      console.log("selected: ", filePath);
+    };
 
-// Display the filtered Excel data in your HTML table
-displayExcelData(filteredExcelData, currentPage);
-updateTableAndDropdown();
-console.log("selected: ", filePath )
-
-          };
-
-          // Read the blob as binary data
-          reader.readAsBinaryString(blob);
-        })
-        .catch((error) => {
-          console.error('Error reading Excel file:', error);
-        });
+    // Read the blob as binary data
+    reader.readAsBinaryString(blob);
+  })
+  .catch((error) => {
+    console.error('Error reading Excel file:', error);
+  });
     } else {
       console.error('File path not found for selected Kecamatan');
     }
@@ -372,6 +370,7 @@ function displayExcelData(data, pageNumber) {
       <td>${row.Nama}</td>
       <td>${row['Jenis Kelamin']}</td>
       <td>${row.Usia}</td>
+      <td>${row.Kecamatan}</td>
       <td>${row.Kelurahan}</td>
       <td>${row.RT}</td>
       <td>${row.RW}</td>
@@ -409,6 +408,8 @@ function displayExcelData(data, pageNumber) {
   updatePaginationUI(pageNumber, matchingRows.length);
 }
 
+
+
 // Function to update the pagination UI
 function updatePaginationUI(currentPage, totalRows) {
   const totalPages = Math.ceil(totalRows / rowsPerPage);
@@ -440,7 +441,8 @@ const duplicateNames = [];
       <td>${continuousIndex}</td>
       <td>${row.Nama}</td>
       <td>${row['Jenis Kelamin']}</td>
-      <td>${row.Usia}</td>
+      <td>${row['Kecamatan']}</td>
+      <td>${row['Usia']}</td>
       <td>${row.Kelurahan}</td>
       <td>${row.RT}</td>
       <td>${row.RW}</td>
@@ -674,14 +676,14 @@ function generatePDF(matchingRows) {
   const doc = new jsPDF();
 
   // Define the columns for the PDF
-  const columns = ['No.', 'Nama', 'Jenis Kelamin', 'Usia', 'Kelurahan', 'RT', 'RW', 'TPS'];
+  const columns = ['No.', 'Nama', 'Jenis Kelamin', 'Usia', ,'Kecamatan', 'Kelurahan', 'RT', 'RW', 'TPS'];
 
   // Create an empty array to store the data for the PDF
   const data = [];
 
   // Add each row from matchingRows to the data array
   matchingRows.forEach((row, index) => {
-    data.push([index + 1, row.Nama, row['Jenis Kelamin'], row.Usia, row.Kelurahan, row.RT, row.RW, row.TPS]);
+    data.push([index + 1, row.Nama, row['Jenis Kelamin'], row.Usia, row.Kecamatan, row.Kelurahan, row.RT, row.RW, row.TPS]);
   });
 
   // Set the position for the table (you can adjust these values)
@@ -723,6 +725,7 @@ const exportToExcel = () => {
     'Nama',
     'Jenis Kelamin',
     'Usia',
+    'Kecamatan',
     'Kelurahan',
     'RT',
     'RW',
@@ -784,6 +787,7 @@ const saveToExcel = () => {
     'Nama',
     'Jenis Kelamin',
     'Usia',
+    'Kecamatan',
     'Kelurahan',
     'RT',
     'RW',
