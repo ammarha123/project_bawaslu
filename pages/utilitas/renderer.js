@@ -177,7 +177,7 @@ const changePassword = (event) => {
         clearInput();
       } else {
         // Old password not found or no change occurred
-        messageDiv.innerHTML = '<div class="alert alert-danger">Old password not found or no change occurred. Please check your old password.</div>';
+        messageDiv.innerHTML = '<div class="alert alert-danger">Old password wrong. Please check your old password.</div>';
         clearInput();
       }
     });
@@ -188,3 +188,59 @@ const changePassword = (event) => {
 
 // Attach the changePassword function to the form's submit event
 document.getElementById('passwordChangeForm').addEventListener('submit', changePassword);
+
+// Function to handle the verification code change request
+const changeVerificationCode = (event) => {
+  event.preventDefault(); // Prevent the form from submitting via the default behavior
+  const oldVerificationCode = document.getElementById('oldVerificationCode').value;
+  const retypeOldVerificationCode = document.getElementById('retypeOldVerificationCode').value;
+  const newVerificationCode = document.getElementById('newVerificationCode').value;
+  const retypeNewVerificationCode = document.getElementById('retypeNewVerificationCode').value;
+  const messageDiv = document.getElementById('message2'); // Get the message div
+
+  // Clear any previous messages
+  messageDiv.innerHTML = '';
+
+  function clearInput() {
+    document.getElementById('oldVerificationCode').value = '';
+    document.getElementById('retypeOldVerificationCode').value = '';
+    document.getElementById('newVerificationCode').value = '';
+    document.getElementById('retypeNewVerificationCode').value = '';
+  }
+
+  // Continue with the verification code change logic
+  if (newVerificationCode !== retypeNewVerificationCode || oldVerificationCode !== retypeOldVerificationCode) {
+    // Verification codes do not match
+    messageDiv.innerHTML = '<div class="alert alert-danger">Verification codes do not match.</div>';
+    clearInput();
+    return;
+  }
+
+  // Query to update the verification code in the database
+  const updateVerificationCodeQuery = 'UPDATE kode_verifikasi SET kode = ? WHERE kode = ?';
+
+  // Execute the query to update the verification code
+  dbConnection.query(updateVerificationCodeQuery, [newVerificationCode, oldVerificationCode], (updateErr, updateResults) => {
+    if (updateErr) {
+      console.error('Error executing updateVerificationCodeQuery:', updateErr);
+      messageDiv.innerHTML = '<div class="alert alert-danger">Internal server error</div>';
+      return;
+    }
+
+    if (updateResults.affectedRows === 1) {
+      // Verification code change successful
+      messageDiv.innerHTML = '<div class="alert alert-success">Verification code change successful.</div>';
+
+      // Clear input fields
+      clearInput();
+    } else {
+      // Old verification code not found or no change occurred
+      messageDiv.innerHTML = '<div class="alert alert-danger">Old verification code wrong. Please check your old verification code.</div>';
+      clearInput();
+    }
+  });
+};
+
+// Attach the changeVerificationCode function to the form's submit event
+document.getElementById('verificationCodeChangeForm').addEventListener('submit', changeVerificationCode);
+

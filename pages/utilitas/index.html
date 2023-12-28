@@ -104,7 +104,7 @@
               Ubah Verifikasi
             </div>
             <h5>User</h5>
-            <form action="">
+            <form action="" id="verificationCodeChangeForm">
               <div class="form-group">
                 <label for="oldVerificationCode">Kode Verifikasi Lama</label>
                 <input type="text" name="oldVerificationCode" id="oldVerificationCode" placeholder="Masukkan Kode Verifikasi Lama">
@@ -121,8 +121,9 @@
                 <label for="retypeNewVerificationCode">Ketik Ulang</label>
                 <input type="text" name="retypeNewVerificationCode" id="retypeNewVerificationCode" placeholder="Ketik Ulang Kode Verifikasi Baru">
               </div>
+              <div id="message2" class="mx-2"></div> <!-- Display login messages here -->   
               <button type="submit">Submit</button>
-            </form>            
+            </form>        
           </div>
         </div>
         
