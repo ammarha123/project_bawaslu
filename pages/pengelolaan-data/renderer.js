@@ -510,45 +510,63 @@ deleteButton.addEventListener('click', () => {
   // Get the entered verification code
   const enteredCode = verificationInput.value;
 
-  // Replace 'YOUR_VERIFICATION_CODE' with the actual verification code you want to use
-  const expectedCode = 'delete';
+  // Query to fetch the verification code from the database
+  const verificationQuery = 'SELECT kode FROM kode_verifikasi LIMIT 1';
 
-  if (enteredCode === expectedCode) {
-    // Delete selected rows from matchingRows
-    const selectedIndices = Array.from(selectedRows);
-    selectedIndices.sort((a, b) => b - a);
+  // Execute the query to fetch the verification code
+  dbConnection.query(verificationQuery, (verificationErr, verificationResults) => {
+    if (verificationErr) {
+      console.error('Error executing verification query:', verificationErr);
+      messageDiv.innerHTML = '<div class="alert alert-danger">Internal server error</div>';
+      return;
+    }
 
-    // Remove the deleted rows from the matchingRows array
-    selectedIndices.forEach((index) => {
-      matchingRows.splice(index, 1);
-      selectedRows.delete(index);
-    });
+    if (verificationResults.length > 0) {
+      const expectedCode = verificationResults[0].kode;
 
-    // Rebuild the entire table to reflect the changes
-    displayExcelData(matchingRows, currentPage);
+      // Check if the entered verification code matches the expected code
+      if (enteredCode === expectedCode) {
+        // Continue with the delete logic...
+        // Delete selected rows from matchingRows
+        const selectedIndices = Array.from(selectedRows);
+        selectedIndices.sort((a, b) => b - a);
 
-    // Update the session storage with the modified data
-    saveDataToSessionStorage(matchingRows);
+        // Remove the deleted rows from the matchingRows array
+        selectedIndices.forEach((index) => {
+          matchingRows.splice(index, 1);
+          selectedRows.delete(index);
+        });
 
-    $('#myModal').modal('hide');
+        // Rebuild the entire table to reflect the changes
+        displayExcelData(matchingRows, currentPage);
 
-    // After deleting rows, update row styles
-    updateRowStyles();
+        // Update the session storage with the modified data
+        saveDataToSessionStorage(matchingRows);
 
-    // Update the counts based on the modified matchingRows
-    updateCounts();
+        $('#myModal').modal('hide');
 
-    updateTable();
+        // After deleting rows, update row styles
+        updateRowStyles();
 
-    // Clear the error message and verification input field
-    messageDiv.textContent = '';
-    verificationInput.value = '';
-  } else {
-    // Display an error message in the 'messageDiv'
-    messageDiv.textContent = 'Incorrect verification code. Please try again.';
-    verificationInput.value = ''; // Clear the input field
-  }
+        // Update the counts based on the modified matchingRows
+        updateCounts();
+
+        updateTable();
+
+        // Clear the error message and verification input field
+        messageDiv.textContent = '';
+        verificationInput.value = '';
+      } else {
+        // Display an error message in the 'messageDiv'
+        messageDiv.textContent = 'Incorrect verification code. Please try again.';
+        verificationInput.value = ''; // Clear the input field
+      }
+    } else {
+      messageDiv.innerHTML = '<div class="alert alert-danger">Verification code not found</div>';
+    }
+  });
 });
+
 
 // Event listener for the "Rows per page" select element
 const rowsPerPageSelect = document.getElementById('rowsPerPage');
