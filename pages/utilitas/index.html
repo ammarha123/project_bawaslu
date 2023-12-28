@@ -39,7 +39,7 @@
     <div class="mb-3 text-center text-decoration-underline fw-bold">
       Pilihan Proses Utilitas
     </div>
-    <div class="utilitas-menu mt-5">
+    <div class="utilitas-menu my-5">
       <div class="container mt-3">
         <!-- Conditionally display this block only for "super-admin" -->
         <div id="adminOptions">
@@ -48,7 +48,6 @@
             <label class="form-check-label" for="rubahPasswordRadio">Rubah Password dan Kode Verifikasi</label>
             <p class="text-muted">Berfungsi untuk melakukan perubahan password dan kode verifikasi. Sedangkan Username tidak dapat dirubah, sesuai dengan wilayah tingkat user.</p>
           </div>
-        </div>
           <div class="form-check">
             <input class="form-check-input" type="radio" name="radio" id="backUpRadio" value="backUp">
             <label class="form-check-label" for="backUpRadio">Back Up</label>
@@ -59,38 +58,36 @@
             <label class="form-check-label" for="restoreFileRadio">Restore FIle</label>
             <p class="text-muted">Berfungsi memproses seluruh file termasuk analisa yang ada didalamnya. Mencegah kehilangan data penting.</p>
           </div>
+        </div>
       </div>      
-
       <div id="rubahPassword">
-        <div class="rubahPassword-desc">
+        <div class="rubah-password-title text-center fw-bold mb-3">Rubah Password dan kode verifikasi</div>
+        <div class="rubahPassword-desc mb-1">
           Menu password dan kode verifikasi digunakan untuk merubah password dan kode verifikasi bawaan dari aplikasi.
           Selanjutnya password dan kode verifikasi tersebut diperlukan pada saat melakukan penghapusan data dengan
           tujuan agar penghapusan tersebut benar-benar dilakukan oleh pihak yang berwenang melakukannya. Yang perlu
           diperhatikan adalah password dan kode verifikasi maksimal berisi 25 karakter
         </div>
-        <div class="row">
+        <div class="row p-3">
           <div class="col-6">
-            <div class="ubah-password">
+            <div class="ubah-password fw-bold">
               Ubah Password
             </div>
-            <h5>User</h5>
+            <div class="mb-3">User</div>
             <form id="passwordChangeForm">
               <!-- Your form fields go here -->
               <div class="form-group">
                 <label for="oldPassword">Password Lama</label>
                 <input type="password" name="oldPassword" id="oldPassword" placeholder="Masukkan Password Lama">
               </div>
-            
               <div class="form-group">
                 <label for="retypeOldPassword">Ketik Ulang</label>
                 <input type="password" name="retypeOldPassword" id="retypeOldPassword" placeholder="Ketik Ulang Password Lama">
               </div>
-            
               <div class="form-group">
                 <label for="newPassword">Password Baru</label>
                 <input type="password" name="newPassword" id="newPassword" placeholder="Masukkan Password Baru">
               </div>
-            
               <div class="form-group">
                 <label for="retypeNewPassword">Ketik Ulang</label>
                 <input type="password" name="retypeNewPassword" id="retypeNewPassword" placeholder="Ketik Ulang Password Baru">
@@ -100,10 +97,10 @@
             </form>            
           </div>
           <div class="col-6">
-            <div class="ubah-verifikasi">
+            <div class="ubah-verifikasi fw-bold">
               Ubah Verifikasi
             </div>
-            <h5>User</h5>
+            <div class="mb-3">User</div>
             <form action="" id="verificationCodeChangeForm">
               <div class="form-group">
                 <label for="oldVerificationCode">Kode Verifikasi Lama</label>
@@ -126,8 +123,7 @@
             </form>        
           </div>
         </div>
-        
-        
+        <button class="back-button button btn btn-warning" id="backButton">Back</button>
       </div>
     </div>
     <div class="modal" id="exitMenuModal">

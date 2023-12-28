@@ -244,3 +244,32 @@ const changeVerificationCode = (event) => {
 // Attach the changeVerificationCode function to the form's submit event
 document.getElementById('verificationCodeChangeForm').addEventListener('submit', changeVerificationCode);
 
+// Handle the radio button change event
+document.querySelectorAll('input[type="radio"][name="radio"]').forEach(e => {
+  e.addEventListener('change', function() {
+    const rubahPassword = document.getElementById('rubahPassword');
+    const adminOptions = document.getElementById('adminOptions');
+
+    if (this.value === "rubahPassword") {
+      rubahPassword.style.display = "block";
+      adminOptions.style.display = "none";
+    } else {
+      rubahPassword.style.display = "none";
+      adminOptions.style.display = "block";
+    }
+  });
+});
+
+// Handle the button click event
+document.getElementById('backButton').addEventListener('click', function () {
+  const rubahPassword = document.getElementById('rubahPassword');
+  const adminOptions = document.getElementById('adminOptions');
+
+  // Unselect the radio button
+  document.querySelectorAll('input[type="radio"][name="radio"]').forEach(e => e.checked = false);
+
+  // Toggle the display
+  rubahPassword.style.display = rubahPassword.style.display === 'none' ? 'block' : 'none';
+  adminOptions.style.display = adminOptions.style.display === 'none' ? 'block' : 'none';
+});
+

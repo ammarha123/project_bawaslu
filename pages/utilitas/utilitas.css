@@ -49,3 +49,8 @@ button {
 button:hover {
   background-color: #45a049;
 }
+
+.rubah-password-title{
+    font-size: 24px;
+    font-family: 'Alegreya Sans', sans-serif; 
+}
