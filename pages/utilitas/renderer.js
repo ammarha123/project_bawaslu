@@ -1,3 +1,5 @@
+const dbConnection = require('../../database'); // Adjust the path based on your project structure
+
 // Assuming you have the xlsx library already imported in your code
 const ExcelJS = require('exceljs');
 const fs = require('fs');
@@ -66,44 +68,6 @@ if (displayedData) {
   console.log('No data found in session storage in Utilitas');
 }
 
-// // Function to save data to an Excel file
-// function saveDataToExcel(data) {
-//   const workbook = new ExcelJS.Workbook();
-//   const worksheet = workbook.addWorksheet('Data');
-  
-//   const headerRow = [
-//     'No.',
-//     'Nama',
-//     'Jenis Kelamin',
-//     'Usia',
-//     'Kelurahan',
-//     'RT',
-//     'RW',
-//     'TPS'
-//   ];
-//   // Assuming 'data' is an array of objects, adjust this part based on your data structure
-//   data.forEach((item, index) => {
-//     worksheet.addRow([index + 1, item.field1, item.field2, item.field3]);
-//   });
-
-//   outputPath.addRow(headerRow);
-
-//   // Create unique filenames for the Excel files
-//   const now = Date.now();
-//   const editedFileName = `edited_data_${now}.xlsx`;
-
-//   // Specify the paths where the Excel files will be saved
-//   const outputPath = path.join(__dirname, '../../backup', editedFileName);
-//   // Write the Excel file
-//   workbook.xlsx.writeFile(outputPath)
-//     .then(() => {
-//       console.log(`Data saved to Excel: ${outputPath}`);
-//     })
-//     .catch((error) => {
-//       console.error('Error saving data to Excel:', error);
-//     });
-// }
-
 // Define the header row for your Excel file
 const headerRow = [
   'No.',
@@ -164,4 +128,63 @@ document.getElementById('backUpRadio').addEventListener('change', async () => {
   }
 });
 
+// Function to handle the password change request
+const changePassword = (event) => {
+  event.preventDefault(); // Prevent the form from submitting via the default behavior
+  const oldPassword = document.getElementById('oldPassword').value;
+  const retypeOldPassword = document.getElementById('retypeOldPassword').value;
+  const newPassword = document.getElementById('newPassword').value;
+  const retypeNewPassword = document.getElementById('retypeNewPassword').value;
+  const loggedInUsername = getLoggedInUsername(); // Retrieve the username
+  const messageDiv = document.getElementById('message'); // Get the message div
 
+  // Clear any previous messages
+  messageDiv.innerHTML = '';
+
+  function clearInput() {
+    document.getElementById('oldPassword').value = '';
+    document.getElementById('retypeOldPassword').value = '';
+    document.getElementById('newPassword').value = '';
+    document.getElementById('retypeNewPassword').value = '';
+  }
+
+  // Check if the logged-in user is attempting to change their own password
+  if (loggedInUsername) {
+    // Continue with the password change logic
+    if (newPassword !== retypeNewPassword || oldPassword !== retypeOldPassword) {
+      // Passwords do not match
+      messageDiv.innerHTML = '<div class="alert alert-danger">Passwords do not match.</div>';
+      clearInput();
+      return;
+    }
+
+    // Query to update the password in the database
+    const query = 'UPDATE account SET password = ? WHERE username = ? AND password = ?';
+
+    // Execute the query to update the password
+    dbConnection.query(query, [newPassword, loggedInUsername, oldPassword], (err, results) => {
+      if (err) {
+        console.error('Error executing query:', err);
+        messageDiv.innerHTML = '<div class="alert alert-danger">Internal server error</div>';
+        return;
+      }
+
+      if (results.affectedRows === 1) {
+        // Password change successful
+        messageDiv.innerHTML = '<div class="alert alert-success">Password change successful. You can now log in with your new password.</div>';
+
+        // Clear input fields
+        clearInput();
+      } else {
+        // Old password not found or no change occurred
+        messageDiv.innerHTML = '<div class="alert alert-danger">Old password not found or no change occurred. Please check your old password.</div>';
+        clearInput();
+      }
+    });
+  } else {
+    console.error('No user is logged in.');
+  }
+};
+
+// Attach the changePassword function to the form's submit event
+document.getElementById('passwordChangeForm').addEventListener('submit', changePassword);
