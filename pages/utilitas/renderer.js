@@ -1,3 +1,4 @@
+const { create } = require('domain');
 const dbConnection = require('../../database'); // Adjust the path based on your project structure
 
 // Assuming you have the xlsx library already imported in your code
@@ -244,21 +245,83 @@ const changeVerificationCode = (event) => {
 // Attach the changeVerificationCode function to the form's submit event
 document.getElementById('verificationCodeChangeForm').addEventListener('submit', changeVerificationCode);
 
+const createAccount = (event) => {
+  event.preventDefault(); // Prevent the form from submitting via the default behavior
+  const newAccountUsername = document.getElementById('username').value;
+  const newAccountPassword = document.getElementById('password').value;
+  const newAccountRetypePassword = document.getElementById('retypePassword').value;
+  const newAccountRole = document.getElementById('role').value;
+  const messageDiv = document.getElementById('message3'); // Get the message div
+
+  // Clear any previous messages
+  messageDiv.innerHTML = '';
+
+  function clearInput() {
+    document.getElementById('username').value = '';
+    document.getElementById('password').value = '';
+    document.getElementById('retypePassword').value = '';
+    document.getElementById('role').value = '';
+  }
+
+  // Check if passwords match
+  if (newAccountPassword !== newAccountRetypePassword) {
+    messageDiv.innerHTML = '<div class="alert alert-danger">Passwords do not match.</div>';
+    clearInput();
+    return;
+  }
+
+  // Query to insert a new account into the database
+  const query = 'INSERT INTO account (username, password, role) VALUES (?, ?, ?)';
+
+  // Execute the query to insert the new account
+  dbConnection.query(query, [newAccountUsername, newAccountPassword, newAccountRole], (err, results) => {
+    if (err) {
+      console.error('Error executing query:', err);
+      messageDiv.innerHTML = '<div class="alert alert-danger">Internal server error</div>';
+      return;
+    }
+
+    if (results.affectedRows === 1) {
+      // Account creation successful
+      messageDiv.innerHTML = '<div class="alert alert-success">Create Account Success.</div>';
+
+      // Clear input fields
+      clearInput();
+    } else {
+      // Account creation failed
+      messageDiv.innerHTML = '<div class="alert alert-danger">Create Account Failed</div>';
+      clearInput();
+    }
+  });
+};
+
+// Attach the createAccount function to the form's submit event
+document.getElementById('createAccountForm').addEventListener('submit', createAccount);
+
+
 // Handle the radio button change event
 document.querySelectorAll('input[type="radio"][name="radio"]').forEach(e => {
   e.addEventListener('change', function() {
     const rubahPassword = document.getElementById('rubahPassword');
+    const createAccount = document.getElementById('createAccount');
     const adminOptions = document.getElementById('adminOptions');
 
     if (this.value === "rubahPassword") {
       rubahPassword.style.display = "block";
+      createAccount.style.display = "none";
+      adminOptions.style.display = "none";
+    } else if (this.value === "createAccount") {
+      rubahPassword.style.display = "none";
+      createAccount.style.display = "block";
       adminOptions.style.display = "none";
     } else {
       rubahPassword.style.display = "none";
+      createAccount.style.display = "none";
       adminOptions.style.display = "block";
     }
   });
 });
+
 
 // Handle the button click event
 document.getElementById('backButton').addEventListener('click', function () {
@@ -273,3 +336,15 @@ document.getElementById('backButton').addEventListener('click', function () {
   adminOptions.style.display = adminOptions.style.display === 'none' ? 'block' : 'none';
 });
 
+// Handle the button click event
+document.getElementById('backButton2').addEventListener('click', function () {
+  const createAccount = document.getElementById('createAccount');
+  const adminOptions = document.getElementById('adminOptions');
+
+  // Unselect the radio button
+  document.querySelectorAll('input[type="radio"][name="radio"]').forEach(e => e.checked = false);
+
+  // Toggle the display
+  createAccount.style.display = createAccount.style.display === 'none' ? 'block' : 'none';
+  adminOptions.style.display = adminOptions.style.display === 'none' ? 'block' : 'none';
+});

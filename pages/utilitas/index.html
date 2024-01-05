@@ -49,6 +49,11 @@
             <p class="text-muted">Berfungsi untuk melakukan perubahan password dan kode verifikasi. Sedangkan Username tidak dapat dirubah, sesuai dengan wilayah tingkat user.</p>
           </div>
           <div class="form-check">
+            <input class="form-check-input" type="radio" name="radio" id="createAccountRadio" value="createAccount">
+            <label class="form-check-label" for="createAccountRadio">Buat Akun Admin Baru</label>
+            <p class="text-muted">Berfungsi untuk memembuat akun admin baru. Super-Admin dapat membuat akun baru dengan mengisi form yang telah disediakan.</p>
+          </div>
+          <div class="form-check">
             <input class="form-check-input" type="radio" name="radio" id="backUpRadio" value="backUp">
             <label class="form-check-label" for="backUpRadio">Back Up</label>
             <p class="text-muted">Berfungsi memproses seluruh file termasuk analisa yang ada didalamnya. Hasil back up file terbentuk nama file dengan tambahan CAD.</p>
@@ -124,6 +129,31 @@
           </div>
         </div>
         <button class="back-button button btn btn-warning" id="backButton">Back</button>
+      </div>
+      <div id="createAccount">
+        <div class="create-account-title text-center fw-bold mb-3">Buat Akun Baru</div>
+        <div class="createAccount-desc mb-1">
+          Menu "Buat Akun Baru" digunakan untuk membuat akun user baru untuk mengakses aplikasi ini. Fitur ini hanya bisa
+          diakses oleh akun yang memiliki role "Super-Admin".
+        </div>
+        <div class="p-3">
+          <form action="" id="createAccountForm">
+            <div id="message3" class="mb-3"></div> <!-- Display login messages here -->
+            <label for="newUsername">Username</label>
+            <input type="text" name="username" id="username" class="mb-3">
+            <label for="newPassword">Password</label>
+            <input type="text" name="password" id="password" class="mb-3">
+            <label for="retypeNewPassword">Ketik Ulang Password</label>
+            <input type="text" name="retypePassword" id="retypePassword" class="mb-3">
+            <label for="newRole">Role</label>
+            <select name="role" class="form-group" id="role" class="mb-3 w-75">
+              <option value="admin">Admin</option>
+              <option value="super-admin">Super Admin</option>
+            </select>
+            <button type="submit">Submit</button>
+          </form>
+        </div>
+        <button class="back-button button btn btn-warning" id="backButton2">Back</button>
       </div>
     </div>
     <div class="modal" id="exitMenuModal">
