@@ -31,21 +31,35 @@ document.querySelectorAll('input[type="radio"][name="radio"]').forEach(e => {
   });
 });
 
-if (sessionToken && loggedInUsername) {
-  // User is logged in
-  const loggedInDiv = document.querySelector('.logged-in');
-  loggedInDiv.textContent = `Logged in as: ${loggedInUsername}`;
+// Function to check user role and update UI accordingly
+function checkUserRole() {
+  // Check if the user is logged in
+  if (sessionToken && loggedInUsername) {
+      // User is logged in
+      const loggedInDiv = document.querySelector('.logged-in');
+      loggedInDiv.textContent = `Logged in as: ${loggedInUsername}`;
 
-  // Check if the loggedInUsername is "super-admin"
-  if (loggedInUsername === "super-admin") {
-    // Display the adminOptions block
-    const adminOptions = document.getElementById('adminOptions');
-    adminOptions.style.display = "block";
-  }
+      const SuperAdminOptions = document.getElementById('SuperAdminOptions');
+const adminOptions = document.getElementById('adminOptions');
+
+if (loggedInUsername === "super-admin") {
+    // Display the SuperAdminOptions block without !important
+    SuperAdminOptions.style.display = 'block';
+    adminOptions.style.display = 'block';
 } else {
-  // User is not logged in, handle accordingly (e.g., redirect to login)
-  window.location.href = '../login/index.html';
+    // Display the SuperAdminOptions block with !important
+    SuperAdminOptions.classList.add('hide-important');
+    adminOptions.style.display = 'block';
 }
+
+  } else {
+      // User is not logged in, handle accordingly (e.g., redirect to login)
+      window.location.href = '../login/index.html';
+  }
+}
+
+// Call the function initially
+checkUserRole();
 
 // Function to retrieve displayed data from session storage
 function getDisplayDataFromSessionStorage() {
@@ -75,57 +89,65 @@ const headerRow = [
   'Nama',
   'Jenis Kelamin',
   'Usia',
+  'Kecamatan',
   'Kelurahan',
   'RT',
   'RW',
   'TPS'
 ];
 document.getElementById('backUpRadio').addEventListener('change', async () => {
+   // Call the function after clicking the backup button
+   checkUserRole();
+
+  const messageDiv = document.getElementById('message4'); // Get the message div
+  messageDiv.innerHTML = ''; // Clear previous messages
+
   if (document.getElementById('backUpRadio').checked) {
-    if (displayedData) {
-      // Create a new workbook and add a worksheet
-      const workbook = new ExcelJS.Workbook();
-      const worksheet = workbook.addWorksheet('Edited Data');
+      if (displayedData) {
+          // Create a new workbook and add a worksheet
+          const workbook = new ExcelJS.Workbook();
+          const worksheet = workbook.addWorksheet('Edited Data');
 
-      // Create an array that represents the order of columns
-      const columnOrder = ['No.', 'Nama', 'Jenis Kelamin', 'Usia', 'Kelurahan', 'RT', 'RW', 'TPS'];
+          // Create an array that represents the order of columns
+          const columnOrder = ['No.', 'Nama', 'Jenis Kelamin', 'Usia',, 'Kecamatan', 'Kelurahan', 'RT', 'RW', 'TPS'];
 
-      // Add the header row to the worksheet in the specified order
-      worksheet.addRow(columnOrder);
+          // Add the header row to the worksheet in the specified order
+          worksheet.addRow(columnOrder);
 
-      // Add the data rows to the worksheet
-      for (let i = 0; i < displayedData.length; i++) {
-        const item = displayedData[i];
-        const row = [i + 1, ...columnOrder.slice(1).map((key) => item[key] ? item[key].toString() : '')];
-        worksheet.addRow(row);
+          // Add the data rows to the worksheet
+          for (let i = 0; i < displayedData.length; i++) {
+              const item = displayedData[i];
+              const row = [i + 1, ...columnOrder.slice(1).map((key) => item[key] ? item[key].toString() : '')];
+              worksheet.addRow(row);
+          }
+
+          // Create unique filenames for the Excel files
+          const now = Date.now();
+          const editedFileName = `edited_data_${now}.xlsx`;
+
+          // Specify the path where the Excel file will be saved
+          const editedDataPath = path.join(__dirname, '../../backup', editedFileName);
+
+          // Check if the backup folder exists, and create it if not
+          const backupFolderPath = path.join(__dirname, '../../backup');
+          if (!fs.existsSync(backupFolderPath)) {
+              fs.mkdirSync(backupFolderPath);
+          }
+
+          try {
+              // Save the workbook to a file
+              await workbook.xlsx.writeFile(editedDataPath);
+
+              console.log(`Backup Excel file saved to: ${editedDataPath}`);
+              messageDiv.innerHTML = '<div class="alert alert-success">Data backup to Excel Successfully</div>';
+          } catch (error) {
+              console.error('Error saving backup data to Excel:', error);
+              messageDiv.textContent = 'Error saving backup data to Excel. Please try again.';
+          }
+      } else {
+          console.log('No displayed data available for backup.');
+          messageDiv.textContent = 'No displayed data available for backup.';
       }
-
-      // Create unique filenames for the Excel files
-      const now = Date.now();
-      const editedFileName = `edited_data_${now}.xlsx`;
-
-      // Specify the path where the Excel file will be saved
-      const editedDataPath = path.join(__dirname, '../../backup', editedFileName);
-
-      // Check if the backup folder exists, and create it if not
-      const backupFolderPath = path.join(__dirname, '../../backup');
-      if (!fs.existsSync(backupFolderPath)) {
-        fs.mkdirSync(backupFolderPath);
-      }
-
-      try {
-        // Save the workbook to a file
-        await workbook.xlsx.writeFile(editedDataPath);
-
-        console.log(`Backup Excel file saved to: ${editedDataPath}`);
-        alert('Data backed up to Excel successfully!');
-      } catch (error) {
-        console.error('Error saving backup data to Excel:', error);
-        alert('Error saving backup data to Excel. Please try again.');
-      }
-    } else {
-      console.log('No displayed data available for backup.');
-    }
   }
 });
 
@@ -304,19 +326,23 @@ document.querySelectorAll('input[type="radio"][name="radio"]').forEach(e => {
   e.addEventListener('change', function() {
     const rubahPassword = document.getElementById('rubahPassword');
     const createAccount = document.getElementById('createAccount');
+    const SuperAdminOptions = document.getElementById('SuperAdminOptions');
     const adminOptions = document.getElementById('adminOptions');
 
     if (this.value === "rubahPassword") {
       rubahPassword.style.display = "block";
       createAccount.style.display = "none";
+      SuperAdminOptions.style.display = "none";
       adminOptions.style.display = "none";
     } else if (this.value === "createAccount") {
       rubahPassword.style.display = "none";
       createAccount.style.display = "block";
+      SuperAdminOptions.style.display = "none";
       adminOptions.style.display = "none";
     } else {
       rubahPassword.style.display = "none";
       createAccount.style.display = "none";
+      SuperAdminOptions.style.display = "block";
       adminOptions.style.display = "block";
     }
   });
@@ -327,12 +353,14 @@ document.querySelectorAll('input[type="radio"][name="radio"]').forEach(e => {
 document.getElementById('backButton').addEventListener('click', function () {
   const rubahPassword = document.getElementById('rubahPassword');
   const adminOptions = document.getElementById('adminOptions');
+  const SuperAdminOptions = document.getElementById('SuperAdminOptions');
 
   // Unselect the radio button
   document.querySelectorAll('input[type="radio"][name="radio"]').forEach(e => e.checked = false);
 
   // Toggle the display
   rubahPassword.style.display = rubahPassword.style.display === 'none' ? 'block' : 'none';
+  SuperAdminOptions.style.display = SuperAdminOptions.style.display === 'none' ? 'block' : 'none';
   adminOptions.style.display = adminOptions.style.display === 'none' ? 'block' : 'none';
 });
 
@@ -340,11 +368,13 @@ document.getElementById('backButton').addEventListener('click', function () {
 document.getElementById('backButton2').addEventListener('click', function () {
   const createAccount = document.getElementById('createAccount');
   const adminOptions = document.getElementById('adminOptions');
+  const SuperAdminOptions = document.getElementById('SuperAdminOptions');
 
   // Unselect the radio button
   document.querySelectorAll('input[type="radio"][name="radio"]').forEach(e => e.checked = false);
 
   // Toggle the display
   createAccount.style.display = createAccount.style.display === 'none' ? 'block' : 'none';
+  SuperAdminOptions.style.display = SuperAdminOptions.style.display === 'none' ? 'block' : 'none';
   adminOptions.style.display = adminOptions.style.display === 'none' ? 'block' : 'none';
 });

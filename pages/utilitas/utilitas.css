@@ -16,8 +16,16 @@ body{
     display: none;
   }
 
-#adminOptions{
+#SuperAdminOptions{
     display: none;
+}
+
+.hide-important {
+  display: none !important;
+}
+
+#adminOptions{
+  display: none;
 }
 
 #createAccount{

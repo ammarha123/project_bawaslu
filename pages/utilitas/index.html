@@ -41,8 +41,9 @@
     </div>
     <div class="utilitas-menu my-5">
       <div class="container mt-3">
+        <div id="message4" class="mx-2"></div> <!-- Display login messages here -->
         <!-- Conditionally display this block only for "super-admin" -->
-        <div id="adminOptions">
+        <div id="SuperAdminOptions">
           <div class="form-check">
             <input class="form-check-input" type="radio" name="radio" id="rubahPasswordRadio" value="rubahPassword">
             <label class="form-check-label" for="rubahPasswordRadio">Rubah Password dan Kode Verifikasi</label>
@@ -53,6 +54,8 @@
             <label class="form-check-label" for="createAccountRadio">Buat Akun Admin Baru</label>
             <p class="text-muted">Berfungsi untuk memembuat akun admin baru. Super-Admin dapat membuat akun baru dengan mengisi form yang telah disediakan.</p>
           </div>
+        </div>
+        <div id="adminOptions">
           <div class="form-check">
             <input class="form-check-input" type="radio" name="radio" id="backUpRadio" value="backUp">
             <label class="form-check-label" for="backUpRadio">Back Up</label>
